@@ -1,0 +1,126 @@
+<div class="row">
+    <div class="col-12">
+        <h1 class="title">Hồ sơ của tôi</h1>
+        <mat-card class="card-profile">
+            <mat-card-title>Thông tin cơ bản</mat-card-title>
+            <mat-divider></mat-divider>
+            <mat-card-content class="row">
+                <div class="col-6">
+                    <div class="bio-row">
+                        <p><span>Mã nhân viên</span>{{data?.code}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Họ và tên</span>{{data?.fullname}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Jobcode</span>{{data?.jobcode}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Email</span>{{data?.email}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Trạng thái truy cập</span>Active</p>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bio-row">
+                        <p><span>Danh xưng</span>{{data?.gender}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Số CCCD</span>{{data?.cardCode}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Loại hợp đồng</span>{{data?.contractType}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Ngày hết hạn hợp đồng</span>{{data?.contractEndDate | date}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Trạng thái làm việc</span>{{data?.status}}</p>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="card-biometric">
+            <mat-card-title>Upload giấy tờ</mat-card-title>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <div class="form-input" *ngIf="showFormInput">
+                    <button mat-stroked-button class="right-btn" (click)="toggleForms()" *ngIf="isEdit">Thoát</button>
+                    <button mat-stroked-button class="right-btn">Lưu & Cần hỗ trợ</button>
+                    <button mat-raised-button color="primary" class="right-btn" [disabled]="biometricForm.invalid"
+                        (click)="registerBiometric()">Lưu</button>
+                    <form [formGroup]="biometricForm">
+                        <div class="col-6">
+                            <div class="bio-row">
+                                <p><span>Trạng thái:</span> {{bioStatus}}</p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>Ảnh mặt trước CCCD</span><input type="file" name="font"
+                                        accept="image/png, image/jpeg" formControlName="imgFront"
+                                        (change)="onFontSelected($event)" /></p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>Ảnh mặt sau CCCD</span><input type="file" name="back"
+                                        accept="image/png, image/jpeg" formControlName="imgBack"
+                                        (change)="onBackSelected($event)" /></p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>Ảnh chân dung</span><input type="file" name="avatar"
+                                        accept="image/png, image/jpeg" formControlName="imgAvt"
+                                        (change)="onPortraitSelected($event)" /></p>
+                            </div>
+                            <div class="bio-row">
+                                <p><span>Khác</span><input type="file" name="others" formControlName="file"
+                                        (change)="onOtherSelected($event)" /></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-detail" *ngIf="!showFormInput">
+                    <button mat-raised-button color="primary" class="right-btn" (click)="toggleForms()">Sửa</button>
+                    <div class="col-6">
+                        <div class="bio-row">
+                            <p><span>Trạng thái:</span> {{bioStatus}}</p>
+                        </div>
+                        <div class="bio-row">
+                            <p><span>Ảnh mặt trước CCCD</span>
+                                <button mat-stroked-button (click)="onClick(registerData.frontCard)">Preview</button>
+                            </p>
+                        </div>
+                        <div class="bio-row">
+                            <p><span>Ảnh mặt sau CCCD</span>
+                                <button mat-stroked-button (click)="onClick(registerData.backCard)">Preview</button>
+                            </p>
+                        </div>
+                        <div class="bio-row">
+                            <p><span>Ảnh chân dung</span>
+                                <button mat-stroked-button (click)="onClick(registerData.portrait)">Preview</button>
+                            </p>
+                        </div>
+                        <div class="bio-row">
+                            <p><span>Khác</span>
+                                <button mat-stroked-button (click)="onClick(registerData.other)">Preview</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="card-other">
+            <mat-card-title>Thông tin sinh trắc học</mat-card-title>
+            <mat-card-content>
+                <div class="col-6">
+                    <div class="bio-row">
+                        <p><span>Vân tay</span> Chưa đăng ký</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Khuôn mặt</span>
+                            Chưa đăng ký
+                        </p>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

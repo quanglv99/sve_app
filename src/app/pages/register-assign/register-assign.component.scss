@@ -1,0 +1,56 @@
+@import "../../shared/mixins";
+
+.w-300
+{
+    width: 300px;
+}
+
+.row {
+  @include customRow();
+}
+.col-12 {
+  @include customCol12();
+}
+.col-6
+{
+    @include customCol6();
+}
+::ng-deep {
+  .card-register {
+    @include customBoxShadow();
+    mat-card-title {
+      @include customMatTitle();
+    }
+    mat-divider {
+      margin-bottom: 15px;
+    }
+  }
+  .card-others
+  {
+    @include customBoxShadow();
+    mat-card-title {
+      @include customMatTitle();
+    }
+    mat-divider {
+      margin-bottom: 15px;
+    }
+  }
+}
+.form-input {
+  padding: 0 15px;
+}
+.right-btn {
+  float: right;
+  margin-right: 15px;
+}
+
+.flex-item {
+  display: flex;
+  flex-flow: wrap;
+}
+
+.inline-item p span {
+    width: 120px;
+    display: inline-block;
+  }
+  

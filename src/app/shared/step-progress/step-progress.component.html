@@ -1,0 +1,6 @@
+<ul class="step-wizard-list">
+    <li class="step-wizard-item" *ngFor="let step of steps" [class.current-item]=" step.id === currentStep">
+      <span class="progress-count">{{ step.id}}</span>
+      <span class="progress-label">{{ step.name }}</span>
+    </li>
+  </ul>

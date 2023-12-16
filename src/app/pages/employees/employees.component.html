@@ -1,0 +1,106 @@
+
+<h2 class="title">Danh sách nhân viên</h2>
+<mat-card class="card-table p-10">
+    <mat-accordion>
+        <mat-expansion-panel [expanded]="isOpen" >
+          <mat-expansion-panel-header>
+          </mat-expansion-panel-header>
+          <form class="form-search" [formGroup]="formSearch">
+            <div class="search-container">
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Chi nhánh</mat-label>
+                        <input matInput placeholder="Tên chi nhánh" type="text" formControlName="branchnameInput">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Mã nhân viên</mat-label>
+                        <input matInput placeholder="Mã nhân viên" type="text" formControlName="employeeCode">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Họ tên</mat-label>
+                        <input matInput placeholder="Họ tên" type="text" formControlName="employeeInput">
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Ngày tạo</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate placeholder="Ngày tạo từ" formControlName="startDateInput">
+                            <input matEndDate placeholder="Ngày tạo đến" formControlName="endDateInput">
+                        </mat-date-range-input>
+                        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                </p>
+            </div>
+            <div class="search-action">
+                <button mat-raised-button color="primary" class="btn" (click)="onSearch()">Tìm kiếm</button>
+                <button mat-raised-button color="warn" class="btn" (click)="refreshSearch()">Làm mới</button>
+                <button mat-stroked-button color="primary" class="btn">Xuất danh sách</button>
+            </div>
+        </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+</mat-card>
+<mat-card class="card-table">
+    <mat-card-content>
+        <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="id" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="code" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Mã nhân viên </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p>{{ element.employee.code }}</p>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="fullname" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Họ tên </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p>{{element.employee.fullname}}</p>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="jobcode" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Jobcode </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p>{{element.employee.jobcode}}</p>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="branchname" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Chi nhánh </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p>{{element.branch.branchname}}</p>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="status" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header > Trạng thái làm việc </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p>{{element.employee.status}}</p>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="action" >
+                    <th mat-header-cell *matHeaderCellDef> Hành động </th>
+                    <td mat-cell *matCellDef="let element">
+                        <a (click)="onClick(element)" class="btn-icon" [routerLink]="['/default/employees',element.id]"><i class="material-icons">edit_note</i></a>
+                        <a class="btn-icon" (click)="deleteRow(element)">
+                            <i class="material-icons">restore_from_trash</i>
+                        </a>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns, sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </mat-card-content>
+    <mat-card-footer>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </mat-card-footer>
+</mat-card>

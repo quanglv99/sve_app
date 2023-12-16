@@ -1,0 +1,74 @@
+<mat-card>
+    <div class="header">
+        <mat-card-title>Chi tiết phân công cho tôi</mat-card-title>
+        <a class="btn-close" (click)="onClose()">
+            <i class="material-icons">close</i>
+        </a>
+    </div>
+    <mat-divider></mat-divider>
+    <app-step-progress [steps]="status" [currentStep]="currentStep"></app-step-progress>
+    <mat-divider></mat-divider>
+    <mat-card-content class="scrollable-content">
+        <form class="form-input" [formGroup]="updateWorkForm">
+            <div class="row">
+                <div class="col-6">
+                    <div class="inline-item">
+                        <p>
+                            <span>Chi nhánh</span> {{data.branchname}}
+                        </p>
+                    </div>
+                    <div class="inline-item">
+                        <p>
+                            <span>Hiệu lực từ</span> {{data.startDate | date: 'dd/MM/yyyy HH:mm:ss'}}
+                        </p>
+                    </div>
+                    <div class="inline-item">
+                        <p>
+                            <span>Hiệu lực đến</span> {{data.endDate | date: 'dd/MM/yyyy HH:mm:ss'}}
+                        </p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Người phân công</span> {{data.owner.code}}-{{data.owner.fullname}}
+                        </p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Thành phần</span> {{data.member.name}}
+                        </p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Người nhận</span> {{data.employee.code}}-{{data.employee.fullname}}
+                        </p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Người phê duyệt</span> {{data.approver}}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="inline-item">
+                        <p><span>Ghi chú</span> {{data.note}}
+                        </p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Ngày tạo</span>{{data.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Người tạo</span>{{data.createdUser}}</p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Ngày cập nhật</span>{{data.updatedDate | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Người cập nhật</span>{{data.updatedUser}}</p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-footer>
+        <div class="footer">
+            <button mat-raised-button (click)="onClose()">Thoát</button>
+        </div>
+    </mat-card-footer>
+</mat-card>

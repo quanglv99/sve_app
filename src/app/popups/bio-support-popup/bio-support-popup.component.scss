@@ -1,0 +1,53 @@
+@import "../../shared/mixins";
+
+.inline-item p span {
+	width: 150px;
+	display: inline-block;
+  }
+  
+  ::ng-deep {
+	mat-divider {
+	  padding: 10px 0;
+	}
+  }
+  
+  .scrollable-content {
+	max-height: 400px;
+	overflow-y: auto;
+  }
+
+  .header {
+	padding: 10px;
+  }
+  
+  .btn-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+	padding: 5px;
+  }
+  .ml-50 {
+	margin-left: 50px;
+  }
+  
+  .footer {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
+  }
+  
+  .row
+  {
+	display: flex;
+  }
+
+  .col-6
+  {
+	@include customCol6()
+  }
+
+  .w-300
+  {
+    min-width: 300px;
+  }

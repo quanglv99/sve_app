@@ -1,0 +1,81 @@
+@import "../../shared/mixins";
+
+::ng-deep {
+	mat-divider {
+	  padding: 10px 0;
+	}
+  }
+  
+.w-300 {
+  width: 300px;
+}
+
+.main-form
+{
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: wrap;
+}
+
+.inline-item
+{
+    padding: 0 30px;
+}
+.inline-item p span {
+  width: 120px;
+  display: inline-block;
+}
+
+
+
+.file-upload {
+  margin-top: 1rem;
+  &:hover {
+    cursor: pointer;
+  }
+}
+input::file-selector-button {
+  font-weight: bold;
+  color: #353535;
+  padding: 0.5em;
+  border: none;
+  border-radius: 3px;
+}
+
+.header {
+  padding: 10px;
+}
+
+.btn-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  padding: 5px;
+}
+.ml-50 {
+  margin-left: 50px;
+}
+
+
+.scrollable-content {
+    max-height: 400px; 
+    overflow-y: auto;
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.other-content
+{
+  display: flex;
+  align-items: center;
+}
+
+.w-50
+{
+  width: 50%;
+}

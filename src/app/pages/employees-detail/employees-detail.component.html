@@ -1,0 +1,93 @@
+<div class="row">
+    <div class="col-12">
+        <h2 class="title">Chi tiết nhân viên</h2>
+        <mat-card class="card-profile">
+            <mat-card-title>Thông tin cơ bản</mat-card-title>
+            <mat-divider></mat-divider>
+            <mat-card-content class="row">
+                <div class="col-6">
+                    <div class="bio-row">
+                        <p><span>Chi nhánh</span>{{data?.branch.branchname}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Mã nhân viên</span>{{data?.employee.code}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Họ và tên</span>{{data?.employee.fullname}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Jobcode</span>{{data?.employee.jobcode}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Email</span>{{data?.employee.email}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Trạng thái truy cập</span>{{data?.employee.status}}</p>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bio-row">
+                        <p><span>Danh xưng</span>{{data?.employee.gender}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Số CCCD</span>{{data?.employee.cardCode}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Loại hợp đồng</span>{{data?.employee.contractType}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Ngày hết hạn hợp đồng</span>{{data?.employee.contractEndDate | date}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Trạng thái làm việc</span>{{data?.employee.status}}</p>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="card-biometric">
+            <mat-card-title>Thông tin upload</mat-card-title>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <div class="form-detail">
+                    <div class="col-6">
+                        <div class="bio-row">
+                            <p><span>Ảnh mặt trước CCCD</span>
+                                <button mat-stroked-button (click)="onClick(data?.frontCard)">Preview</button>
+                            </p>
+                        </div>
+                        <div class="bio-row">
+                            <p><span>Ảnh mặt sau CCCD</span>
+                                <button mat-stroked-button (click)="onClick(data?.backCard)">Preview</button>
+                            </p>
+                        </div>
+                        <div class="bio-row">
+                            <p><span>Ảnh chân dung</span>
+                                <button mat-stroked-button (click)="onClick(data?.portrait)">Preview</button>
+                            </p>
+                        </div>
+                        <div class="bio-row">
+                            <p><span>Khác</span>
+                                <button mat-stroked-button (click)="onClick(data?.other)">Preview</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="card-other">
+            <mat-card-title>Thông tin sinh trắc học</mat-card-title>
+            <mat-card-content>
+                <div class="col-6">
+                    <div class="bio-row">
+                        <p><span>Vân tay</span> {{data?.fingerPrint ? data?.fingerPrint : "Chưa có dữ liệu"}}</p>
+                    </div>
+                    <div class="bio-row">
+                        <p><span>Khuôn mặt</span>
+                            {{data?.faceId ? data?.faceId : "Chưa có dữ liệu"}}
+                        </p>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

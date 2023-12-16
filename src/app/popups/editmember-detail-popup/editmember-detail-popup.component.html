@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-12">
+        <mat-card class="card-register">
+            <mat-card-title>Cập nhật thông tin</mat-card-title>
+            <mat-divider></mat-divider>
+            <mat-card-content>
+                <form class="form-input" [formGroup]="editMemberPopup">
+                    <div class="inline-item">
+                        <p><span>Tên thành phần</span>
+                            <mat-form-field class="config-input" appearance="outline" class="w-500">
+                                <input matInput name="name" placeholder="Nhập thành phần" formControlName="name">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Thành phần</span>
+                            <mat-form-field appearance="outline" class="w-500">
+                                <mat-select name="jobcode" formControlName="jobcodes" multiple>
+                                    <mat-option *ngFor="let jobcode of jobcodes" [value]="jobcode.id">{{ jobcode.jobcode }}-{{jobcode.descriptionJobcode}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Ghi chú</span>
+                            <mat-form-field appearance="outline" class="w-500">
+                                <textarea matInput name="note" type="text" rows="4" formControlName="note"></textarea>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span></span>
+                            <mat-checkbox formControlName="status">Active</mat-checkbox>
+                        </p>
+                    </div>
+                    <div class="button-btn">
+                        <button mat-raised-button color="primary" class="save-btn" (click)="updateMembers()">Lưu</button>
+                        <button mat-raised-button color="warn" (click)="onClose()">Thoát</button>
+
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

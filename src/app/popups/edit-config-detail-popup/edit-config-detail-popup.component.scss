@@ -1,0 +1,118 @@
+@import "../../shared/mixins";
+h1 {
+    margin-left: 20px;
+}
+
+h2 {
+    margin: 0;
+}
+
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+}
+
+::ng-deep {
+    .info-card {
+        @include customBoxShadow();
+    }
+    .card-others {
+        @include customBoxShadow();
+    }
+    mat-divider {
+        padding: 10px 0;
+    }
+    mat-card-title {
+        @include customMatTitle();
+    }
+}
+
+.w-500 {
+    width: 500px;
+}
+
+.form-input {
+    padding: 0 15px;
+}
+
+.inline-item {
+    padding: 0 10px;
+}
+
+.inline-item p span {
+    width: 120px;
+    display: inline-block;
+}
+
+.right-btn {
+    float: right;
+    margin-right: 10px;
+}
+
+.flex-item {
+    display: flex;
+    flex-flow: wrap;
+}
+
+.file-upload {
+    margin-top: 1rem;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+input::file-selector-button {
+    font-weight: bold;
+    color: #353535;
+    padding: 0.5em;
+    border: none;
+    border-radius: 3px;
+}
+
+.header {
+    padding: 10px;
+}
+
+.btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.ml-50 {
+    margin-left: 50px;
+}
+
+.scrollable-content {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.other-content {
+    display: flex;
+    align-items: center;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.button-btn {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.save-btn {
+    margin-right: 20px;
+}

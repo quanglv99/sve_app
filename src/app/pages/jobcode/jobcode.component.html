@@ -1,0 +1,51 @@
+<h2 class="title">QUẢN LÝ JOBCODE</h2>
+<mat-card class="card-table">
+    <mat-card-content>
+        <div class="header-container">
+            <button mat-raised-button color="primary" class="right-btn" routerLink="add-jobcode">Thêm mới</button>
+            <div class="group">
+                <i class="material-icons">search</i>
+                <input placeholder="Search" type="search" class="input">
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+<mat-card class="card-table">
+    <mat-card-content>
+        <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> Id </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="nameJobcode">
+                    <th mat-header-cell *matHeaderCellDef> Jobcode </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p>{{ element.nameJobcode }}</p>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="descriptionJobcode">
+                    <th mat-header-cell *matHeaderCellDef> Mô tả </th>
+                    <td mat-cell *matCellDef="let element">
+                        <p>{{element.descriptionJobcode }}</p>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Hành động </th>
+                    <td mat-cell *matCellDef="let element">
+                        <a (click)="onClick(element)" class="btn-icon"><i class="material-icons">edit_note</i></a>
+                        <a class="btn-icon" (click)="deleteRow(element)">
+                            <i class="material-icons">restore_from_trash</i>
+                        </a>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </mat-card-content>
+    <mat-card-footer>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </mat-card-footer>
+</mat-card>

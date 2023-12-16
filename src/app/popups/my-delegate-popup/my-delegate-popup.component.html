@@ -1,0 +1,114 @@
+<mat-card>
+    <div class="header">
+        <mat-card-title>Chi tiết Uỷ quyền của tôi</mat-card-title>
+        <a class="btn-close" (click)="onClose()">
+            <i class="material-icons">close</i>
+        </a>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-card-content class="scrollable-content">
+        <app-step-progress [steps]="status" [currentStep]="currentStep"></app-step-progress>
+        <mat-divider></mat-divider>
+        <form class="form-input" [formGroup]="delegateDetailForm">
+            <div class="main-form">
+                <div class="inline-item">
+                    <p><span>Chi nhánh</span>
+                        <mat-form-field appearance="outline" class="w-300">
+                            <input matInput type="text" formControlName="branchname">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="inline-item">
+                    <p><span>Người ủy quyền</span>
+                        <mat-form-field appearance="outline" class="w-300">
+                            <input matInput type="text" formControlName="owner">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="inline-item">
+                    <p><span>Hiệu lực từ</span>
+                        <mat-form-field appearance="outline" class="w-300">
+                            <input matInput [matDatepicker]="startdate" formControlName="startDate">
+                            <mat-datepicker-toggle matIconSuffix [for]="startdate"></mat-datepicker-toggle>
+                            <mat-datepicker #startdate>
+                                <mat-datepicker-actions>
+                                    <button mat-button matDatepickerCancel>Cancel</button>
+                                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                                </mat-datepicker-actions>
+                            </mat-datepicker>
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="inline-item">
+                    <p><span>Hiệu lực đến</span><mat-form-field appearance="outline" class="w-300">
+                            <input matInput [matDatepicker]="enddate" formControlName="endDate">
+                            <mat-datepicker-toggle matIconSuffix [for]="enddate"></mat-datepicker-toggle>
+                            <mat-datepicker #enddate>
+                                <mat-datepicker-actions>
+                                    <button mat-button matDatepickerCancel>Cancel</button>
+                                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                                </mat-datepicker-actions>
+                            </mat-datepicker>
+                        </mat-form-field></p>
+                </div>
+
+                <div class="inline-item">
+                    <p><span>Thành phần</span>
+                        <mat-form-field appearance="outline" class="w-300">
+                            <input matInput type="text" formControlName="member">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="inline-item">
+                    <p><span>Người nhận</span>
+                        <mat-form-field appearance="outline" class="w-300">
+                            <input matInput type="text" formControlName="employee">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="inline-item">
+                    <p><span>Lý do ủy quyền</span>
+                        <mat-form-field appearance="outline" class="w-300">
+                            <textarea matInput type="text" rows="4" formControlName="note"></textarea>
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="inline-item">
+                    <p><span>Người phê duyệt</span>
+                        <mat-form-field appearance="outline" class="w-300">
+                            <input matInput type="text" formControlName="approver">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="inline-item">
+                    <p><span>File</span>
+                        <button mat-button>Xem</button>
+                    </p>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="other-content">
+                <div class="w-50">
+                    <div class="inline-item">
+                        <p><span>TranId</span>{{data.id}}</p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Ngày tạo</span>{{data.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                    </div>
+                    <div class="inline-item">
+                        <p><span>Người tạo</span>{{data.createdUser}}</p>
+                    </div>
+                </div>
+                <div class="w-50">
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-footer>
+        <div class="footer">
+            <button mat-raised-button color="warn" *ngIf="data.status.id == 2 " (click)="onCancelDelegate()">Hủy Ủy
+                quyền</button>
+        </div>
+    </mat-card-footer>
+</mat-card>

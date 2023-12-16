@@ -1,0 +1,27 @@
+<mat-card>
+    <div class="header">
+        <mat-card-title>Chi tiết jobcode</mat-card-title>
+        <a class="btn-close" (click)="onClose()">
+            <i class="material-icons">close</i>
+        </a>
+    </div>
+
+    <mat-card-content class="scrollable-content">
+        <form class="form-input" [formGroup]="detailJobcode">
+            <div class="col-6">
+                <div class="inline-item">
+                    <p><span>Jobcode</span> {{data.jobcode}} </p>
+                </div>
+                <div class="inline-item">
+                    <p> <span>Mô tả</span> {{data.descriptionJobcode }} </p>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-footer>
+        <div class="footer">
+            <button mat-raised-button (click)="onClose()">Thoát</button>
+        </div>
+    </mat-card-footer>
+</mat-card>

@@ -1,0 +1,48 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <a mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </a>
+        <h1>Vault Access Control</h1>
+        <div class="spacer"></div>
+        <a mat-button [matMenuTriggerFor]="menu">
+            <div class="btn-dropdown">
+                <img src="assets/images/avt.png" class="rounded-circle" alt="">
+                <span>Hi,</span>
+                <span>Hoàng Ánh</span>
+                <i class="material-icons">arrow_drop_down</i>
+            </div>
+        </a>
+        <mat-menu #menu="matMenu" class="profile-dropdown">
+            <div class="p-16 mb-4">
+                <button mat-menu-item class="fs-16" routerLink="profile">Hồ sơ của tôi</button>
+                <button mat-menu-item class="fs-16">Tài Khoản</button>
+                <button mat-menu-item class="fs-16">Đổi mật khẩu</button>
+                <button mat-menu-item class="fs-16" routerLink="setting">Cài đặt</button>
+            </div>
+            <hr>
+            <div class="p-16">
+                <button mat-flat-button color="accent" class="btn-logout" (click)="onSigout()">Đăng xuất</button>
+            </div>
+
+        </mat-menu>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav class="side-nav" (click)="sidenav.close()" mode="side">
+        <mat-nav-list appAccordion>
+            <mat-list-item appAccordionLink *ngFor="let menuitem of menuItems.getMenuitem()" routerLinkActive="selected">
+                <a class="inline-center" mat-button appAccordionToggle [routerLink]="['/default', menuitem.state]" *ngIf="menuitem.type === 'link'">
+                    <mat-icon>{{ menuitem.icon }}</mat-icon>
+                    <span>{{ menuitem.name }}</span>
+                    <span fxFlex></span>
+                </a>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="page-wrapper">
+        <div class="page-content">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

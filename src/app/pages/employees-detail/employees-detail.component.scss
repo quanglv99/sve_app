@@ -1,0 +1,79 @@
+@import '../../shared/mixins';
+.row {
+  @include customRow()
+}
+.col-12 {
+  @include customCol12
+}
+.col-6 {
+  @include customCol6()
+}
+::ng-deep {
+  .card-profile {
+    @include customBoxShadow();
+    mat-card-title {
+      @include customMatTitle();
+    }
+    mat-divider {
+      margin-bottom: 15px;
+    }
+  }
+  .card-biometric {
+    @include customBoxShadow();
+    mat-card-title {
+      @include customMatTitle()
+    }
+    mat-divider {
+      margin-bottom: 15px;
+    }
+    mat-card-content {
+      input {
+        margin-top: 1rem;
+        &:hover
+        {
+            cursor: pointer;
+        }
+      }
+    }
+  }
+  .card-other {
+    @include customBoxShadow();
+    mat-card-title {
+      @include customMatTitle()
+    }
+    mat-divider {
+      margin-bottom: 15px;
+    }
+  }
+}
+.bio-row {
+  width: 100%;
+  float: left;
+  margin-bottom: 10px;
+  padding: 0 15px;
+  span {
+    color: #1b1b1b;
+    font-weight: 600;
+  }
+  p {
+    color: #575757;
+  }
+  i {
+    cursor: pointer;
+  }
+}
+
+.bio-row p span {
+  width: 200px;
+  display: inline-block;
+}
+
+.right-btn {
+  float: right;
+  margin-left: 10px;
+}
+
+.title
+{
+ margin: 0 15px 20px;
+}
