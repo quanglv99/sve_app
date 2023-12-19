@@ -7,19 +7,19 @@
             <mat-card-content class="row">
                 <div class="col-6">
                     <div class="bio-row">
-                        <p><span>Mã nhân viên</span>{{data?.code}}</p>
+                        <p><span>Mã nhân viên</span>{{data?.staff_id}}</p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Họ và tên</span>{{data?.fullname}}</p>
+                        <p><span>Họ và tên</span>{{data?.member_full_name}}</p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Jobcode</span>{{data?.jobcode}}</p>
+                        <p><span>Jobcode</span>{{data?.job_code_list}}</p>
                     </div>
                     <div class="bio-row">
                         <p><span>Email</span>{{data?.email}}</p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Trạng thái truy cập</span>Active</p>
+                        <p><span>Trạng thái truy cập</span>{{data?.work_status}}</p>
                     </div>
                 </div>
                 <div class="col-6">
@@ -27,16 +27,16 @@
                         <p><span>Danh xưng</span>{{data?.gender}}</p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Số CCCD</span>{{data?.cardCode}}</p>
+                        <p><span>Số CCCD</span>{{data?.id_card_no}}</p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Loại hợp đồng</span>{{data?.contractType}}</p>
+                        <p><span>Loại hợp đồng</span></p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Ngày hết hạn hợp đồng</span>{{data?.contractEndDate | date}}</p>
+                        <p><span>Ngày hết hạn hợp đồng</span></p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Trạng thái làm việc</span>{{data?.status}}</p>
+                        <p><span>Trạng thái làm việc</span>{{data?.work_status}}</p>
                     </div>
                 </div>
             </mat-card-content>

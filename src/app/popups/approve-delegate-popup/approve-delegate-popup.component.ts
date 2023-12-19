@@ -50,7 +50,7 @@ export class ApproveDelegatePopupComponent {
   assignForm!: FormGroup;
   currentStep!: number;
   status = TRAN_STATUS;
-  isDisable: boolean = true;
+  isDisable: boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DelegateModel,
     private dialogRef: MatDialogRef<ApproveDelegatePopupComponent>,

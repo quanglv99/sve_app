@@ -80,6 +80,11 @@
                         </mat-form-field>
                     </p>
                 </div>
+                <div class="inline-item">
+                    <p><span>File</span>
+                        <button mat-button>Xem</button>
+                    </p>
+                </div>
             </div>
             <mat-divider></mat-divider>
             <div class="other-content">
@@ -102,7 +107,8 @@
     <mat-divider></mat-divider>
     <mat-card-footer>
         <div class="footer">
-            <button mat-raised-button color="warn" *ngIf="data.status.id == 2" (click)="onCancelAssign()" >Hủy phân công</button>
+            <button mat-raised-button color="warn" *ngIf="data.status.id == 2 || data.status.id == 3" (click)="onCancelAssign()" >Hủy phân công</button>
+            <button mat-raised-button color="warn" *ngIf="data.status.id == 4" (click)="onRemoveAssign()" >Chấm dứt</button>
         </div>
     </mat-card-footer>
 </mat-card>

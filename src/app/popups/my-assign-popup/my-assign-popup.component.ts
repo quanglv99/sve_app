@@ -152,4 +152,18 @@ export class MyAssignPopupComponent implements OnInit {
       this.dialogRef.close();
     });
   }
+
+  onRemoveAssign()
+  {
+    this.data.status = TRAN_STATUS[6]
+    const url = `${this.appService.getAssignUrl()}/${this.data.id}`;
+    this.http.put(url, this.data).subscribe((response) => {
+      this.toast.warning({
+        detail: 'WARN',
+        summary: `Bạn đã chấm dứt bản ghi ID: ${this.data.id}`,
+        duration: 5000,
+      });
+      this.dialogRef.close();
+    });
+  }
 }

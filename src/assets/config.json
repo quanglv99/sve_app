@@ -17,5 +17,6 @@
 	"LIST_DEVICE": "https://10.125.10.52:8443/ips/management/device_mapping/get_list",
 	"START_DEVICE": "https://10.125.10.52:8443/ips/management/control/panel/start",
 	"RESET_DEVICE": "https://10.125.10.52:8443/ips/management/control/panel/reset",
-	"BRANCHES": "http://localhost:3000/branches"
+	"BRANCHES": "http://localhost:3000/branches",
+	"MEMBER_READ": "https://10.125.11.60:8446/ips/management/apps/sve/members/member/read"
 }

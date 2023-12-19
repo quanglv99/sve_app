@@ -57,5 +57,10 @@ export class AppService {
     return this.appConfig.BRANCHES
   }
 
+  getMemberInfoUrl()
+  {
+    return this.appConfig.MEMBER_READ
+  }
+
 }
 

@@ -28,7 +28,7 @@
                 <div class="inline-item">
                     <p><span>Hiệu lực từ</span>
                         <mat-form-field appearance="outline" class="w-300">
-                            <input matInput [matDatepicker]="startdate" formControlName="startDate">
+                            <input matInput [matDatepicker]="startdate" formControlName="startDate" readonly>
                             <mat-datepicker-toggle matIconSuffix [for]="startdate"></mat-datepicker-toggle>
                             <mat-datepicker #startdate>
                                 <mat-datepicker-actions>
@@ -78,6 +78,11 @@
                         <mat-form-field appearance="outline" class="w-300">
                             <input matInput type="text" formControlName="approver" readonly>
                         </mat-form-field>
+                    </p>
+                </div>
+                <div class="inline-item">
+                    <p><span>File</span>
+                        <button mat-button>Xem</button>
                     </p>
                 </div>
             </div>
