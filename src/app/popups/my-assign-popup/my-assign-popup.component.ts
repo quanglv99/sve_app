@@ -21,10 +21,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MY_DATE_FORMATS } from 'src/app/shared/const/custom-date';
 import { AppService } from 'src/app/services/app.service';
 import { HttpClient } from '@angular/common/http';
-import { MEMBER_LIST } from 'src/app/shared/const/member-value';
 import { NgToastModule, NgToastService } from 'ng-angular-popup';
 import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
 import { AssignModel } from 'src/app/shared/models/assign-models';
+import { MEMBER_LIST } from 'src/app/shared/const/member-value';
 
 @Component({
   selector: 'app-my-assign-popup',

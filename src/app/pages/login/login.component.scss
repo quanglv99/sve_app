@@ -1,56 +1,56 @@
 mat-card {
-  background: linear-gradient(#647dee, #9921e8);
-  height: 500px;
-  width: 400px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
+    background: linear-gradient(#f2a36fe1, #f2781a);
+    height: 500px;
+    width: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 20px;
 }
 
 .button button {
-  padding: 12.5px 30px;
-  border: 0;
-  border-radius: 100px;
-  background-color: #f2f2f2;
-  color: black;
-  font-weight: Bold;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
+    padding: 12.5px 30px;
+    border: 0;
+    border-radius: 100px;
+    background-color: #f2f2f2;
+    color: black;
+    font-weight: Bold;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
 }
 
 .button button:hover {
-  color: #ffffff;
-  background-color: #6fc5ff;
-  box-shadow: 0 0 20px #6fc5ff50;
-  transform: scale(1.1);
+    color: #ffffff;
+    background-color: #6fc5ff;
+    box-shadow: 0 0 20px #6fc5ff50;
+    transform: scale(1.1);
 }
 
 .button button:active {
-  background-color: #3d94cf;
-  transition: all 0.25s;
-  -webkit-transition: all 0.25s;
-  box-shadow: none;
-  transform: scale(0.98);
+    background-color: #3d94cf;
+    transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    box-shadow: none;
+    transform: scale(0.98);
 }
 
 .form-group {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
 }
 
 .w-300 {
-  width: 300px;
+    width: 300px;
 }
 
-.progress-bar
-{
-  position: absolute;
-  top: 0;
+.progress-bar {
+    position: absolute;
+    top: 0;
 }

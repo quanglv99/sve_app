@@ -7,7 +7,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
@@ -17,7 +17,7 @@ import { StepProgressComponent } from '../../shared/step-progress/step-progress.
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AppService } from 'src/app/services/app.service';
 import { HttpClient } from '@angular/common/http';
-
+import { NgToastModule, NgToastService } from 'ng-angular-popup';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { JobcodeModel } from 'src/app/shared/models/jobcode.models';
 import { MemberModel } from 'src/app/shared/models/member.models';
@@ -54,7 +54,9 @@ export class EditmemberDetailPopupComponent implements OnInit {
     private dialogRef: MatDialogRef<EditmemberDetailPopupComponent>,
     private formBuilder: FormBuilder,
     private appService: AppService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router,
+    private toast: NgToastService
   ) {}
 
   ngOnInit(): void {
@@ -99,12 +101,22 @@ export class EditmemberDetailPopupComponent implements OnInit {
       const url = `${this.appService.getMemberList()}/${this.data.id}`;
       this.http.put(url, updateMembers).subscribe(
         (response) => {
-          console.log('Update successful', response);
+          this.toast.success({
+            detail:'SUCCESS',
+            summary:'Update successful',
+            duration: 5000,
+          });
           this.dialogRef.close(); // Đóng dialog sau khi cập nhật thành công
+          this.router.navigate(['/default/setting/config']);
         },
         (error) => {
-          console.error('Update failed', error);
+          this.toast.error({
+            detail: 'ERROR',
+            summary: 'Please try again',
+            sticky: true,
+          })
         }
+     
       );
     }
   }

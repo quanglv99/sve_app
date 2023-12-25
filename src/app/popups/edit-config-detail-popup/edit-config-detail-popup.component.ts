@@ -20,6 +20,7 @@ import { HttpClient } from '@angular/common/http';
 import { MemberModel } from 'src/app/shared/models/member.models';
 import { VaultConfigModel } from 'src/app/shared/models/vault-config.models';
 import { JobcodeModel } from 'src/app/shared/models/jobcode.models';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @Component({
   selector: 'app-edit-config-detail-popup',
   standalone: true,
@@ -37,6 +38,7 @@ import { JobcodeModel } from 'src/app/shared/models/jobcode.models';
     MatNativeDateModule,
     StepProgressComponent,
     ReactiveFormsModule,
+    MatCheckboxModule
   ],
   templateUrl: './edit-config-detail-popup.component.html',
   styleUrls: ['./edit-config-detail-popup.component.scss']
@@ -69,26 +71,27 @@ export class EditConfigDetailPopupComponent implements OnInit {
     });
   }
   initializeForm() {
-    this.editConfigPopup = this.formBuilder.group({
-      nameConfig: [this.data.nameConfig],
-      members: [
-        this.data.members.map((member: { id: number }) => member.id),
-        { value: this.data.members.map((member:any)=>member.name)},
-      ],
-      noteConfig: [this.data.noteConfig],
-
-    });
-
-    this.editConfigPopup.valueChanges.subscribe(() => {
-      this.isFormDirty = this.editConfigPopup.dirty;
-    });
+    if (this.data) { // Kiểm tra nếu this.data không phải là null
+      this.editConfigPopup = this.formBuilder.group({
+        nameConfig: [this.data.nameConfig],
+        members: [
+          this.data.members.map((member: { id: number }) => member.id),
+          { value: this.data.members.map((member: any) => member.name) },
+        ],
+        status: [this.data.status],
+        noteConfig: [this.data.noteConfig],
+      });
+  
+      this.editConfigPopup.valueChanges.subscribe(() => {
+        this.isFormDirty = this.editConfigPopup.dirty;
+      });
+    }
   }
 
   updateVaultConfigModel(): void {
     if (this.editConfigPopup.valid) {
       const updateVaultConfigModel = this.editConfigPopup.value;
       const memberList = updateVaultConfigModel.members;
-      updateVaultConfigModel.status='active'
 
       // Map lại thành mảng các member dựa trên id
       updateVaultConfigModel.members = memberList.map((id: number) =>
