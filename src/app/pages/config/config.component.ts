@@ -12,7 +12,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { VaultConfigModel } from 'src/app/shared/models/vault-config.models';
-import { ConfigService } from 'src/app/services/config.service';
 import { AppService } from 'src/app/services/app.service';
 import { HttpClient } from '@angular/common/http';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
@@ -59,16 +58,13 @@ export class ConfigComponent  implements OnInit {
   ];
   dataSource: any;
   data: any;
-  constructor(private configService: ConfigService,
+  constructor(
     private appConfig: AppService,
     private http: HttpClient,
     private toast: NgToastService,
     private dialog: MatDialog,
     ) {}
 
-  onRowClick(element: any): void {
-    this.configService.setConfigData(element);
-  }
   ngOnInit(): void {
     this.initDataTable();
   }

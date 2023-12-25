@@ -106,7 +106,6 @@ export class RegisterDelegateComponent implements OnInit {
     } else {
       this.registerForm.get('status')?.setValue(this.status[1]);
     }
-    console.log('Base64 Image: ', this.base64Image);
     this.registerForm.get('file')?.setValue(this.base64Image);
   }
 

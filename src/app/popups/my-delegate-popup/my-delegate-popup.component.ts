@@ -67,7 +67,7 @@ export class MyDelegatePopupComponent implements OnInit {
   delegateDetailForm!: FormGroup;
   currentStep!: number;
   status = TRAN_STATUS;
-  isDisable: boolean = true;
+  isDisable: boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DelegateModel,
     private dialogRef: MatDialogRef<MyDelegatePopupComponent>,
@@ -136,6 +136,19 @@ export class MyDelegatePopupComponent implements OnInit {
       this.toast.warning({
         detail: 'WARN',
         summary: `Bạn đã hủy bản ghi ID: ${this.data.id}`,
+        sticky: true,
+      });
+      this.dialogRef.close();
+    });
+  }
+  onRemoveDelegate()
+  {
+    this.data.status = TRAN_STATUS[6];
+    const url = `${this.appService.getDelegateUrl()}/${this.data.id}`;
+    this.http.put(url, this.data).subscribe((response) => {
+      this.toast.warning({
+        detail: 'WARN',
+        summary: `Bạn đã chấm dứt bản ghi ID: ${this.data.id}`,
         sticky: true,
       });
       this.dialogRef.close();

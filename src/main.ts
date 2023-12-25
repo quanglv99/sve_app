@@ -2,10 +2,11 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { Routes, provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AppService } from './app/services/app.service';
 import { APP_INITIALIZER } from '@angular/core';
 import { AuthGuard } from './app/services/auth.guard'
+import { InterceptorService } from './app/services/interceptor.service';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -28,12 +29,15 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideAnimations(),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptorsFromDi(),
+    ),
     {
       provide: APP_INITIALIZER,
       useFactory: initializerConfigFn,
       multi: true,
       deps: [AppService],
     },
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }
   ],
 }).catch((err) => console.error(err));

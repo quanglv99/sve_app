@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { MembercontrolComponent } from './membercontrol.component';
+import { MembercontrolComponent } from './member.component';
 
 export default [
   { path: '', component: MembercontrolComponent },

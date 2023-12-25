@@ -8,14 +8,12 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ConfigService } from 'src/app/services/config.service';
 import { VaultConfigModel } from 'src/app/shared/models/vault-config.models';
 import { JobcodeModel } from 'src/app/shared/models/jobcode.models';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { JobcodeService } from 'src/app/services/jobcode.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { JobcodeDetailPopupComponent } from 'src/app/popups/jobcode-detail-popup/jobcode-detail-popup.component';
@@ -45,7 +43,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-di
   templateUrl: './jobcode.component.html',
   styleUrls: ['./jobcode.component.scss']
 })
-export class JobcodeComponent implements OnInit{
+export class JobcodeComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator | undefined;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageSize = this.pageSizeOptions[0];
@@ -57,31 +55,18 @@ export class JobcodeComponent implements OnInit{
     'descriptionJobcode',
     'action',
   ];
-  dataSource : any;
+  dataSource: any;
   data: any;
 
-  constructor(private configService: ConfigService, private http: HttpClient, private jobcodeService: JobcodeService,
+  constructor(private http: HttpClient,
     private dialog: MatDialog,
     private appConfig: AppService,
 
-    ) {}
-
-  onRowClick(element: any): void {
-    this.configService.setConfigData(element);
-  }
+  ) { }
 
 
   ngOnInit(): void {
     this.initDataTable();
-  }
-
-  getJobcodeList(){
-    this.jobcodeService.getJobcodeList().subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-      error: console.log,
-    });
   }
 
 
@@ -110,7 +95,7 @@ export class JobcodeComponent implements OnInit{
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {
-        this.refreshTableData()
+      this.refreshTableData()
     });
   }
 

@@ -15,13 +15,11 @@ import { MatSortModule, MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { EditmemberDetailPopupComponent } from 'src/app/popups/editmember-detail-popup/editmember-detail-popup.component';
 import { AppService } from 'src/app/services/app.service';
-import { MemberService } from 'src/app/services/member.service';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { MemberModel } from 'src/app/shared/models/member.models';
-import { NgToastModule, NgToastService } from 'ng-angular-popup';
-import { MemberForceService } from 'src/app/services/member-force.service';
+import { NgToastService } from 'ng-angular-popup';
 import { MemberForceModel } from 'src/app/shared/models/member-force';
-import { EditMemberForceDetailPopupComponent } from 'src/app/popups/edit-member-force-detail-popup/edit-member-force-detail-popup.component';
+
 @Component({
   selector: 'app-member-force',
   standalone: true,
@@ -44,7 +42,7 @@ import { EditMemberForceDetailPopupComponent } from 'src/app/popups/edit-member-
   templateUrl: './member-force.component.html',
   styleUrls: ['./member-force.component.scss']
 })
-export class MemberForceComponent {
+export class MemberForceComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -63,18 +61,11 @@ export class MemberForceComponent {
   data: any;
   statusLabelPosition: 'before' | 'after' = 'after';
   constructor(
-    private memeberForceService: MemberForceService,
     private appConfig: AppService,
     private http: HttpClient,
     private dialog: MatDialog,
     private toast: NgToastService
     ) {}
-
-  onRowClick(element: any): void {
-    this.memeberForceService.setMemberForceData(element)
-  }
-
-
   ngOnInit(): void {
     this.initDataTable();
   }

@@ -10,10 +10,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ConfigService } from 'src/app/services/config.service';;
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { JobcodeService } from 'src/app/services/jobcode.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AppService } from 'src/app/services/app.service';
@@ -56,28 +54,17 @@ export class AddjobcodeComponent {
   dataSource: any;
   data: any;
 
-  constructor(private configService: ConfigService, private http: HttpClient, private jobcodeService: JobcodeService,
+  constructor(private http: HttpClient,
     private dialog: MatDialog,
     private appConfig: AppService,
 
   ) { }
 
-  onRowClick(element: any): void {
-    this.configService.setConfigData(element);
-  }
 
   ngOnInit(): void {
     this.initDataTable();
   }
 
-  getJobcodeList() {
-    this.jobcodeService.getJobcodeList().subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-      error: console.log,
-    });
-  }
 
   initDataTable() {
     if (!this.dataSource) {

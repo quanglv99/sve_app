@@ -41,7 +41,7 @@ export class ReceivedAssignPopupComponent implements OnInit {
   updateWorkForm!: FormGroup;
   currentStep!: number;
   status = TRAN_STATUS;
-  isDisable: boolean = true;
+  isDisable: boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: AssignModel,
     private dialogRef: MatDialogRef<ReceivedAssignPopupComponent>,

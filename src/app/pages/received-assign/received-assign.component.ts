@@ -107,7 +107,7 @@ export class ReceivedAssignComponent implements OnInit {
   ) {}
 
   onClick(element: any): void {
-    const dialogRef = this.dialog.open(MyAssignPopupComponent, {
+    const dialogRef = this.dialog.open(ReceivedAssignPopupComponent, {
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {

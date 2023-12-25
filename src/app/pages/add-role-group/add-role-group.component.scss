@@ -1,0 +1,80 @@
+ul {
+    list-style-type: none;
+    margin-top: 4px;
+  }
+
+  .inline-item
+{
+    padding: 0 30px;
+}
+.inline-item p span {
+  width: 120px;
+  display: inline-block;
+}
+
+::ng-deep {
+	mat-divider {
+	  padding: 10px 0;
+	}
+  }
+  
+.w-500 {
+  width: 500px;
+}
+
+.center 
+{
+    display: flex;
+    justify-content: center;
+}
+
+mat-form-field,
+app-search-input {
+    width: 100%;
+}
+
+.mat-checkbox {
+    margin-right: 8;
+}
+
+.checkbox-container {
+  height: 44px;
+  margin: 0 10px 0 6px;
+  display: flex;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  opacity: 0.75;
+  font-weight: 500;
+}
+
+.title
+{
+    margin-left: 20px;
+}
+
+.role-content
+{
+    display: flex;
+    align-items: center;
+}
+
+.role-item
+{
+    display: inline-block;
+    max-width: 300px;
+}
+
+.action
+{
+    display: flex;
+    justify-content: center;
+    .primary-btn
+    {
+        width: 100px;
+        margin-bottom: 10px;
+    }
+}

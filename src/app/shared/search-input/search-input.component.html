@@ -1,0 +1,10 @@
+<mat-form-field appearance="outline">
+    <input
+      matInput
+      #input
+      placeholder="Search"
+      [formControl]="searchCtrl"
+      (keydown)="onKeydown($event, input)"
+    />
+  </mat-form-field>
+  

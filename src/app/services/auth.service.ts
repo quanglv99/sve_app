@@ -8,8 +8,6 @@ import { AppService } from "./app.service";
   })
   export class AuthService {
     private isAuthenticated = false;
-    private token = '';
-  
     constructor(
       private http: HttpClient,
       private appConfig: AppService,
@@ -37,7 +35,9 @@ import { AppService } from "./app.service";
           (response: any) => {
             if (response.status === 1) {
               this.setAuthenticated(true);
-              this.token = response.token;
+              localStorage.setItem('currentToken', response.token);
+              localStorage.setItem('currentUsername', response.sve_member.ldap_user);
+              localStorage.setItem('currentUserFullname', response.sve_member.member_full_name);
             }
           },
           (error) => {
@@ -66,16 +66,125 @@ import { AppService } from "./app.service";
             (response: any) => {
               if (response.status === 1) {
                 this.setAuthenticated(false);
-                this.token = '';
               }
             },
             (error) => {
-              alert("Session has timeout")
+              alert("Could not reach Servers")
+            }
+          )
+        );
+      }
+
+      profile(token: string , user_id: string, member_id: string, username: string, full_info: boolean) : Observable<any>
+      {
+      const url = this.appConfig.getMemberInfoUrl();
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+      });
+  
+      const body = {
+        token: token,
+        user_id: user_id,
+        member_id: member_id,
+        username: username,
+        full_info: full_info
+      };
+  
+      // Make the HTTP POST request
+      return this.http.post(url, JSON.stringify(body), { headers: headers }).pipe(
+        // Handle the response
+        tap(
+          (response: any) => {
+            
+          },
+          (error) => {
+            alert("Could not reach Servers")
+          }
+        )
+      );
+      }
+
+      enrollCheck(token:any) : Observable<any> {
+        const url = this.appConfig.getEnrollCheckUrl();
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+        });
+    
+        const body = {
+          token: token
+        };
+        return this.http.post(url, JSON.stringify(body), { headers: headers }).pipe(
+          tap(
+            (response: any) => {
+            },
+            (error) => {
+              alert("Could not reach Servers")
             }
           )
         );
       }
   
+      enroll(token: string , foundation_id: string, id_card_front_scan: string, id_card_back_scan: string, photo: string) : Observable<any>
+      {
+      const url = this.appConfig.getEnrollUpload();
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+      });
+  
+      const body = {
+        token: token,
+        foundation_id: foundation_id,
+        id_card_front_scan: id_card_front_scan,
+        id_card_back_scan: id_card_back_scan,
+        photo: photo
+      };
+  
+      // Make the HTTP POST request
+      return this.http.post(url, JSON.stringify(body), { headers: headers }).pipe(
+        // Handle the response
+        tap(
+          (response: any) => {
+            
+          },
+          (err) =>
+          {
+            console.log(err)
+          }
+        )
+      );
+      }
+
+      enrollImage(token: string , user_id: string, member_id: string, username: string, image_list: string[], zip: boolean) : Observable<any>
+      {
+      const url = this.appConfig.getEnrollScanUrl();
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+      });
+  
+      const body = {
+        token: token,
+        user_id: user_id,
+        member_id: member_id,
+        username: username,
+        image_list: image_list,
+        zip: zip
+      };
+  
+      // Make the HTTP POST request
+      return this.http.post(url, JSON.stringify(body), { headers: headers }).pipe(
+        // Handle the response
+        tap(
+          (response: any) => {
+            
+          },
+          (error) => {
+            alert("Could not reach Servers")
+          }
+        )
+      );
+      }
+
+
     getIsAuthenticated(): boolean {
       return this.isAuthenticated;
     }
@@ -83,7 +192,7 @@ import { AppService } from "./app.service";
     setAuthenticated(value: boolean) {
       this.isAuthenticated = value;
     }
-    getToken(): string {
-      return this.token;
+    getToken(): any {
+        return localStorage.getItem('currentToken')
     }
   }

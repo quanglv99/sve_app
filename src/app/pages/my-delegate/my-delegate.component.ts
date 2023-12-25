@@ -345,33 +345,6 @@ export class MyDelegateComponent implements OnInit {
       this.dataSource.data = this.data;
     });
   }
-
-
-  deleteRow(element: any): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '300px',
-      data: {
-        message: 'Are you sure to detele this record?',
-        showYesNo: true,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.deleteRecord(element.id).subscribe(() => {
-          this.dataSource.data = this.dataSource.data.filter(
-            (item: DelegateModel) => item.id !== element.id
-          );
-        });
-      }
-    });
-  }
-
-  deleteRecord(id: number): Observable<any> {
-    const url = `${this.appConfig.getDelegateUrl()}/${id}`;
-    return this.http.delete(url);
-  }
-
   refreshTableData() {
     const url = this.appConfig.getDelegateUrl();
     this.http.get(url).subscribe((result: any) => {

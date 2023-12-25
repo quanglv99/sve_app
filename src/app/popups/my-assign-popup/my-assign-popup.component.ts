@@ -21,10 +21,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MY_DATE_FORMATS } from 'src/app/shared/const/custom-date';
 import { AppService } from 'src/app/services/app.service';
 import { HttpClient } from '@angular/common/http';
-import { MEMBER_LIST } from 'src/app/shared/const/member-value';
 import { NgToastModule, NgToastService } from 'ng-angular-popup';
 import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
 import { AssignModel } from 'src/app/shared/models/assign-models';
+import { MEMBER_LIST } from 'src/app/shared/const/member-value';
 
 @Component({
   selector: 'app-my-assign-popup',
@@ -147,6 +147,20 @@ export class MyAssignPopupComponent implements OnInit {
       this.toast.warning({
         detail: 'WARN',
         summary: `Bạn đã hủy bản ghi ID: ${this.data.id}`,
+        duration: 5000,
+      });
+      this.dialogRef.close();
+    });
+  }
+
+  onRemoveAssign()
+  {
+    this.data.status = TRAN_STATUS[6]
+    const url = `${this.appService.getAssignUrl()}/${this.data.id}`;
+    this.http.put(url, this.data).subscribe((response) => {
+      this.toast.warning({
+        detail: 'WARN',
+        summary: `Bạn đã chấm dứt bản ghi ID: ${this.data.id}`,
         duration: 5000,
       });
       this.dialogRef.close();
