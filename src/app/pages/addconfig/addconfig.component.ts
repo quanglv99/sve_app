@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {  MatDialogModule } from '@angular/material/dialog';
+import { NgToastModule, NgToastService } from 'ng-angular-popup';
 @Component({
   selector: 'app-addconfig',
   standalone: true,
@@ -41,6 +42,7 @@ export class AddconfigComponent {
     private appService: AppService,
     private dialog: MatDialog,
     private router: Router,
+    private toast: NgToastService
     ){
 
   }
@@ -53,7 +55,8 @@ export class AddconfigComponent {
       this.addConfigForm = this.formBuilder.group({
         nameConfig: ['', Validators.required],
         members: [[], Validators.required],  // Initialize as an empty array
-        note: [''],
+        noteConfig: [''],
+        status: ['']
       });
     }
 
@@ -67,22 +70,22 @@ export class AddconfigComponent {
   onSummit() {
     if (this.addConfigForm.valid) {
       const formData = this.addConfigForm.value;
-      formData.status = 'active';
       const apiUrl = this.appService.getConfigMemberList();
       this.http.post(apiUrl, formData).subscribe(
         (response) => {
-          const dialogRef = this.dialog.open(ConfirmDialogComponent,{
-            width: '300px',
-            data: {message: 'Thêm mới thành phần thành công, trở về trang chính?',showYesNo:true}
-          })
-          dialogRef.afterClosed().subscribe( (response) =>
-          {
-            if(response)
-            this.router.navigate(['/default/setting/config']);
-          })
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Added successfully',
+          duration: 5000,
+        });
+        this.router.navigate(['/default/setting/config'])
         },
         (error) => {
-          console.error('Error adding data:', error);
+          this.toast.error({
+            detail: 'ERROR',
+            summary:'Please try again',
+            sticky: true,
+          })
         }
       );
     }

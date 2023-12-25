@@ -12,6 +12,8 @@ export class JobcodeService {
     return this.http.get('http://localhost:3000/jobcode');
   }
 
-
+getVibJobcodeList() : Observable<any>{
+  return this.http.get('http://localhost:3000/vib_jobcodes')
+}
 
 }

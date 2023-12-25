@@ -20,5 +20,9 @@ export default [
 {
   path: 'foundationtree',
   loadChildren: ()=> import('../../pages/foundationtree/foundationtree.route')
+},
+{
+  path:'member-force',
+  loadChildren:() => import('../../pages/member-force/member-force.route')
 }
 ] as Route;

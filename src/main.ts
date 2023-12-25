@@ -12,7 +12,7 @@ export const routes: Routes = [
   { path: 'login', data: { preload: true }, loadComponent: () => import('./app/pages/login/login.component').then( r => r.LoginComponent) },
   {
     path: 'default', 
-    loadChildren: () => import('./app/layout/default/default.route') ,canActivate: [AuthGuard]
+    loadChildren: () => import('./app/layout/default/default.route') //,canActivate: [AuthGuard]
     
   },
   { path: '**', redirectTo: 'login' }

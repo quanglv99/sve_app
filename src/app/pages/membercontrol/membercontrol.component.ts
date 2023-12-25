@@ -19,6 +19,7 @@ import { AppService } from 'src/app/services/app.service';
 import { MemberService } from 'src/app/services/member.service';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { MemberModel } from 'src/app/shared/models/member.models';
+import { NgToastModule, NgToastService } from 'ng-angular-popup';
 @Component({
   selector: 'app-membercontrol',
   standalone: true,
@@ -66,6 +67,7 @@ export class MembercontrolComponent {
     private appConfig: AppService,
     private http: HttpClient,
     private dialog: MatDialog,
+    private toast: NgToastService
     ) {}
 
   onRowClick(element: any): void {
@@ -144,6 +146,11 @@ export class MembercontrolComponent {
             (item: MemberModel) => item.id !== element.id
           );
         });
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Deleted successfully',
+          duration:5000,
+        })
       }
     });
   }

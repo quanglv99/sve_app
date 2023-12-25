@@ -10,8 +10,7 @@
                         <mat-form-field appearance="outline" class="input-text w-300">
                             <mat-label>Username</mat-label>
                             <mat-icon matPrefix>account_circle</mat-icon>
-                            <input #inputUsername formControlName="username" type="text" autocomplete="new-username"
-                                matInput />
+                            <input #inputUsername formControlName="username" type="text" autocomplete="new-username" matInput />
                         </mat-form-field>
                     </p>
                 </div>
@@ -20,12 +19,10 @@
                         <mat-form-field appearance="outline" class="input-text w-300">
                             <mat-icon matPrefix>lock_outline</mat-icon>
                             <mat-label>Password</mat-label>
-                            <input formControlName="password"matInput [type]="hide ? 'password' : 'text'"
-                                autocomplete="new-password" (keydown.enter)="onSubmit()">
-                            <a mat-icon-button matSuffix (click)="togglePasswordVisibility()"
-                                [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="hide">
+                            <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" autocomplete="new-password" (keydown.enter)="onSubmit()">
+                            <a mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="hide">
                                 <mat-icon>{{ hide ? "visibility" : "visibility_off" }}</mat-icon>
-                        </a>
+                            </a>
                         </mat-form-field>
                     </p>
                 </div>

@@ -53,7 +53,7 @@ export class JobcodeComponent implements OnInit{
   totalItems = 0;
   displayedColumns: string[] = [
     'id',
-    'nameJobcode',
+    'jobcode',
     'descriptionJobcode',
     'action',
   ];

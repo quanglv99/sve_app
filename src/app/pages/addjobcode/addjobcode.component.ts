@@ -8,7 +8,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ConfigService } from 'src/app/services/config.service';;
 import { Observable } from 'rxjs';
@@ -16,7 +16,6 @@ import { HttpClient } from '@angular/common/http';
 import { JobcodeService } from 'src/app/services/jobcode.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { JobcodeDetailPopupComponent } from 'src/app/popups/jobcode-detail-popup/jobcode-detail-popup.component';
 import { AppService } from 'src/app/services/app.service';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { JobcodeModel } from 'src/app/shared/models/jobcode.models';
@@ -54,25 +53,24 @@ export class AddjobcodeComponent {
     'descriptionJobcode',
     'action',
   ];
-  dataSource : any;
+  dataSource: any;
   data: any;
 
   constructor(private configService: ConfigService, private http: HttpClient, private jobcodeService: JobcodeService,
     private dialog: MatDialog,
     private appConfig: AppService,
 
-    ) {}
+  ) { }
 
   onRowClick(element: any): void {
     this.configService.setConfigData(element);
   }
 
-
   ngOnInit(): void {
     this.initDataTable();
   }
 
-  getJobcodeList(){
+  getJobcodeList() {
     this.jobcodeService.getJobcodeList().subscribe({
       next: (res) => {
         console.log(res);
@@ -80,7 +78,6 @@ export class AddjobcodeComponent {
       error: console.log,
     });
   }
-
 
   initDataTable() {
     if (!this.dataSource) {
@@ -111,8 +108,6 @@ export class AddjobcodeComponent {
       },
     });
   }
-
-
   deleteRow(element: any): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',

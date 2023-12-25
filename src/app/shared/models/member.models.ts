@@ -1,3 +1,4 @@
+import { Employee } from './employee.models';
 import { JobcodeModel } from "./jobcode.models";
 
 export interface MemberModel {
@@ -6,4 +7,5 @@ export interface MemberModel {
   jobcodes: JobcodeModel[];
   note: string;
   status: string;
+  employee: Employee;
 }

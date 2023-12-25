@@ -12,15 +12,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { VaultConfigModel } from 'src/app/shared/models/vault-config.models';
-import { MEMBER_LIST } from 'src/app/shared/const/member-value';
 import { ConfigService } from 'src/app/services/config.service';
 import { AppService } from 'src/app/services/app.service';
 import { HttpClient } from '@angular/common/http';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { Observable } from 'rxjs/internal/Observable';
 import { MatDialog } from '@angular/material/dialog';
-
-
+import { NgToastService } from 'ng-angular-popup';
 import {  MatDialogModule } from '@angular/material/dialog';
 import { EditConfigDetailPopupComponent } from 'src/app/popups/edit-config-detail-popup/edit-config-detail-popup.component';
 
@@ -61,24 +59,19 @@ export class ConfigComponent  implements OnInit {
   ];
   dataSource: any;
   data: any;
-
-
   constructor(private configService: ConfigService,
     private appConfig: AppService,
     private http: HttpClient,
-
+    private toast: NgToastService,
     private dialog: MatDialog,
     ) {}
 
   onRowClick(element: any): void {
     this.configService.setConfigData(element);
   }
-
-
   ngOnInit(): void {
     this.initDataTable();
   }
-
   Filterchange(event: Event) {
     const filvalue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filvalue;
@@ -122,8 +115,6 @@ export class ConfigComponent  implements OnInit {
     const url = `${this.appConfig.getConfigMemberList()}/${id}`;
     return this.http.delete(url);
   }
-
-
   deleteRow(element: any): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
@@ -132,7 +123,6 @@ export class ConfigComponent  implements OnInit {
         showYesNo: true,
       },
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.deleteRecord(element.id).subscribe(() => {
@@ -140,10 +130,14 @@ export class ConfigComponent  implements OnInit {
             (item: VaultConfigModel) => item.id !== element.id
           );
         });
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Deleted successfully',
+          duration:5000,
+        })
       }
     });
   }
-
   onClick(element: any): void {
     const dialogRef = this.dialog.open(EditConfigDetailPopupComponent, {
       data: element,
@@ -153,5 +147,31 @@ export class ConfigComponent  implements OnInit {
     });
   }
 
+  // exportReport(): void {
+  //   const apiToken = 'glsa_jBj8cwBAyoimaJ3Mm3o627UoQIA2DQDx_db4da1dd'; // Thay bằng API key của bạn
+  //   const apiUrl = 'http://10.125.10.52:3000/d/e2809983-9377-43ff-ab4f-f1be0c9d3ed9/atm-alert?orgId=1&refresh=5s'; // Thay bằng đường dẫn API xuất báo cáo của Grafana
+  
+  //   const newWindow = window.open();
+  //   if (newWindow) {
+  //     this.http
+  //       .get(apiUrl, {
+  //         headers: {
+  //           Authorization: `Bearer ${apiToken}`,
+  //         },
+  //       })
+  //       .subscribe(
+  //         (reportData: any) => {
+  //           console.log('Report Data:', reportData);
+  //           // Ví dụ: Mở một cửa sổ mới hiển thị dữ liệu báo cáo
+  //           newWindow.document.write(JSON.stringify(reportData));
+  //         },
+  //         (error) => {
+  //           console.error('Error exporting report:', error);
+  //         }
+  //       );
+  //   } else {
+  //     console.error('Error opening new window');
+  //   }
+  // }
 
 }
