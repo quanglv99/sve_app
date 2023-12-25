@@ -5,7 +5,7 @@
             <button mat-raised-button color="primary" class="right-btn" routerLink="add-config">Thêm mới</button>
             <div class="group">
                 <i class="material-icons">search</i>
-                <input placeholder="Search" type="search" class="input">
+                <input placeholder="Search" type="search" class="input" (keyup)="Filterchange($event)">
             </div>
         </div>
     </mat-card-content>
@@ -42,7 +42,6 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-
         </div>
     </mat-card-content>
     <mat-card-footer>

@@ -41,6 +41,12 @@ export class AppService {
   getConfigMemberList(): string{
     return this.appConfig.CONFIG_MEMBER_LIST
   }
+  getVibJobcodeList(): string{
+    return this.appConfig.VIB_JOBCODE_LIST
+  }
+  getMemberForceList(): string{
+    return this.appConfig.MEMBER_FORCE_LIST
+  }
 
   getLoginApi()
   {

@@ -10,7 +10,7 @@ export default [
 
   {
     path: 'member',
-    loadChildren: () => import('../../pages/membercontrol/membercontrol.route')
+    loadChildren: () => import('../member/member.route')
   },
 
   {
@@ -24,6 +24,10 @@ export default [
 {
   path: 'manage-role',
   loadChildren: ()=> import('../../pages/manage-role/manage-role.route')
+},
+{
+  path:'member-force',
+  loadChildren:() => import('../../pages/member-force/member-force.route')
 }
 
 ] as Route;

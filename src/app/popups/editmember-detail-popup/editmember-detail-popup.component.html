@@ -13,7 +13,7 @@
                         </p>
                     </div>
                     <div class="inline-item">
-                        <p><span>Thành phần</span>
+                        <p><span>Jobcode</span>
                             <mat-form-field appearance="outline" class="w-500">
                                 <mat-select name="jobcode" formControlName="jobcodes" multiple>
                                     <mat-option *ngFor="let jobcode of jobcodes" [value]="jobcode.id">{{ jobcode.jobcode }}-{{jobcode.descriptionJobcode}}</mat-option>
