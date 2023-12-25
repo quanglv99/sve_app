@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-12">
         <h1 class="title">Hồ sơ của tôi</h1>
@@ -7,16 +8,16 @@
             <mat-card-content class="row">
                 <div class="col-6">
                     <div class="bio-row">
-                        <p><span>Mã nhân viên</span>{{data?.staff_id}}</p>
+                        <p><span>Mã nhân viên</span>{{data?.origin_json.code}}</p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Họ và tên</span>{{data?.member_full_name}}</p>
+                        <p><span>Họ và tên</span>{{data?.origin_json.fullName}}</p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Jobcode</span>{{data?.job_code_list}}</p>
+                        <p><span>Jobcode</span>{{data?.origin_json.positions[0].jobCode}}</p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Email</span>{{data?.email}}</p>
+                        <p><span>Email</span>{{data?.origin_json.email}}</p>
                     </div>
                     <div class="bio-row">
                         <p><span>Trạng thái truy cập</span>{{data?.work_status}}</p>
@@ -24,16 +25,16 @@
                 </div>
                 <div class="col-6">
                     <div class="bio-row">
-                        <p><span>Danh xưng</span>{{data?.gender}}</p>
+                        <p><span>Danh xưng</span>{{data?.origin_json.gender}}</p>
                     </div>
                     <div class="bio-row">
                         <p><span>Số CCCD</span>{{data?.id_card_no}}</p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Loại hợp đồng</span></p>
+                        <p><span>Loại hợp đồng</span>{{data?.origin_json.contractType}}</p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Ngày hết hạn hợp đồng</span></p>
+                        <p><span>Ngày hết hạn hợp đồng</span>{{data?.origin_json.contractEndDate}}</p>
                     </div>
                     <div class="bio-row">
                         <p><span>Trạng thái làm việc</span>{{data?.work_status}}</p>
@@ -44,17 +45,17 @@
         <mat-card class="card-biometric">
             <mat-card-title>Upload giấy tờ</mat-card-title>
             <mat-divider></mat-divider>
+            <div class="bio-row">
+                <p><span>Trạng thái:</span> {{enroll_message}}</p>
+            </div>
             <mat-card-content>
-                <div class="form-input" *ngIf="showFormInput">
+                <div class="form-input" *ngIf="showFormInput && (enroll_status == 1 ||  enroll_status == 4)">
                     <button mat-stroked-button class="right-btn" (click)="toggleForms()" *ngIf="isEdit">Thoát</button>
                     <button mat-stroked-button class="right-btn">Lưu & Cần hỗ trợ</button>
                     <button mat-raised-button color="primary" class="right-btn" [disabled]="biometricForm.invalid"
-                        (click)="registerBiometric()">Lưu</button>
+                        (click)="enrollSudmit()" *ngIf="enroll_status == 1">Lưu</button>
                     <form [formGroup]="biometricForm">
                         <div class="col-6">
-                            <div class="bio-row">
-                                <p><span>Trạng thái:</span> {{bioStatus}}</p>
-                            </div>
                             <div class="bio-row">
                                 <p><span>Ảnh mặt trước CCCD</span><input type="file" name="font"
                                         accept="image/png, image/jpeg" formControlName="imgFront"
@@ -70,37 +71,25 @@
                                         accept="image/png, image/jpeg" formControlName="imgAvt"
                                         (change)="onPortraitSelected($event)" /></p>
                             </div>
-                            <div class="bio-row">
-                                <p><span>Khác</span><input type="file" name="others" formControlName="file"
-                                        (change)="onOtherSelected($event)" /></p>
-                            </div>
                         </div>
                     </form>
                 </div>
-                <div class="form-detail" *ngIf="!showFormInput">
-                    <button mat-raised-button color="primary" class="right-btn" (click)="toggleForms()">Sửa</button>
+                <div class="form-detail" *ngIf="!showFormInput && (enroll_status == 2 || enroll_status == 5 || enroll_status == 6 || enroll_status == 7)">
+                    <button mat-raised-button color="primary" class="right-btn" (click)="toggleForms()" *ngIf="enroll_status == 2">Đăng ký lại</button>
                     <div class="col-6">
                         <div class="bio-row">
-                            <p><span>Trạng thái:</span> {{bioStatus}}</p>
-                        </div>
-                        <div class="bio-row">
                             <p><span>Ảnh mặt trước CCCD</span>
-                                <button mat-stroked-button (click)="onClick(registerData.frontCard)">Preview</button>
+                                <button mat-stroked-button (click)="onClickFront()">Preview</button>
                             </p>
                         </div>
                         <div class="bio-row">
                             <p><span>Ảnh mặt sau CCCD</span>
-                                <button mat-stroked-button (click)="onClick(registerData.backCard)">Preview</button>
+                                <button mat-stroked-button (click)="onClickBack()">Preview</button>
                             </p>
                         </div>
                         <div class="bio-row">
                             <p><span>Ảnh chân dung</span>
-                                <button mat-stroked-button (click)="onClick(registerData.portrait)">Preview</button>
-                            </p>
-                        </div>
-                        <div class="bio-row">
-                            <p><span>Khác</span>
-                                <button mat-stroked-button (click)="onClick(registerData.other)">Preview</button>
+                                <button mat-stroked-button (click)="onClickPhoto()">Preview</button>
                             </p>
                         </div>
                     </div>

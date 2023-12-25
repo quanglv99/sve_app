@@ -1,0 +1,14 @@
+<mat-card>
+    <mat-card-header class="header"> 
+        <mat-card-title class="title">Chọn nơi làm việc</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <div class="container">
+            
+            <div class="branch" *ngFor="let branch of branchList">
+                <a mat-stroked-button (click)="submitBranch(branch)" class="btn-stroked">{{branch.branchname}}</a>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

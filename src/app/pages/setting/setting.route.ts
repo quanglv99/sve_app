@@ -20,5 +20,10 @@ export default [
 {
   path: 'foundationtree',
   loadChildren: ()=> import('../../pages/foundationtree/foundationtree.route')
+},
+{
+  path: 'manage-role',
+  loadChildren: ()=> import('../../pages/manage-role/manage-role.route')
 }
+
 ] as Route;

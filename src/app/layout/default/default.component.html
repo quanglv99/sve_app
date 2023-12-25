@@ -5,6 +5,9 @@
         </a>
         <h1>Vault Access Control</h1>
         <div class="spacer"></div>
+        <a class="branch-selected">
+            <span>{{branchname}}</span>
+        </a>
         <a mat-button [matMenuTriggerFor]="menu">
             <div class="btn-dropdown">
                 <img src="assets/images/avt.png" class="rounded-circle" alt="">
@@ -26,13 +29,20 @@
             </div>
 
         </mat-menu>
+        
     </mat-toolbar-row>
 </mat-toolbar>
+<div *ngIf="loadingService.isLoading | async" class="loader-container">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
 <mat-sidenav-container>
+
     <mat-sidenav #sidenav class="side-nav" (click)="sidenav.close()" mode="side">
         <mat-nav-list appAccordion>
-            <mat-list-item appAccordionLink *ngFor="let menuitem of menuItems.getMenuitem()" routerLinkActive="selected">
-                <a class="inline-center" mat-button appAccordionToggle [routerLink]="['/default', menuitem.state]" *ngIf="menuitem.type === 'link'">
+            <mat-list-item appAccordionLink *ngFor="let menuitem of menuItems.getMenuitem()"
+                routerLinkActive="selected">
+                <a class="inline-center" mat-button appAccordionToggle [routerLink]="['/default', menuitem.state]"
+                    *ngIf="menuitem.type === 'link'">
                     <mat-icon>{{ menuitem.icon }}</mat-icon>
                     <span>{{ menuitem.name }}</span>
                     <span fxFlex></span>

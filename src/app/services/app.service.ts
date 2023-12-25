@@ -61,6 +61,19 @@ export class AppService {
   {
     return this.appConfig.MEMBER_READ
   }
+  getEnrollCheckUrl()
+  {
+    return this.appConfig.ENROLL_CHECK
+  }
+  getEnrollUpload()
+  {
+    return this.appConfig.ENROLL_UPLOAD
+  }
+
+  getEnrollScanUrl()
+  {
+    return this.appConfig.INFO_CARD
+  }
 
 }
 

@@ -25,7 +25,6 @@ import { MEMBER_LIST } from 'src/app/shared/const/member-value';
 import { DelegateModel } from 'src/app/shared/models/delegate-models';
 import { ReceivedDelegatePopupComponent } from 'src/app/popups/received-delegate-popup/received-delegate-popup.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MyAssignPopupComponent } from 'src/app/popups/my-assign-popup/my-assign-popup.component';
 import { BranchModel } from 'src/app/shared/models/branch.models';
 import { Employee } from 'src/app/shared/models/employee.models';
 import { MemberModel } from 'src/app/shared/models/member.models';
@@ -54,7 +53,7 @@ import { MemberModel } from 'src/app/shared/models/member.models';
   templateUrl: './received-delegate.component.html',
   styleUrls: ['./received-delegate.component.scss']
 })
-export class ReceivedDelegateComponent {
+export class ReceivedDelegateComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   pageSizeOptions: number[] = [5, 10, 25, 100];
