@@ -1,3 +1,4 @@
+import { Employee } from 'src/app/shared/models/employee.models';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -74,6 +75,7 @@ export class AddmemberComponent {
     if (this.addMemberForm.valid) {
       const formData = this.addMemberForm.value;
       const apiUrl = this.appService.getMemberList();
+      formData.employee = null;
 
       this.http.post(apiUrl, formData).subscribe(
         (response) => {

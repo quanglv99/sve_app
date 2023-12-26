@@ -21,6 +21,8 @@ import { HttpClient } from '@angular/common/http';
 import { NgToastModule, NgToastService } from 'ng-angular-popup';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MemberForceModel } from 'src/app/shared/models/member-force';
+import { MemberModel } from 'src/app/shared/models/member.models';
+
 @Component({
   selector: 'app-edit-member-force-detail-popup',
   standalone: true,
@@ -50,7 +52,7 @@ export class EditMemberForceDetailPopupComponent {
   isFormDirty: boolean = false;
   isDisable: boolean = false;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: MemberForceModel,
+    @Inject(MAT_DIALOG_DATA) public data: MemberModel,
     private dialogRef: MatDialogRef<EditMemberForceDetailPopupComponent>,
     private formBuilder: FormBuilder,
     private appService: AppService,
@@ -73,13 +75,8 @@ export class EditMemberForceDetailPopupComponent {
   }
   initializeForm() {
     this.editMemberForcePopup = this.formBuilder.group({
-      nameMemberForce: [this.data.nameMemberForce],
-      employee: [
-        Array.isArray(this.data.employee) ? this.data.employee.map((employee: { id: number }) => employee.id) : [],
-        { value: this.data.employee },
-      ],
-      status: [this.data.status],
-      noteMemberForce: [this.data.noteMemberForce],
+      name: [this.data.name],
+      employee: [this.data.employee ? this.data.employee.id : null],
     });
   
     this.editMemberForcePopup.valueChanges.subscribe(() => {
@@ -92,14 +89,8 @@ export class EditMemberForceDetailPopupComponent {
     if (this.editMemberForcePopup.valid) {
       const updateMemberForce = this.editMemberForcePopup.value;
       const employeeIds = updateMemberForce.employee;
-
-      // Map lại thành mảng các jobcodes dựa trên id
-      updateMemberForce.employee = employeeIds.map((id: number) =>
-        this.employee.find((employee: any) => employee.id === id)
-      );
-
-      // Thực hiện cập nhật thông tin thành viên
-      const url = `${this.appService.getMemberForceList()}/${this.data.id}`;
+      updateMemberForce.employee = this.employee.find((employee: any) => employee.id === employeeIds);
+      const url = `${this.appService.getMemberList()}/${this.data.id}`;
       this.http.put(url, updateMemberForce).subscribe(
         (response) => {
           this.toast.success({
@@ -107,7 +98,7 @@ export class EditMemberForceDetailPopupComponent {
             summary:'Update successful',
             duration: 5000,
           });
-          this.dialogRef.close(); // Đóng dialog sau khi cập nhật thành công
+          this.dialogRef.close();
           this.router.navigate(['/default/setting/member-force']);
         },
         (error) => {

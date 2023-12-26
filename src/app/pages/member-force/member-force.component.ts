@@ -19,6 +19,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-di
 import { MemberModel } from 'src/app/shared/models/member.models';
 import { NgToastService } from 'ng-angular-popup';
 import { MemberForceModel } from 'src/app/shared/models/member-force';
+import { EditMemberForceDetailPopupComponent } from 'src/app/popups/edit-member-force-detail-popup/edit-member-force-detail-popup.component';
 
 @Component({
   selector: 'app-member-force',
@@ -54,7 +55,8 @@ export class MemberForceComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'nameMember',
-    'status',
+    'employee',
+    // 'status',
     'action',
   ];
   dataSource: any;
@@ -107,7 +109,7 @@ export class MemberForceComponent implements OnInit {
     });
   }
   onClick(element: any): void {
-    const dialogRef = this.dialog.open(EditmemberDetailPopupComponent, {
+    const dialogRef = this.dialog.open(EditMemberForceDetailPopupComponent, {
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -118,31 +120,61 @@ export class MemberForceComponent implements OnInit {
     const url = `${this.appConfig.getMemberList()}/${id}`;
     return this.http.delete(url);
   }
-
-
   deleteRow(element: any): void {
+    if (element.employee === null) {
+      this.toast.error({
+        detail: 'ERROR',
+        summary: 'Không thể xóa bản ghi, do chưa được chỉ định',
+        duration: 3000,
+      });
+      return;
+    }
+  
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
       data: {
-        message: 'Are you sure to detele this record?',
+        message: 'Are you sure to delete this record?',
         showYesNo: true,
       },
     });
-
+  
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.deleteRecord(element.id).subscribe(() => {
-          this.dataSource.data = this.dataSource.data.filter(
-            (item: MemberForceModel) => item.id !== element.id
-          );
-        });
+        // Gọi hàm cập nhật với giá trị employee là null
+        this.updateMember({ ...element, employee: null });
+        
+        // Cập nhật dataSource sau khi xóa
+        this.dataSource.data = this.dataSource.data.map((item: MemberModel) =>
+          item.id === element.id ? { ...item, employee: null } : item
+        );
+  
         this.toast.success({
           detail: 'SUCCESS',
           summary: 'Deleted successfully',
-          duration:5000,
-        })
+          duration: 5000,
+        });
       }
     });
   }
-
+  
+  
+  updateMember(updatedElement: any): void {
+    const url = `${this.appConfig.getMemberList()}/${updatedElement.id}`;
+    this.http.put(url, updatedElement).subscribe(
+      (response) => {
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Update successful',
+          duration: 3000,
+        });
+      },
+      (error) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: 'Please try again',
+          sticky: true,
+        });
+      }
+    );
+  }
 }
