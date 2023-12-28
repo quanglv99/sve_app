@@ -49,6 +49,7 @@ export class ReceivedDelegatePopupComponent implements OnInit {
   currentStep!: number;
   status = TRAN_STATUS;
   isDisable: boolean = false;
+  dialogResult: number | null = null;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DelegateModel,
     private dialogRef: MatDialogRef<ReceivedDelegatePopupComponent>,
@@ -96,6 +97,7 @@ export class ReceivedDelegatePopupComponent implements OnInit {
     });
   }
   onClose() {
-    this.dialogRef.close();
+    this.dialogResult = 0
+    this.dialogRef.close(this.dialogResult);
   }
 }

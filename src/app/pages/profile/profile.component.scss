@@ -71,6 +71,25 @@
   }
 }
 
+.status-row
+{ margin-left: 30px;
+  width: 50%;
+  float: left;
+  margin-bottom: 10px;
+  padding: 0 15px;
+  span {
+    color: #1b1b1b;
+    font-weight: 600;
+  }
+  p {
+    color: #575757;
+  }
+}
+
+.status-row p span {
+  width: 200px;
+  display: inline-block;
+} 
 .bio-row p span {
   width: 200px;
   display: inline-block;
@@ -81,7 +100,31 @@
   margin-left: 10px;
 }
 
+.btn 
+{
+ float: right;
+ margin-right: 20px ;
+}
+
 .title
 {
  margin: 0 15px 20px;
+}
+
+.wrap-spinner
+{
+  display: inline-block;
+  justify-content: center;
+  .spinner
+  {
+    align-items: center;
+    margin-left: 50px;
+  }
+  p
+  {
+    font-size: 20px;
+    color: white;
+    padding-top: 10px ;
+    text-align: center;
+  }
 }

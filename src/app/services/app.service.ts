@@ -81,5 +81,14 @@ export class AppService {
     return this.appConfig.INFO_CARD
   }
 
+  getJobQueryUrl()
+  {
+    return this.appConfig.JOB_QUERY
+  }
+
+  getPasscodeUrl()
+  {
+    return this.appConfig.PASSCODE
+  }
 }
 

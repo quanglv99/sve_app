@@ -113,7 +113,10 @@ export class MyAssignComponent implements OnInit {
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.refreshTableData();
+      if(result===1)
+      {
+        this.refreshTableData();
+      }
     });
   }
 

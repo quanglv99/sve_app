@@ -54,7 +54,7 @@ import { MEMBER_LIST } from 'src/app/shared/const/member-value';
 })
 export class MyAssignPopupComponent implements OnInit {
   currentStep!: number;
-
+  dialogResult: number | null = null;
   assignForm!: FormGroup;
   isFormDirty: boolean = false;
   isDisable: boolean = false;
@@ -133,12 +133,14 @@ export class MyAssignPopupComponent implements OnInit {
       approver: [{ value: this.data.approver, disabled: this.isDisable }],
       createdDate: [this.data.createdDate],
       createdUser: [this.data.createdUser],
+      file: [{ value: this.data.file, disabled: this.isDisable }],
       status: [''],
     });
   }
 
   onClose() {
-    this.dialogRef.close();
+    this.dialogResult = 0
+      this.dialogRef.close(this.dialogResult);
   }
   onCancelAssign() {
     this.data.status = TRAN_STATUS[7]
@@ -149,7 +151,8 @@ export class MyAssignPopupComponent implements OnInit {
         summary: `Bạn đã hủy bản ghi ID: ${this.data.id}`,
         duration: 5000,
       });
-      this.dialogRef.close();
+      this.dialogResult = 1 
+      this.dialogRef.close(this.dialogResult);
     });
   }
 
@@ -163,7 +166,8 @@ export class MyAssignPopupComponent implements OnInit {
         summary: `Bạn đã chấm dứt bản ghi ID: ${this.data.id}`,
         duration: 5000,
       });
-      this.dialogRef.close();
+      this.dialogResult = 1 
+      this.dialogRef.close(this.dialogResult);
     });
   }
 }

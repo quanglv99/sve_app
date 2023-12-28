@@ -116,7 +116,7 @@ mat-toolbar {
       background: #e3f0f7;
     }
     .page-wrapper {
-      height: calc(100vh - 64px);
+      height: calc(100vh - 74px);
     }
     .page-wrapper .page-content {
       padding: 30px 15px;
@@ -141,4 +141,11 @@ mat-toolbar {
 .loader-container
 {
   width: 100%;
+}
+
+.progress-bar
+{
+  height: 5px;
+  width: 100%;
+  background-color: #313949;
 }

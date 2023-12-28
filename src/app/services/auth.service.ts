@@ -144,7 +144,6 @@ import { AppService } from "./app.service";
         // Handle the response
         tap(
           (response: any) => {
-            
           },
           (err) =>
           {
@@ -152,6 +151,26 @@ import { AppService } from "./app.service";
           }
         )
       );
+      }
+
+      jobQuery(job_id: string): Observable<any>
+      {
+        const url = this.appConfig.getJobQueryUrl();
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+        });
+        const body = {
+          job_id: job_id
+        };
+        return this.http.post(url, JSON.stringify(body), { headers: headers }).pipe(
+          tap(
+            (response: any) => {
+            },
+            (error) => {
+              alert("Could not reach Servers")
+            }
+          )
+        );
       }
 
       enrollImage(token: string , user_id: string, member_id: string, username: string, image_list: string[], zip: boolean) : Observable<any>
@@ -175,13 +194,36 @@ import { AppService } from "./app.service";
         // Handle the response
         tap(
           (response: any) => {
-            
           },
           (error) => {
             alert("Could not reach Servers")
           }
         )
       );
+      }
+
+      getPasscode(token:string) : Observable<any>
+      {
+        const url = this.appConfig.getPasscodeUrl();
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+        });
+    
+        const body = {
+          token: token
+        };
+    
+        // Make the HTTP POST request
+        return this.http.post(url, JSON.stringify(body), { headers: headers }).pipe(
+          // Handle the response
+          tap(
+            (response: any) => {
+            },
+            (error) => {
+              alert("Could not reach Servers")
+            }
+          )
+        );
       }
 
 

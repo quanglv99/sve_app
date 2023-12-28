@@ -4,9 +4,10 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { Routes, provideRouter } from '@angular/router';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AppService } from './app/services/app.service';
-import { APP_INITIALIZER } from '@angular/core';
+import { APP_INITIALIZER, importProvidersFrom } from '@angular/core';
 import { AuthGuard } from './app/services/auth.guard'
 import { InterceptorService } from './app/services/interceptor.service';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },

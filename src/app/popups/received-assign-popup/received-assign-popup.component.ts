@@ -42,6 +42,7 @@ export class ReceivedAssignPopupComponent implements OnInit {
   currentStep!: number;
   status = TRAN_STATUS;
   isDisable: boolean = false;
+  dialogResult: number | null = null;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: AssignModel,
     private dialogRef: MatDialogRef<ReceivedAssignPopupComponent>,
@@ -85,10 +86,12 @@ export class ReceivedAssignPopupComponent implements OnInit {
       approver: [{ value: this.data.approver, disabled: this.isDisable }],
       createdDate: [this.data.createdDate],
       createdUser: [this.data.createdUser],
+      file: [this.data.file],
       status: [''],
     });
   }
   onClose() {
-    this.dialogRef.close();
+    this.dialogResult = 0
+      this.dialogRef.close(this.dialogResult);
   }
 }

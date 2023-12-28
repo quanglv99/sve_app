@@ -23,5 +23,7 @@
     "ENROLL_UPLOAD": "https://10.125.10.52:8443/ips/management/apps/sve/members/member/enroll/upload",
     "INFO_CARD": "https://10.125.10.52:8443/ips/management/apps/sve/members/member/read/images",
     "VIB_JOBCODE_LIST": "http://localhost:3000/vib_jobcodes",
-    "MEMBER_FORCE_LIST": "http://localhost:3000/member-force"
+    "MEMBER_FORCE_LIST": "http://localhost:3000/member-force",
+	"JOB_QUERY": "https://10.125.10.52:8443/ips/management/apps/sve/members/member/enroll/job/query",
+	"PASSCODE": "https://10.125.10.52:8443/ips/management/apps/sve/members/member/enroll/passcode"
 }

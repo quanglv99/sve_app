@@ -103,11 +103,14 @@ export class ApproveAssignComponent implements OnInit {
   ) {}
 
   onClick(element: any): void {
-    const dialogRef = this.dialog.open(MyAssignPopupComponent, {
+    const dialogRef = this.dialog.open(ApproveAssignPopupComponent, {
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.refreshTableData();
+      if(result===1)
+      {
+        this.refreshTableData();
+      }
     });
   }
 

@@ -68,6 +68,7 @@ export class MyDelegatePopupComponent implements OnInit {
   currentStep!: number;
   status = TRAN_STATUS;
   isDisable: boolean = false;
+  dialogResult: number | null = null;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DelegateModel,
     private dialogRef: MatDialogRef<MyDelegatePopupComponent>,
@@ -126,7 +127,8 @@ export class MyDelegatePopupComponent implements OnInit {
     });
   }
   onClose() {
-    this.dialogRef.close();
+    this.dialogResult = 0 
+    this.dialogRef.close(this.dialogResult);
   }
 
   onCancelDelegate() {
@@ -138,7 +140,8 @@ export class MyDelegatePopupComponent implements OnInit {
         summary: `Bạn đã hủy bản ghi ID: ${this.data.id}`,
         sticky: true,
       });
-      this.dialogRef.close();
+      this.dialogResult = 1
+      this.dialogRef.close(this.dialogResult);
     });
   }
   onRemoveDelegate()
@@ -151,7 +154,8 @@ export class MyDelegatePopupComponent implements OnInit {
         summary: `Bạn đã chấm dứt bản ghi ID: ${this.data.id}`,
         sticky: true,
       });
-      this.dialogRef.close();
+      this.dialogResult = 1
+      this.dialogRef.close(this.dialogResult);
     });
   }
 }

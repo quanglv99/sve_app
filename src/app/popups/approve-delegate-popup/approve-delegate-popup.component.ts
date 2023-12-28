@@ -51,6 +51,7 @@ export class ApproveDelegatePopupComponent {
   currentStep!: number;
   status = TRAN_STATUS;
   isDisable: boolean = false;
+  dialogResult: number | null = null;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DelegateModel,
     private dialogRef: MatDialogRef<ApproveDelegatePopupComponent>,
@@ -102,7 +103,8 @@ export class ApproveDelegatePopupComponent {
     });
   }
   onClose() {
-    this.dialogRef.close();
+    this.dialogResult = 0
+    this.dialogRef.close(this.dialogResult);
   }
 
   onAccept(): void {
@@ -114,7 +116,8 @@ export class ApproveDelegatePopupComponent {
         summary: `Bạn đã phê duyệt bản ghi ID: ${this.data.id}`,
         duration: 5000,
       });
-      this.dialogRef.close();
+      this.dialogResult = 1
+      this.dialogRef.close(this.dialogResult);
     });
   }
 }

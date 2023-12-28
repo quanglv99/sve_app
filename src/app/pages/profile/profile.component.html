@@ -1,4 +1,11 @@
-
+<ngx-spinner type="ball-scale-multiple">
+    <div class="wrap-spinner">
+        <div class="spinner">
+            <mat-spinner></mat-spinner>
+        </div>
+        <p>{{messageLoading}}</p>
+    </div>
+</ngx-spinner>
 <div class="row">
     <div class="col-12">
         <h1 class="title">Hồ sơ của tôi</h1>
@@ -45,15 +52,21 @@
         <mat-card class="card-biometric">
             <mat-card-title>Upload giấy tờ</mat-card-title>
             <mat-divider></mat-divider>
-            <div class="bio-row">
-                <p><span>Trạng thái:</span> {{enroll_message}}</p>
+            <div>
+                <div class="status-row">
+                    <p><span>Trạng thái:</span> {{enroll_message}}</p>
+                </div>
+                <button mat-stroked-button color="primary" class="btn" (click)="getPasscode()"
+                    *ngIf="!showFormInput && (enroll_status == 2 || enroll_status == 5 || enroll_status == 6 || enroll_status == 7)">Xem
+                    passcode</button>
             </div>
+
             <mat-card-content>
                 <div class="form-input" *ngIf="showFormInput && (enroll_status == 1 ||  enroll_status == 4)">
                     <button mat-stroked-button class="right-btn" (click)="toggleForms()" *ngIf="isEdit">Thoát</button>
                     <button mat-stroked-button class="right-btn">Lưu & Cần hỗ trợ</button>
                     <button mat-raised-button color="primary" class="right-btn" [disabled]="biometricForm.invalid"
-                        (click)="enrollSudmit()" *ngIf="enroll_status == 1">Lưu</button>
+                        (click)="enrollSubmit()" *ngIf="enroll_status == 1">Lưu</button>
                     <form [formGroup]="biometricForm">
                         <div class="col-6">
                             <div class="bio-row">
@@ -74,8 +87,10 @@
                         </div>
                     </form>
                 </div>
-                <div class="form-detail" *ngIf="!showFormInput && (enroll_status == 2 || enroll_status == 5 || enroll_status == 6 || enroll_status == 7)">
-                    <button mat-raised-button color="primary" class="right-btn" (click)="toggleForms()" *ngIf="enroll_status == 2">Đăng ký lại</button>
+                <div class="form-detail"
+                    *ngIf="!showFormInput && (enroll_status == 2 || enroll_status == 5 || enroll_status == 6 || enroll_status == 7)">
+                    <button mat-raised-button color="primary" class="right-btn" (click)="toggleForms()"
+                        *ngIf="enroll_status == 2">Đăng ký lại</button>
                     <div class="col-6">
                         <div class="bio-row">
                             <p><span>Ảnh mặt trước CCCD</span>

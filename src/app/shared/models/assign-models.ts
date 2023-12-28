@@ -14,5 +14,6 @@ export interface AssignModel {
   createdDate: string;
   createdUser: string;
   approver: string;
+  file: string;
   status: { id: number; name: string };
 }

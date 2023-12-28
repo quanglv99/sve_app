@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
     "ng-angular-popup": "^0.5.2",
+    "ngx-spinner": "^16.0.2",
     "rxjs": "~7.8.0",
     "stream": "^0.0.2",
     "stream-browserify": "^3.0.0",

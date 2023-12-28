@@ -63,6 +63,7 @@ export class RegisterAssignComponent implements OnInit {
   filteredOptions!: any;
   myControl = new FormControl<string | BranchModel>('');
   branchSelected: any;
+  base64Image!: string;
   constructor(
     private formBuilder: FormBuilder,
     private appService: AppService,
@@ -117,6 +118,7 @@ export class RegisterAssignComponent implements OnInit {
       createdDate: [new Date()],
       createdUser: ['QuangLV'],
       note: [''],
+      file: ['']
     });
   }
   initData() {
@@ -134,7 +136,23 @@ export class RegisterAssignComponent implements OnInit {
     } else {
       this.registerWorkForm.get('status')?.setValue(this.status[1]);
     }
+    this.registerWorkForm.get('file')?.setValue(this.base64Image);
   }
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.convertToBase64(file);
+    }
+  }
+
+  convertToBase64(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.base64Image = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
 
   onSummit() {
     this.setStatus();

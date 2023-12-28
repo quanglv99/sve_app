@@ -32,11 +32,12 @@
         
     </mat-toolbar-row>
 </mat-toolbar>
-<div *ngIf="loadingService.isLoading | async" class="loader-container">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+<div class="progress-bar">
+    <div *ngIf="loadingService.isLoading | async" class="loader-container">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
 </div>
 <mat-sidenav-container>
-
     <mat-sidenav #sidenav class="side-nav" (click)="sidenav.close()" mode="side">
         <mat-nav-list appAccordion>
             <mat-list-item appAccordionLink *ngFor="let menuitem of menuItems.getMenuitem()"

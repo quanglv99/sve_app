@@ -9,9 +9,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { AppService } from "src/app/services/app.service";
-import { HTTP_INTERCEPTORS, HttpClient } from "@angular/common/http";
-import { map } from "rxjs";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
 // import { result } from 'lodash';
@@ -21,9 +18,9 @@ import { UserDetailModel } from "src/app/shared/models/user-detail.models";
 import { AuthService } from "src/app/services/auth.service";
 import { Router } from "@angular/router";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-import { LoadingService } from "src/app/services/loading.service";
-import { InterceptorService } from "src/app/services/interceptor.service";
-import { zip } from "lodash";
+import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { result } from "lodash";
 @Component({
   selector: "app-profile",
   standalone: true,
@@ -36,6 +33,8 @@ import { zip } from "lodash";
     MatDialogModule,
     NgToastModule,
     MatProgressBarModule,
+    NgxSpinnerModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.scss"],
@@ -65,13 +64,11 @@ export class ProfileComponent implements OnInit {
   readPhoto!: string;
   constructor(
     private formBuilder: FormBuilder,
-    private appService: AppService,
-    private http: HttpClient,
     private dialog: MatDialog,
     private toast: NgToastService,
     private authService: AuthService,
     private router: Router,
-    private loadingService: LoadingService
+    private spinner: NgxSpinnerService
   ) {}
   ngOnInit(): void {
     this.register = {} as UserDetailModel;
@@ -179,30 +176,98 @@ export class ProfileComponent implements OnInit {
       reader.readAsDataURL(file);
     });
   }
-  enrollSudmit() {
+
+  enroll_state!: number;
+
+  messageList: string[] = [
+    "Đang phân tích dữ liệu",
+    "Vui lòng chờ trong giây lát",
+    "Kiên trì nào! Gần xong rồi",
+  ];
+  messageLoading!: string;
+  messageIndex = 0;
+  async enrollSubmit() {
     const token = localStorage.getItem("currentToken");
     const foundation_id = "3695AC1F-BC9D-4D7F-8841-540262202C16";
     if (token) {
       this.authService
         .enroll(token, foundation_id, this.frontCard, this.backCard, this.photo)
-        .subscribe((result) => {
+        .subscribe(async (result) => {
           console.log("Response: ", result);
-          const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-            width: "300px",
-            data: {
-              message: `Your passcode is: ${this.passcode}`,
-            },
-          });
-          dialogRef.afterClosed().subscribe((result) => {
-            this.showFormInput = false;
-            this.ngOnInit();
-            this.toast.success({
-              detail: "SUCCESS",
-              summary: "Tải thông tin thành công",
-              duration: 5000,
+          if (result.status != 0) {
+            this.spinner.show();
+            // Define a recursive function
+            const queryJobStatus = async (jobId: string) => {
+              try {
+                const res = await this.authService.jobQuery(jobId).toPromise();
+                this.enroll_state = res.status;
+                this.messageLoading = this.messageList[this.messageIndex];
+                if (this.enroll_state === 0) {
+                  // Process when enroll_state is 0
+                  this.spinner.hide();
+                  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+                    width: "300px",
+                    data: { message: `${res.message}`, showYesNo: false },
+                  });
+
+                  dialogRef.afterClosed().subscribe((response) => {
+                    this.enrollCheck();
+                  });
+                } else if (this.enroll_state === 1) {
+                  this.showFormInput = false;
+                  this.spinner.hide();
+                  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+                    width: "300px",
+                    data: {
+                      message: ` Upload thành công. Passcode: '${res.passcode}'. Vui lòng đến dùng passcode này đến kho để bổ sung sinh trắc học'`,
+                      showYesNo: false,
+                    },
+                  });
+                  dialogRef.afterClosed().subscribe((response) => {
+                    this.enrollCheck();
+                  });
+                } else if (this.enroll_state === 2) {
+                  this.messageIndex =
+                    (this.messageIndex + 1) % this.messageList.length;
+                  // Call the function recursively after a delay
+                  setTimeout(() => queryJobStatus(result.job_id), 5000);
+                }
+              } catch (error) {
+                console.error("Error in jobQuery: ", error);
+              }
+            };
+            // Start the recursive function
+            queryJobStatus(result.job_id);
+          } else {
+            const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+              width: "300px",
+              data: {
+                message: `'${result.message}'`,
+                showYesNo: false,
+              },
             });
-          });
+            dialogRef.afterClosed().subscribe((response) => {
+              this.router.navigate(["/login"]);
+            });
+          }
         });
+    }
+  }
+
+  getPasscode() {
+    const token = localStorage.getItem("currentToken");
+    if (token) {
+      this.authService.getPasscode(token).subscribe((result) => 
+      {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+          width: "300px",
+          data: {
+            message: ` Passcode của bạn là: ${result.passcode}`,
+            showYesNo: false,
+          },
+        });
+        dialogRef.afterClosed().subscribe((response) => {});
+      });
     }
   }
 
@@ -224,17 +289,15 @@ export class ProfileComponent implements OnInit {
         this.authService
           .enrollImage(token, user_id, member_id, username, photo, zip)
           .subscribe((res) => {
-            if(res.status != 0)
-            {
+            if (res.status != 0) {
               this.image = res.sve_member.id_card_front_scan;
               this.readFrontId = this.image;
               const dialogRef = this.dialog.open(ImagePopupComponent, {
                 data: this.image,
               });
-  
+
               dialogRef.afterClosed().subscribe((result) => {});
-            }else
-            {
+            } else {
               const dialogRef = this.dialog.open(ConfirmDialogComponent, {
                 width: "300px",
                 data: { message: "Session Timeout", showYesNo: false },
@@ -266,17 +329,15 @@ export class ProfileComponent implements OnInit {
         this.authService
           .enrollImage(token, user_id, member_id, username, photo, zip)
           .subscribe((res) => {
-            if(res.status != 0)
-            {
+            if (res.status != 0) {
               this.image = res.sve_member.id_card_back_scan;
               this.readBackId = this.image;
               const dialogRef = this.dialog.open(ImagePopupComponent, {
                 data: this.image,
               });
-  
+
               dialogRef.afterClosed().subscribe((result) => {});
-            }else
-            {
+            } else {
               const dialogRef = this.dialog.open(ConfirmDialogComponent, {
                 width: "300px",
                 data: { message: "Session Timeout", showYesNo: false },
@@ -285,7 +346,6 @@ export class ProfileComponent implements OnInit {
                 this.router.navigate(["/login"]);
               });
             }
-            
           });
       }
     } else {
@@ -308,17 +368,15 @@ export class ProfileComponent implements OnInit {
         this.authService
           .enrollImage(token, user_id, member_id, username, photo, zip)
           .subscribe((res) => {
-            if(res.status != 0)
-            {
+            if (res.status != 0) {
               this.image = res.sve_member.photo;
               this.readPhoto = this.image;
               const dialogRef = this.dialog.open(ImagePopupComponent, {
                 data: this.image,
               });
-  
+
               dialogRef.afterClosed().subscribe((result) => {});
-            }else
-            {
+            } else {
               const dialogRef = this.dialog.open(ConfirmDialogComponent, {
                 width: "300px",
                 data: { message: "Session Timeout", showYesNo: false },
