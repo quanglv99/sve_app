@@ -77,6 +77,26 @@ export default [
             (c) => c.ApproveAssignComponent
           ),
       },
+      {
+        path: 'manage-role',
+        loadChildren: () => import('../../pages/manage-role/manage-role.route'),
+      },
+      {
+        path: 'vault-configuration',
+        loadChildren: () => import('../../pages/config/config.route'),
+      },
+      {
+        path: 'vault-member',
+        loadChildren: () => import('../../pages/member/member.route'),
+      },
+      {
+        path: 'jobcodes',
+        loadChildren: () => import('../../pages/jobcode/jobcode.route'),
+      },
+      {
+        path: 'forced-vault-member',
+        loadChildren: () => import('../../pages/member-force/member-force.route'),
+      },
       { path: '**', redirectTo: 'dashboard' },
     ],
   },

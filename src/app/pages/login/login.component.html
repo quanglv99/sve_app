@@ -1,5 +1,4 @@
 <mat-card>
-    <mat-progress-bar mode="indeterminate" *ngIf="loading" class="progress-bar"></mat-progress-bar>
     <mat-card-header>
         <mat-card-title>LOG IN</mat-card-title>
     </mat-card-header>
@@ -38,3 +37,4 @@
         </div>
     </mat-card-footer>
 </mat-card>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-triangle-path" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>

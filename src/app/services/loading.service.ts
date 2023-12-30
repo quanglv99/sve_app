@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -9,4 +9,12 @@ export class LoadingService {
     false
   );
   constructor() {}
+
+  setCurrentGlobalSpinStore(isSpinning: boolean): void {
+    this.isLoading.next(isSpinning);
+  }
+  getCurrentGlobalSpinStore(): Observable<boolean> {
+    return this.isLoading.asObservable();
+  }
+
 }

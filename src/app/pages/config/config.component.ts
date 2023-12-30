@@ -78,8 +78,6 @@ export class ConfigComponent  implements OnInit {
       this.http.get(url).subscribe((result: any) => {
         this.data = result;
         this.dataSource = new MatTableDataSource<VaultConfigModel>(this.data);
-
-    console.log('hih',this.data)
       });
     }
   }

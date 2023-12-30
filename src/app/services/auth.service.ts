@@ -12,6 +12,7 @@ import { AppService } from "./app.service";
       private http: HttpClient,
       private appConfig: AppService,
     ) {
+      this.isAuthenticated = !!localStorage.getItem('currentToken');
     }
   
     login(
@@ -95,7 +96,7 @@ import { AppService } from "./app.service";
         // Handle the response
         tap(
           (response: any) => {
-            
+            this.setAuthenticated(true);
           },
           (error) => {
             alert("Could not reach Servers")
@@ -206,7 +207,7 @@ import { AppService } from "./app.service";
       {
         const url = this.appConfig.getPasscodeUrl();
         const headers = new HttpHeaders({
-          'Content-Type': 'application/json',
+          'Content-Type': 'applicatlion/json',
         });
     
         const body = {
@@ -233,6 +234,10 @@ import { AppService } from "./app.service";
   
     setAuthenticated(value: boolean) {
       this.isAuthenticated = value;
+
+      if (!value) {
+        localStorage.removeItem('currentToken');
+      }
     }
     getToken(): any {
         return localStorage.getItem('currentToken')

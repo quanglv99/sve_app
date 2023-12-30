@@ -5,13 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import {
-  FormControl,
-  Validators,
-  FormGroup,
-  FormBuilder,
-  ReactiveFormsModule,
-} from "@angular/forms";
+import { FormGroup, FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
@@ -19,14 +13,14 @@ import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonModule } from "@angular/material/button";
-import { AuthState } from "src/app/shared/store/auth/auth.state";
 import { AuthService } from "src/app/services/auth.service";
-import { Router } from "@angular/router";
 import { NgToastModule, NgToastService } from "ng-angular-popup";
 import { MatCardModule } from "@angular/material/card";
 import { BranchSelectPopupComponent } from "src/app/popups/branch-select-popup/branch-select-popup.component";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { LoadingService } from "src/app/services/loading.service";
+import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
+import { HttpClientModule } from "@angular/common/http";
 @Component({
   selector: "app-login",
   standalone: true,
@@ -42,7 +36,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     NgToastModule,
     MatCardModule,
     MatDialogModule,
-    MatProgressBarModule
+    NgxSpinnerModule,
+    HttpClientModule,
   ],
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"],
@@ -52,12 +47,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   inputUsername!: ElementRef<HTMLInputElement>;
   hide: boolean = true;
   data: any;
-  loading = false
+  loading = this.loadingService.getCurrentGlobalSpinStore();
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private toast: NgToastService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private loadingService: LoadingService,
+    private spinner: NgxSpinnerService
   ) {}
   ngOnDestroy(): void {
     this.loginForm.reset();
@@ -73,26 +70,29 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.hide = !this.hide;
   }
   onSubmit() {
-    this.loading = true;
+    this.spinner.show();
     const username = this.loginForm.get("username")!.value;
     const password = this.loginForm.get("password")!.value;
-    this.authService.login(username, password).subscribe(
-      (response) => {
-        if (response.status === 1) {
-          const dialogRef = this.dialog.open(BranchSelectPopupComponent, {});
-        } else {
-          this.toast.error({
-            detail: "Login Failed",
-            summary: "Username or Password is not correct",
-            sticky: true,
-          });
+    this.authService
+      .login(username, password)
+      .subscribe(
+        (response) => {
+          if (response.status === 1) {
+            const dialogRef = this.dialog.open(BranchSelectPopupComponent, {});
+          } else {
+            this.toast.error({
+              detail: "Login Failed",
+              summary: "Username or Password is not correct",
+              duration: 5000,
+            });
+          }
+        },
+        (error) => {
+          console.error("Login error", error);
         }
-      },
-      (error) => {
-        console.error("Login error", error);
-      }
-    ).add(() => {
-      this.loading = false;
-    });;
+      )
+      .add(() => {
+        this.spinner.hide();
+      });
   }
 }

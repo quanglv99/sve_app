@@ -11,7 +11,6 @@ import {
 } from "@angular/forms";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
-// import { result } from 'lodash';
 import { ImagePopupComponent } from "src/app/shared/image-popup/image-popup.component";
 import { NgToastModule, NgToastService } from "ng-angular-popup";
 import { UserDetailModel } from "src/app/shared/models/user-detail.models";
@@ -20,7 +19,6 @@ import { Router } from "@angular/router";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { result } from "lodash";
 @Component({
   selector: "app-profile",
   standalone: true,
@@ -65,7 +63,6 @@ export class ProfileComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
-    private toast: NgToastService,
     private authService: AuthService,
     private router: Router,
     private spinner: NgxSpinnerService

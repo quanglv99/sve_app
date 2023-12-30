@@ -1,31 +1,26 @@
-import { Component, Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { RouterModule } from '@angular/router';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { AppService } from 'src/app/services/app.service';
-import { ImagePopupComponent } from 'src/app/shared/image-popup/image-popup.component';
-import { StepProgressComponent } from '../../shared/step-progress/step-progress.component';
-import { NgToastModule, NgToastService } from 'ng-angular-popup';
-import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
-import { DelegateModel } from 'src/app/shared/models/delegate-models';
+import { Component, Inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { RouterModule } from "@angular/router";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { HttpClient } from "@angular/common/http";
+import { AppService } from "src/app/services/app.service";
+import { StepProgressComponent } from "../../shared/step-progress/step-progress.component";
+import { NgToastModule, NgToastService } from "ng-angular-popup";
+import { TRAN_STATUS } from "src/app/shared/const/tran-status";
+import { DelegateModel } from "src/app/shared/models/delegate-models";
 
 @Component({
-  selector: 'app-approve-delegate-popup',
+  selector: "app-approve-delegate-popup",
   standalone: true,
   imports: [
     CommonModule,
@@ -43,8 +38,8 @@ import { DelegateModel } from 'src/app/shared/models/delegate-models';
     StepProgressComponent,
     NgToastModule,
   ],
-  templateUrl: './approve-delegate-popup.component.html',
-  styleUrls: ['./approve-delegate-popup.component.scss'],
+  templateUrl: "./approve-delegate-popup.component.html",
+  styleUrls: ["./approve-delegate-popup.component.scss"],
 })
 export class ApproveDelegatePopupComponent {
   assignForm!: FormGroup;
@@ -56,7 +51,6 @@ export class ApproveDelegatePopupComponent {
     @Inject(MAT_DIALOG_DATA) public data: DelegateModel,
     private dialogRef: MatDialogRef<ApproveDelegatePopupComponent>,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private http: HttpClient,
     private appService: AppService,
     private toast: NgToastService
@@ -68,7 +62,9 @@ export class ApproveDelegatePopupComponent {
 
   initializeForm() {
     this.assignForm = this.formBuilder.group({
-      branchname: [{ value: this.data.branch.branchname, disabled: this.isDisable }],
+      branchname: [
+        { value: this.data.branch.branchname, disabled: this.isDisable },
+      ],
       member: [{ value: this.data.member.name, disabled: this.isDisable }],
       owner: [
         {
@@ -99,11 +95,11 @@ export class ApproveDelegatePopupComponent {
       createdDate: [this.data.createdDate],
       createdUser: [this.data.createdUser],
       file: [this.data.file],
-      status: [''],
+      status: [""],
     });
   }
   onClose() {
-    this.dialogResult = 0
+    this.dialogResult = 0;
     this.dialogRef.close(this.dialogResult);
   }
 
@@ -112,11 +108,11 @@ export class ApproveDelegatePopupComponent {
     const url = `${this.appService.getDelegateUrl()}/${this.data.id}`;
     this.http.put(url, this.data).subscribe((result) => {
       this.toast.info({
-        detail: 'INFO',
+        detail: "INFO",
         summary: `Bạn đã phê duyệt bản ghi ID: ${this.data.id}`,
         duration: 5000,
       });
-      this.dialogResult = 1
+      this.dialogResult = 1;
       this.dialogRef.close(this.dialogResult);
     });
   }

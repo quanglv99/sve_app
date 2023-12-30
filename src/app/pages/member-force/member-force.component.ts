@@ -79,7 +79,6 @@ export class MemberForceComponent implements OnInit {
       this.http.get(url).subscribe((result: any) => {
         this.data = result;
         this.dataSource = new MatTableDataSource<MemberModel>(this.data);
-        console.log('hihi',this.data);
       });
     }
   }
