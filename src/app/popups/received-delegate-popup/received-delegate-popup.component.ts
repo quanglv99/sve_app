@@ -1,29 +1,24 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { RouterModule } from '@angular/router';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { StepProgressComponent } from '../../shared/step-progress/step-progress.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ImagePopupComponent } from 'src/app/shared/image-popup/image-popup.component';
-import { NgToastModule } from 'ng-angular-popup';
-import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
-import { DelegateModel } from 'src/app/shared/models/delegate-models';
+import { Component, Inject, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { RouterModule } from "@angular/router";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { StepProgressComponent } from "../../shared/step-progress/step-progress.component";
+import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { NgToastModule } from "ng-angular-popup";
+import { TRAN_STATUS } from "src/app/shared/const/tran-status";
+import { DelegateModel } from "src/app/shared/models/delegate-models";
 
 @Component({
-  selector: 'app-received-delegate-popup',
+  selector: "app-received-delegate-popup",
   standalone: true,
   imports: [
     CommonModule,
@@ -41,8 +36,8 @@ import { DelegateModel } from 'src/app/shared/models/delegate-models';
     ReactiveFormsModule,
     NgToastModule,
   ],
-  templateUrl: './received-delegate-popup.component.html',
-  styleUrls: ['./received-delegate-popup.component.scss'],
+  templateUrl: "./received-delegate-popup.component.html",
+  styleUrls: ["./received-delegate-popup.component.scss"],
 })
 export class ReceivedDelegatePopupComponent implements OnInit {
   delegateForm!: FormGroup;
@@ -53,7 +48,7 @@ export class ReceivedDelegatePopupComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DelegateModel,
     private dialogRef: MatDialogRef<ReceivedDelegatePopupComponent>,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) {}
   ngOnInit(): void {
     this.currentStep = this.data.status.id;
@@ -62,7 +57,9 @@ export class ReceivedDelegatePopupComponent implements OnInit {
 
   initializeForm() {
     this.delegateForm = this.formBuilder.group({
-      branchname: [{ value: this.data.branch.branchname, disabled: this.isDisable }],
+      branchname: [
+        { value: this.data.branch.branchname, disabled: this.isDisable },
+      ],
       member: [{ value: this.data.member.name, disabled: this.isDisable }],
       owner: [
         {
@@ -93,11 +90,11 @@ export class ReceivedDelegatePopupComponent implements OnInit {
       createdDate: [this.data.createdDate],
       createdUser: [this.data.createdUser],
       file: [this.data.file],
-      status: [''],
+      status: [""],
     });
   }
   onClose() {
-    this.dialogResult = 0
+    this.dialogResult = 0;
     this.dialogRef.close(this.dialogResult);
   }
 }

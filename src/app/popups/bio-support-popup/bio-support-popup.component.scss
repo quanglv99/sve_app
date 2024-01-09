@@ -1,4 +1,10 @@
-@import "../../shared/mixins";
+@import "src/app/styles/mixins";
+
+
+.card-popup
+{
+  padding: 0 24px;
+}
 
 .inline-item p span {
 	width: 150px;
@@ -47,7 +53,13 @@
 	@include customCol6()
   }
 
-  .w-300
+  .w-500
   {
-    min-width: 300px;
+    min-width: 500px;
+  }
+
+  .btn
+  {
+    width: 108px;
+    margin-left: 16px;
   }

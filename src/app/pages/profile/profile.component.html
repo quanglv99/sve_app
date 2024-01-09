@@ -56,14 +56,15 @@
                 <button mat-stroked-button color="primary" class="btn" (click)="getPasscode()"
                     *ngIf="!showFormInput && (enroll_status == 2 || enroll_status == 5 || enroll_status == 6 || enroll_status == 7)">Xem
                     passcode</button>
+                <button mat-stroked-button color="primary" class="btn" (click)="callSupporter()"
+                    *ngIf="enroll_status == 4">Cần hỗ trợ</button>
             </div>
 
             <mat-card-content>
-                <div class="form-input" *ngIf="showFormInput && (enroll_status == 1 ||  enroll_status == 4)">
+                <div class="form-input" *ngIf="showFormInput && (enroll_status == 1 || enroll_status == 3 )">
                     <button mat-stroked-button class="right-btn" (click)="toggleForms()" *ngIf="isEdit">Thoát</button>
-                    <button mat-stroked-button class="right-btn">Lưu & Cần hỗ trợ</button>
                     <button mat-raised-button color="primary" class="right-btn" [disabled]="biometricForm.invalid"
-                        (click)="enrollSubmit()" *ngIf="enroll_status == 1">Lưu</button>
+                        (click)="enrollSubmit()">Lưu</button>
                     <form [formGroup]="biometricForm">
                         <div class="col-6">
                             <div class="bio-row">
@@ -85,7 +86,7 @@
                     </form>
                 </div>
                 <div class="form-detail"
-                    *ngIf="!showFormInput && (enroll_status == 2 || enroll_status == 5 || enroll_status == 6 || enroll_status == 7)">
+                    *ngIf="!showFormInput && (enroll_status == 2 || enroll_status == 6 || enroll_status == 7)">
                     <button mat-raised-button color="primary" class="right-btn" (click)="toggleForms()"
                         *ngIf="enroll_status == 2">Đăng ký lại</button>
                     <div class="col-6">
@@ -113,11 +114,11 @@
             <mat-card-content>
                 <div class="col-6">
                     <div class="bio-row">
-                        <p><span>Vân tay</span> Chưa đăng ký</p>
+                        <p><span>Vân tay</span> {{enroll_status == 2 ? 'Đã có mẫu sinh trắc học' :'Chưa có mẫu sinh trắc học'}}</p>
                     </div>
                     <div class="bio-row">
                         <p><span>Khuôn mặt</span>
-                            Chưa đăng ký
+                            {{enroll_status == 2 ? 'Đã có mẫu sinh trắc học' :'Chưa có mẫu sinh trắc học'}}
                         </p>
                     </div>
                 </div>

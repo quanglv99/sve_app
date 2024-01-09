@@ -20,7 +20,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { Observable, startWith, map } from "rxjs";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { SearchInputComponent } from "../../shared/search-input/search-input.component";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { AppService } from "src/app/services/app.service";
 import { Employee } from "src/app/shared/models/employee.models";
 
@@ -50,7 +50,8 @@ import { Employee } from "src/app/shared/models/employee.models";
         ReactiveFormsModule,
         MatCheckboxModule,
         MatTooltipModule,
-        SearchInputComponent
+        SearchInputComponent,
+        HttpClientModule,
     ]
 })
 export class AddRoleGroupComponent implements OnInit {

@@ -1,30 +1,29 @@
-import { Employee } from './../../shared/models/employee.models';
-import {  Component, Inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { Router, RouterModule } from '@angular/router';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import {
-  MatNativeDateModule,
-} from '@angular/material/core';
-import { StepProgressComponent } from '../../shared/step-progress/step-progress.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AppService } from 'src/app/services/app.service';
-import { HttpClient } from '@angular/common/http';
-import { NgToastModule, NgToastService } from 'ng-angular-popup';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MemberForceModel } from 'src/app/shared/models/member-force';
+import { Employee } from "./../../shared/models/employee.models";
+import { Component, Inject, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { Router, RouterModule } from "@angular/router";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { StepProgressComponent } from "../../shared/step-progress/step-progress.component";
+import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { AppService } from "src/app/services/app.service";
+import { HttpClient } from "@angular/common/http";
+import { NgToastModule, NgToastService } from "ng-angular-popup";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MemberForceModel } from "src/app/shared/models/member-force";
 @Component({
-  selector: 'app-edit-member-force-detail-popup',
+  selector: "app-edit-member-force-detail-popup",
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     CommonModule,
     MatCardModule,
     MatButtonModule,
@@ -38,14 +37,14 @@ import { MemberForceModel } from 'src/app/shared/models/member-force';
     MatNativeDateModule,
     StepProgressComponent,
     ReactiveFormsModule,
-    MatCheckboxModule
-  
+    MatCheckboxModule,
+    NgToastModule,
   ],
-  templateUrl: './edit-member-force-detail-popup.component.html',
-  styleUrls: ['./edit-member-force-detail-popup.component.scss']
+  templateUrl: "./edit-member-force-detail-popup.component.html",
+  styleUrls: ["./edit-member-force-detail-popup.component.scss"],
 })
-export class EditMemberForceDetailPopupComponent {
-  employee !: Employee[];
+export class EditMemberForceDetailPopupComponent implements OnInit {
+  employee!: Employee[];
   editMemberForcePopup!: FormGroup;
   isFormDirty: boolean = false;
   isDisable: boolean = false;
@@ -60,9 +59,8 @@ export class EditMemberForceDetailPopupComponent {
   ) {}
 
   ngOnInit(): void {
-    this.initData()
+    this.initData();
     this.initializeForm();
-
   }
 
   initData() {
@@ -75,18 +73,19 @@ export class EditMemberForceDetailPopupComponent {
     this.editMemberForcePopup = this.formBuilder.group({
       nameMemberForce: [this.data.nameMemberForce],
       employee: [
-        Array.isArray(this.data.employee) ? this.data.employee.map((employee: { id: number }) => employee.id) : [],
+        Array.isArray(this.data.employee)
+          ? this.data.employee.map((employee: { id: number }) => employee.id)
+          : [],
         { value: this.data.employee },
       ],
       status: [this.data.status],
       noteMemberForce: [this.data.noteMemberForce],
     });
-  
+
     this.editMemberForcePopup.valueChanges.subscribe(() => {
       this.isFormDirty = this.editMemberForcePopup.dirty;
     });
   }
-  
 
   updateMembers(): void {
     if (this.editMemberForcePopup.valid) {
@@ -103,21 +102,20 @@ export class EditMemberForceDetailPopupComponent {
       this.http.put(url, updateMemberForce).subscribe(
         (response) => {
           this.toast.success({
-            detail:'SUCCESS',
-            summary:'Update successful',
+            detail: "SUCCESS",
+            summary: "Update successful",
             duration: 5000,
           });
           this.dialogRef.close(); // Đóng dialog sau khi cập nhật thành công
-          this.router.navigate(['/default/setting/member-force']);
+          this.router.navigate(["/default/setting/member-force"]);
         },
         (error) => {
           this.toast.error({
-            detail: 'ERROR',
-            summary: 'Please try again',
+            detail: "ERROR",
+            summary: "Please try again",
             sticky: true,
-          })
+          });
         }
-     
       );
     }
   }

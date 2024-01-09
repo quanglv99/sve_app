@@ -31,8 +31,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BranchModel } from 'src/app/shared/models/branch.models';
 import { map, startWith } from 'rxjs';
 import { MemberModel } from 'src/app/shared/models/member.models';
-import { MyAssignPopupComponent } from 'src/app/popups/my-assign-popup/my-assign-popup.component';
 import { Employee } from 'src/app/shared/models/employee.models';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatListModule } from '@angular/material/list';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @Component({
   selector: 'app-received-assign',
   standalone: true,
@@ -56,6 +58,9 @@ import { Employee } from 'src/app/shared/models/employee.models';
     ReactiveFormsModule,
     MatAutocompleteModule,
     AsyncPipe,
+    MatTooltipModule,
+    MatListModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './received-assign.component.html',
   styleUrls: ['./received-assign.component.scss'],
@@ -99,6 +104,7 @@ export class ReceivedAssignComponent implements OnInit {
   receiverControl = new FormControl<string | Employee>('');
   ownerOptions: any;
   receiverOptions: any;
+  showFilter = false;
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
@@ -116,6 +122,11 @@ export class ReceivedAssignComponent implements OnInit {
         this.refreshTableData();
       }
     });
+  }
+
+  showFilterFn()
+  {
+    this.showFilter = !this.showFilter
   }
 
   ngOnInit(): void {

@@ -33,6 +33,9 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { BranchModel } from "src/app/shared/models/branch.models";
 import { Employee } from "src/app/shared/models/employee.models";
 import { MemberModel } from "src/app/shared/models/member.models";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatListModule } from "@angular/material/list";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 @Component({
   selector: "app-approve-delegate",
   standalone: true,
@@ -56,7 +59,10 @@ import { MemberModel } from "src/app/shared/models/member.models";
     ReactiveFormsModule,
     MatAutocompleteModule,
     AsyncPipe,
-    HttpClientModule
+    HttpClientModule,
+    MatTooltipModule,
+    MatListModule,
+    MatSlideToggleModule,
   ],
   templateUrl: "./approve-delegate.component.html",
   styleUrls: ["./approve-delegate.component.scss"],
@@ -100,6 +106,7 @@ export class ApproveDelegateComponent implements OnInit {
   receiverControl = new FormControl<string | Employee>("");
   ownerOptions: any;
   receiverOptions: any;
+  showFilter = false;
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
@@ -116,6 +123,11 @@ export class ApproveDelegateComponent implements OnInit {
         this.refreshTableData();
       }
     });
+  }
+
+  showFilterFn()
+  {
+    this.showFilter = !this.showFilter
   }
 
   ngOnInit(): void {

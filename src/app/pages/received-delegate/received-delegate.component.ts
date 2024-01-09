@@ -1,37 +1,46 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { AsyncPipe, CommonModule } from "@angular/common";
 
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { AppService } from 'src/app/services/app.service';
-import { HttpClient } from '@angular/common/http';
-import { map, startWith } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSelectModule } from '@angular/material/select';
-import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
-import { MEMBER_LIST } from 'src/app/shared/const/member-value';
-import { DelegateModel } from 'src/app/shared/models/delegate-models';
-import { ReceivedDelegatePopupComponent } from 'src/app/popups/received-delegate-popup/received-delegate-popup.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { BranchModel } from 'src/app/shared/models/branch.models';
-import { Employee } from 'src/app/shared/models/employee.models';
-import { MemberModel } from 'src/app/shared/models/member.models';
+import { MatCardModule } from "@angular/material/card";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatButtonModule } from "@angular/material/button";
+import { RouterModule } from "@angular/router";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { AppService } from "src/app/services/app.service";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { map, startWith } from "rxjs";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from "@angular/forms";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatSelectModule } from "@angular/material/select";
+import { TRAN_STATUS } from "src/app/shared/const/tran-status";
+import { MEMBER_LIST } from "src/app/shared/const/member-value";
+import { DelegateModel } from "src/app/shared/models/delegate-models";
+import { ReceivedDelegatePopupComponent } from "src/app/popups/received-delegate-popup/received-delegate-popup.component";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { BranchModel } from "src/app/shared/models/branch.models";
+import { Employee } from "src/app/shared/models/employee.models";
+import { MemberModel } from "src/app/shared/models/member.models";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatListModule } from "@angular/material/list";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 @Component({
-  selector: 'app-received-delegate',
+  selector: "app-received-delegate",
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     MatFormFieldModule,
     MatCardModule,
     MatDividerModule,
@@ -49,9 +58,14 @@ import { MemberModel } from 'src/app/shared/models/member.models';
     MatSelectModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    AsyncPipe,],
-  templateUrl: './received-delegate.component.html',
-  styleUrls: ['./received-delegate.component.scss']
+    HttpClientModule,
+    AsyncPipe,
+    MatTooltipModule,
+    MatListModule,
+    MatSlideToggleModule,
+  ],
+  templateUrl: "./received-delegate.component.html",
+  styleUrls: ["./received-delegate.component.scss"],
 })
 export class ReceivedDelegateComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -61,37 +75,38 @@ export class ReceivedDelegateComponent implements OnInit {
   pageNumber = 1;
   totalItems = 0;
   displayedColumns: string[] = [
-    'id',
-    'branchname',
-    'createdDate',
-    'owner',
-    'employee',
-    'member',
-    'status',
-    'action',
+    "id",
+    "branchname",
+    "createdDate",
+    "owner",
+    "employee",
+    "member",
+    "status",
+    "action",
   ];
   dataSource: any;
-  isOpen =true
+  isOpen = true;
   data: any;
-  hide= false;
-  formSearch! : FormGroup
-  statusFilter = TRAN_STATUS
-  memberFilter = MEMBER_LIST
+  hide = false;
+  formSearch!: FormGroup;
+  statusFilter = TRAN_STATUS;
+  memberFilter = MEMBER_LIST;
   branches: any;
   filteredOptions!: any;
-  myControl = new FormControl<string | BranchModel>('');
+  myControl = new FormControl<string | BranchModel>("");
   branchSelected: any;
   memberSelected: any;
-  memberControl = new FormControl<string | MemberModel>('');
+  memberControl = new FormControl<string | MemberModel>("");
   memberOptions: any;
   ownerFilter: any;
   receiverFilter: any;
   ownerSelected: any;
   receiverSelected: any;
-  ownerControl = new FormControl<string | Employee>('');
-  receiverControl = new FormControl<string | Employee>('');
+  ownerControl = new FormControl<string | Employee>("");
+  receiverControl = new FormControl<string | Employee>("");
   ownerOptions: any;
   receiverOptions: any;
+  showFilter = false;
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
@@ -104,11 +119,14 @@ export class ReceivedDelegateComponent implements OnInit {
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(result===1)
-      {
+      if (result === 1) {
         this.refreshTableData();
       }
     });
+  }
+
+  showFilterFn() {
+    this.showFilter = !this.showFilter;
   }
 
   ngOnInit(): void {
@@ -123,18 +141,18 @@ export class ReceivedDelegateComponent implements OnInit {
       this.ownerFilter = result;
       this.receiverFilter = result;
       this.ownerOptions = this.ownerControl.valueChanges.pipe(
-        startWith(''),
+        startWith(""),
         map((value) => {
-          const name = typeof value === 'string' ? value : value?.fullname;
+          const name = typeof value === "string" ? value : value?.fullname;
           return name
             ? this._filterOwner(name as string)
             : this.ownerFilter.slice();
         })
       );
       this.receiverOptions = this.receiverControl.valueChanges.pipe(
-        startWith(''),
+        startWith(""),
         map((value) => {
-          const name = typeof value === 'string' ? value : value?.fullname;
+          const name = typeof value === "string" ? value : value?.fullname;
           return name
             ? this._filterReceiver(name as string)
             : this.receiverFilter.slice();
@@ -145,18 +163,18 @@ export class ReceivedDelegateComponent implements OnInit {
     this.http.get(this.appConfig.getBranches()).subscribe((result: any) => {
       this.branches = result;
       this.filteredOptions = this.myControl.valueChanges.pipe(
-        startWith(''),
+        startWith(""),
         map((value) => {
-          const name = typeof value === 'string' ? value : value?.branchname;
+          const name = typeof value === "string" ? value : value?.branchname;
           return name ? this._filter(name as string) : this.branches.slice();
         })
       );
     });
 
     this.memberOptions = this.memberControl.valueChanges.pipe(
-      startWith(''),
+      startWith(""),
       map((value) => {
-        const name = typeof value === 'string' ? value : value?.name;
+        const name = typeof value === "string" ? value : value?.name;
         return name
           ? this._filterMember(name as string)
           : this.memberFilter.slice();
@@ -166,36 +184,36 @@ export class ReceivedDelegateComponent implements OnInit {
 
   clearSelection() {
     this.ownerOptions = this.ownerControl.valueChanges.pipe(
-      startWith(''),
+      startWith(""),
       map((value) => {
-        const name = typeof value === 'string' ? value : value?.fullname;
+        const name = typeof value === "string" ? value : value?.fullname;
         return name
           ? this._filterOwner(name as string)
           : this.ownerFilter.slice();
       })
     );
     this.receiverOptions = this.receiverControl.valueChanges.pipe(
-      startWith(''),
+      startWith(""),
       map((value) => {
-        const name = typeof value === 'string' ? value : value?.fullname;
+        const name = typeof value === "string" ? value : value?.fullname;
         return name
           ? this._filterReceiver(name as string)
           : this.receiverFilter.slice();
       })
     );
     this.memberOptions = this.memberControl.valueChanges.pipe(
-      startWith(''),
+      startWith(""),
       map((value) => {
-        const name = typeof value === 'string' ? value : value?.name;
+        const name = typeof value === "string" ? value : value?.name;
         return name
           ? this._filterMember(name as string)
           : this.memberFilter.slice();
       })
     );
     this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
+      startWith(""),
       map((value) => {
-        const name = typeof value === 'string' ? value : value?.branchname;
+        const name = typeof value === "string" ? value : value?.branchname;
         return name ? this._filter(name as string) : this.branches.slice();
       })
     );
@@ -206,7 +224,7 @@ export class ReceivedDelegateComponent implements OnInit {
     this.branchSelected = event;
   }
   displayFn(branch: BranchModel): string {
-    return branch ? branch.branchname : '';
+    return branch ? branch.branchname : "";
   }
 
   private _filter(branchname: string): BranchModel[] {
@@ -223,7 +241,7 @@ export class ReceivedDelegateComponent implements OnInit {
   }
 
   displayFnOwner(owner: Employee): string {
-    return owner ? `${owner.code}-${owner.fullname}` : '';
+    return owner ? `${owner.code}-${owner.fullname}` : "";
   }
 
   private _filterOwner(fullname: string): Employee[] {
@@ -240,7 +258,7 @@ export class ReceivedDelegateComponent implements OnInit {
   }
 
   displayFnReceiver(receiver: Employee): string {
-    return receiver ? `${receiver.code}-${receiver.fullname}` : '';
+    return receiver ? `${receiver.code}-${receiver.fullname}` : "";
   }
 
   private _filterReceiver(fullname: string): Employee[] {
@@ -257,7 +275,7 @@ export class ReceivedDelegateComponent implements OnInit {
   }
 
   displayFnMember(member: MemberModel): string {
-    return member ? member.name : '';
+    return member ? member.name : "";
   }
 
   private _filterMember(membername: string): MemberModel[] {
@@ -294,19 +312,19 @@ export class ReceivedDelegateComponent implements OnInit {
     this.memberSelected = null;
     this.ownerSelected = null;
     this.receiverSelected = null;
-    this.clearSelection()
+    this.clearSelection();
     this.refreshTableData();
   }
 
   initSearch() {
     this.formSearch = this.formBuilder.group({
-      branchInput: [''],
-      startDateInput: [''],
-      endDateInput: [''],
-      ownerInput: [''],
-      receiverInput: [''],
-      memberInput: [''],
-      statusInput: [''],
+      branchInput: [""],
+      startDateInput: [""],
+      endDateInput: [""],
+      ownerInput: [""],
+      receiverInput: [""],
+      memberInput: [""],
+      statusInput: [""],
     });
   }
 
@@ -334,7 +352,7 @@ export class ReceivedDelegateComponent implements OnInit {
               item.employee.code === filterParams.receiverInput.code) &&
             (!filterParams.memberInput ||
               item.member.id === filterParams.memberInput.id) &&
-            (filterParams.statusInput === '' ||
+            (filterParams.statusInput === "" ||
               item.status.id === filterParams.statusInput)
           );
         })
@@ -347,18 +365,14 @@ export class ReceivedDelegateComponent implements OnInit {
     });
   }
 
-
   refreshTableData() {
     const url = this.appConfig.getDelegateUrl();
-    this.http
-      .get(url)
-      .subscribe((result: any) => {
-        this.data = result.sort(
-          (a: DelegateModel, b: DelegateModel) =>
-            new Date(b.createdDate).getTime() -
-            new Date(a.createdDate).getTime()
-        );
-        this.dataSource.data = this.data;
-      });
+    this.http.get(url).subscribe((result: any) => {
+      this.data = result.sort(
+        (a: DelegateModel, b: DelegateModel) =>
+          new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
+      );
+      this.dataSource.data = this.data;
+    });
   }
 }

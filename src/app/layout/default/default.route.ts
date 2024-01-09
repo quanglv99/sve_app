@@ -9,10 +9,8 @@ export default [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
-        loadComponent: () =>
-          import('../../pages/dashboard/dashboard.component').then(
-            (c) => c.DashboardComponent
-          ),
+        loadChildren: () =>
+          import('../../pages/dashboard/dashboard.route')
       },
       {
         path: 'my-assign',

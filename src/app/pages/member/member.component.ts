@@ -73,6 +73,8 @@ export class MembercontrolComponent implements OnInit {
       this.http.get(url).subscribe((result: any) => {
         this.data = result;
         this.dataSource = new MatTableDataSource<MemberModel>(this.data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       });
     }
   }
@@ -115,6 +117,7 @@ export class MembercontrolComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: "300px",
       data: {
+        title: 'Confirmation',
         message: "Are you sure to detele this record?",
         showYesNo: true,
       },

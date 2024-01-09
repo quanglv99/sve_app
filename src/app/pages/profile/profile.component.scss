@@ -1,4 +1,4 @@
-@import '../../shared/mixins';
+@import 'src/app/styles/mixins';
 .row {
   @include customRow()
 }
@@ -10,6 +10,7 @@
 }
 ::ng-deep {
   .card-profile {
+    margin-top: 16px 0 0 0;
     @include customBoxShadow();
     mat-card-title {
       @include customMatTitle();
@@ -19,6 +20,7 @@
     }
   }
   .card-biometric {
+    margin: 16px 0 0 0;
     @include customBoxShadow();
     mat-card-title {
       @include customMatTitle()
@@ -45,6 +47,7 @@
     }
   }
   .card-other {
+    margin: 16px 0 0 0;
     @include customBoxShadow();
     mat-card-title {
       @include customMatTitle()
@@ -73,7 +76,7 @@
 
 .status-row
 { margin-left: 30px;
-  width: 50%;
+  width: 100%;
   float: left;
   margin-bottom: 10px;
   padding: 0 15px;

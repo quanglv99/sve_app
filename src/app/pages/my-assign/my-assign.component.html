@@ -1,93 +1,104 @@
-<h2 class="title">Danh sách phân công của tôi</h2>
 
-<mat-card class="card-table p-10">
-  <mat-accordion>
-    <mat-expansion-panel [expanded]="isOpen">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-        </mat-panel-title>
-        <div class="header-container">
-          <button mat-raised-button color="primary" class="right-btn" routerLink="register-assign">Thêm
-            mới</button>
-        </div>
-      </mat-expansion-panel-header>
-      <form class="form-search" [formGroup]="formSearch">
-        <div class="search-container">
-          <p>
-            <mat-form-field appearance="outline">
-              <mat-label>Chi nhánh</mat-label>
-              <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="onSelected(option)">
-                  {{option.branchname}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field appearance="outline">
-              <mat-label>Ngày tạo</mat-label>
-              <mat-date-range-input [rangePicker]="picker">
-                <input matStartDate placeholder="Ngày tạo từ" formControlName="startDateInput">
-                <input matEndDate placeholder="Ngày tạo đến" formControlName="endDateInput">
-              </mat-date-range-input>
-              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-date-range-picker #picker></mat-date-range-picker>
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field appearance="outline">
-              <mat-label>Người phân công</mat-label>
-              <input type="text" matInput [formControl]="ownerControl" [matAutocomplete]="autoOwner">
-              <mat-autocomplete #autoOwner="matAutocomplete" [displayWith]="displayFnOwner">
-                <mat-option *ngFor="let option of ownerOptions | async" [value]="option" (click)="onOwnerSelected(option)">
-                  {{option.code}}-{{option.fullname}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field appearance="outline">
-              <mat-label>Người nhận</mat-label>
-              <input type="text" matInput [formControl]="receiverControl" [matAutocomplete]="autoReceiver">
-              <mat-autocomplete #autoReceiver="matAutocomplete" [displayWith]="displayFnReceiver">
-                <mat-option *ngFor="let option of receiverOptions | async" [value]="option" (click)="onReceiverSelected(option)">
-                  {{option.code}}-{{option.fullname}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field appearance="outline">
-              <mat-label>Thành phần</mat-label>
-              <input #input type="text" matInput [formControl]="memberControl" [matAutocomplete]="autoMember">
-              <mat-autocomplete #autoMember="matAutocomplete" [displayWith]="displayFnMember">
-                <mat-option *ngFor="let member of memberOptions | async" [value]="member" (click)="onMemberSelected(member)">
-                  {{member.name}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </p>
-          <p>
-            <mat-form-field appearance="outline">
-              <mat-label>Trạng thái</mat-label>
-              <mat-select formControlName="statusInput">
-                <mat-option value="">None</mat-option>
-                <mat-option *ngFor="let status of statusFilter" [value]="status.id">{{status.name}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </p>
-        </div>
-        <div class="search-action">
-          <button mat-raised-button color="primary" class="btn" (click)="onSearch()">Tìm kiếm</button>
-          <button mat-raised-button color="warn" class="btn" (click)="refreshSearch()">Làm mới</button>
-          <button mat-stroked-button color="primary" class="btn" (click)="ExportToExcel()">Xuất danh sách</button>
-        </div>
-      </form>
-    </mat-expansion-panel>
-  </mat-accordion>
+<mat-card class="card-header">
+  <mat-card-content class="card-content">
+      <mat-list class="breadcrumb-list">
+          <mat-list-item class="breadcrumb-list-item">
+              <span class="list-item-content">
+                  <span>Home</span>
+                  <mat-icon>keyboard_arrow_right</mat-icon>
+              </span>
+          </mat-list-item>
+          <mat-list-item class="breadcrumb-list-item">
+              <span class="list-item-content">
+                  <span>Danh sách phân công của tôi</span>
+              </span>
+          </mat-list-item>
+      </mat-list>
+  </mat-card-content>
 </mat-card>
+
+<div class="form-filter">
+  <button mat-flat-button color="accent" class="accent-btn" routerLink="register-assign">Thêm mới</button>
+  <mat-slide-toggle (click)="showFilterFn()" class="toggle" color="primary">Bộ lọc</mat-slide-toggle>
+  <mat-card class="card-filter mt-15" *ngIf="showFilter">
+      <mat-card-content>
+          <form class="form-search" [formGroup]="formSearch">
+            <div class="search-container">
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Chi nhánh</mat-label>
+                  <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="onSelected(option)">
+                      {{option.branchname}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Ngày tạo</mat-label>
+                  <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Ngày tạo từ" formControlName="startDateInput">
+                    <input matEndDate placeholder="Ngày tạo đến" formControlName="endDateInput">
+                  </mat-date-range-input>
+                  <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Người phân công</mat-label>
+                  <input type="text" matInput [formControl]="ownerControl" [matAutocomplete]="autoOwner">
+                  <mat-autocomplete #autoOwner="matAutocomplete" [displayWith]="displayFnOwner">
+                    <mat-option *ngFor="let option of ownerOptions | async" [value]="option" (click)="onOwnerSelected(option)">
+                      {{option.code}}-{{option.fullname}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Người nhận</mat-label>
+                  <input type="text" matInput [formControl]="receiverControl" [matAutocomplete]="autoReceiver">
+                  <mat-autocomplete #autoReceiver="matAutocomplete" [displayWith]="displayFnReceiver">
+                    <mat-option *ngFor="let option of receiverOptions | async" [value]="option" (click)="onReceiverSelected(option)">
+                      {{option.code}}-{{option.fullname}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Thành phần</mat-label>
+                  <input #input type="text" matInput [formControl]="memberControl" [matAutocomplete]="autoMember">
+                  <mat-autocomplete #autoMember="matAutocomplete" [displayWith]="displayFnMember">
+                    <mat-option *ngFor="let member of memberOptions | async" [value]="member" (click)="onMemberSelected(member)">
+                      {{member.name}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </p>
+              <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Trạng thái</mat-label>
+                  <mat-select formControlName="statusInput">
+                    <mat-option value="">None</mat-option>
+                    <mat-option *ngFor="let status of statusFilter" [value]="status.id">{{status.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </p>
+            </div>
+          </form>
+          <div class="search-action">
+              <button mat-stroked-button color="primary"  class="btn" (click)="onSearch()">Tìm kiếm</button>
+            <button mat-stroked-button color="warn" class="btn" (click)="refreshSearch()">Làm mới</button>
+            <button mat-stroked-button  class="btn" >Xuất danh sách</button>
+          </div>
+      </mat-card-content>
+      </mat-card>
+</div>
 <mat-card class="card-table">
   <mat-card-content>
     <div class="table-responsive">
@@ -134,12 +145,13 @@
         </ng-container><ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef> Hành động </th>
           <td mat-cell *matCellDef="let element">
-            <a (click)="onClick(element)" class="btn-icon"><i class="material-icons">edit_note</i></a>
+            <a (click)="onClick(element)" class="btn-icon"><i class="material-icons"  matTooltip="Click xem chi tiết">edit_note</i></a>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns , sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+      <div class="no-data" *ngIf="!dataSource?.data?.length"><span>"Không có bản ghi nào"</span></div>
     </div>
   </mat-card-content>
   <mat-card-footer>

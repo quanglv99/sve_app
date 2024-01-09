@@ -26,5 +26,8 @@
     "MEMBER_FORCE_LIST": "http://localhost:3000/member-force",
 	"JOB_QUERY": "https://10.125.10.52:8443/ips/management/apps/sve/members/member/enroll/job/query",
 	"PASSCODE": "https://10.125.10.52:8443/ips/management/apps/sve/members/member/enroll/passcode",
-    "WELCOME": "https://10.125.10.52:8443/ips/management/welcome"
+    "WELCOME": "https://10.125.10.52:8443/ips/management/welcome",
+    "CALL_SUPPORTER": "https://10.125.10.52:8443/ips/management/apps/sve/members/member/enroll/supporter/request",
+    "TASK_LIST": "https://10.125.10.52:8443/ips/management/apps/sve/members/member/tasks/list",
+    "APPROVE": "https://10.125.10.52:8443/ips/management/apps/sve/transactions/transaction/approve"
 }

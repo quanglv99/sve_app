@@ -10,10 +10,9 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppService } from 'src/app/services/app.service';
-import { Observable, map, startWith } from 'rxjs';
+import { map, startWith } from 'rxjs';
 import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -27,7 +26,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BranchModel } from 'src/app/shared/models/branch.models';
 import { Employee } from 'src/app/shared/models/employee.models';
 import { MemberModel } from 'src/app/shared/models/member.models';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatListModule } from '@angular/material/list';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @Component({
   selector: 'app-my-delegate',
   standalone: true,
@@ -50,6 +51,10 @@ import { MemberModel } from 'src/app/shared/models/member.models';
     MatCardModule,
     MatAutocompleteModule,
     AsyncPipe,
+    HttpClientModule,
+    MatTooltipModule,
+    MatListModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './my-delegate.component.html',
   styleUrls: ['./my-delegate.component.scss'],
@@ -94,6 +99,7 @@ export class MyDelegateComponent implements OnInit {
   receiverControl = new FormControl<string | Employee>('');
   ownerOptions: any;
   receiverOptions: any;
+  showFilter = false
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
@@ -117,6 +123,11 @@ export class MyDelegateComponent implements OnInit {
     this.formSearchInitialize();
     this.initSearch();
     this.initDataTable();
+  }
+
+  showFilterFn()
+  {
+    this.showFilter = !this.showFilter
   }
 
   // init form search

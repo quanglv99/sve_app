@@ -76,6 +76,7 @@ export class JobcodeComponent implements OnInit {
       this.http.get(url).subscribe((result: any) => {
         this.data = result;
         this.dataSource = new MatTableDataSource<JobcodeModel>(this.data);
+        this.dataSource.paginator = this.paginator;
       });
     }
   }
@@ -104,6 +105,7 @@ export class JobcodeComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
       data: {
+        title: 'Confirmation',
         message: 'Are you sure to detele this record?',
         showYesNo: true,
       },

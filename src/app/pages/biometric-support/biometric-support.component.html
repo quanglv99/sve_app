@@ -1,88 +1,91 @@
-<h2 class="title">Danh sách hỗ trợ đăng ký STH</h2>
-<mat-card class="card-table p-10">
-    <mat-accordion>
-        <mat-expansion-panel [expanded]="isOpen" >
-          <mat-expansion-panel-header>
-          </mat-expansion-panel-header>
-          <form class="form-search" [formGroup]="formSearch">
-            <div class="search-container">
-                <p>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Chi nhánh</mat-label>
-                        <input matInput placeholder="Tên chi nhánh" type="text" formControlName="branchnameInput">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Mã nhân viên</mat-label>
-                        <input matInput placeholder="Mã nhân viên" type="text" formControlName="employeeCode">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Họ tên</mat-label>
-                        <input matInput placeholder="Họ tên" type="text" formControlName="employeeInput">
-                    </mat-form-field>
-                </p>
-                <p>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Ngày tạo</mat-label>
-                        <mat-date-range-input [rangePicker]="picker">
-                            <input matStartDate placeholder="Ngày tạo từ" formControlName="startDateInput">
-                            <input matEndDate placeholder="Ngày tạo đến" formControlName="endDateInput">
-                        </mat-date-range-input>
-                        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker></mat-date-range-picker>
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="search-action">
-                <button mat-raised-button color="primary" class="btn" (click)="onSearch()">Tìm kiếm</button>
-                <button mat-raised-button color="warn" class="btn" (click)="refreshSearch()">Làm mới</button>
-                <button mat-stroked-button color="primary" class="btn">Xuất danh sách</button>
-            </div>
-        </form>
-        </mat-expansion-panel>
-      </mat-accordion>
+<mat-card class="card-header">
+    <mat-card-content class="card-content">
+        <mat-list class="breadcrumb-list">
+            <mat-list-item class="breadcrumb-list-item">
+                <span class="list-item-content">
+                    <span>Home</span>
+                    <mat-icon>keyboard_arrow_right</mat-icon>
+                </span>
+            </mat-list-item>
+            <mat-list-item class="breadcrumb-list-item">
+                <span class="list-item-content">
+                    <span>Danh sách hỗ trợ đăng ký STH</span>
+                </span>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
 </mat-card>
+
+<div class="form-filter">
+    <mat-slide-toggle (click)="showFilterFn()" class="toggle" color="primary">Bộ lọc</mat-slide-toggle>
+    <mat-card class="card-filter mt-15" *ngIf="showFilter">
+        <mat-card-content>
+            <form class="form-search" [formGroup]="formSearch">
+                <div class="search-container">
+                    <p>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Chi nhánh</mat-label>
+                            <input matInput placeholder="Tên chi nhánh" type="text" formControlName="branchnameInput">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Mã nhân viên</mat-label>
+                            <input matInput placeholder="Mã nhân viên" type="text" formControlName="employeeCode">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Họ tên</mat-label>
+                            <input matInput placeholder="Họ tên" type="text" formControlName="employeeInput">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Ngày tạo</mat-label>
+                            <mat-date-range-input [rangePicker]="picker">
+                                <input matStartDate placeholder="Ngày tạo từ" formControlName="startDateInput">
+                                <input matEndDate placeholder="Ngày tạo đến" formControlName="endDateInput">
+                            </mat-date-range-input>
+                            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </p>
+                </div>
+            </form>
+            <div class="search-action">
+                <button mat-stroked-button color="primary" class="btn" (click)="onSearch()">Tìm kiếm</button>
+                <button mat-stroked-button color="warn" class="btn" (click)="refreshSearch()">Làm mới</button>
+                <button mat-stroked-button class="btn">Xuất danh sách</button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
 <mat-card class="card-table">
     <mat-card-content>
         <div class="table-responsive">
             <table mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef> Id </th>
-                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef> Loại Giao dịch </th>
+                    <td mat-cell *matCellDef="let element"> {{element.task_sub_group}} </td>
                 </ng-container>
-                <ng-container matColumnDef="employeeCode">
-                    <th mat-header-cell *matHeaderCellDef> Mã nhân viên </th>
+                <ng-container matColumnDef="taskName">
+                    <th mat-header-cell *matHeaderCellDef> Tên công việc </th>
                     <td mat-cell *matCellDef="let element">
-                        <p>{{element.employee.code}}</p>
+                        <p>{{element.task_name}}</p>
                     </td>
                 </ng-container>
-                <ng-container matColumnDef="employeeFullname">
-                    <th mat-header-cell *matHeaderCellDef> Họ tên </th>
-                    <td mat-cell *matCellDef="let element">
-                        <p>{{element.employee.fullname}}</p>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="branchname">
-                    <th mat-header-cell *matHeaderCellDef> Chi Nhánh </th>
-                    <td mat-cell *matCellDef="let element">
-                        <p>{{ element.branch.branchname }}</p>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="createdDate">
+                <ng-container matColumnDef="createdAt">
                     <th mat-header-cell *matHeaderCellDef> Ngày tạo </th>
                     <td mat-cell *matCellDef="let element">
-                        <p>{{element.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                        <p>{{transferToDate(element.start_timestamp) |  date: 'dd/MM/yyyy HH:mm:ss'}}</p>
                     </td>
                 </ng-container>
-
-                <ng-container matColumnDef="reason">
-                    <th mat-header-cell *matHeaderCellDef> Lý do</th>
+                <ng-container matColumnDef="taskDescription">
+                    <th mat-header-cell *matHeaderCellDef> Mô tả công việc </th>
                     <td mat-cell *matCellDef="let element">
-                        <p>Upload giấy tờ không khớp thông tin</p>
+                        <p>{{element.task_description}}</p>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="action">
@@ -94,7 +97,7 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns, sticky: true"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-
+            <div class="no-data" *ngIf="!dataSource?.length"><span>"Không có bản ghi nào"</span></div>
         </div>
     </mat-card-content>
     <mat-card-footer>

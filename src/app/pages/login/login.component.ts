@@ -1,11 +1,9 @@
+import { Component, OnInit } from "@angular/core";
 import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from "@angular/core";
-import { FormGroup, FormBuilder, ReactiveFormsModule } from "@angular/forms";
+  FormGroup,
+  FormBuilder,
+  ReactiveFormsModule,
+} from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
@@ -42,9 +40,7 @@ import { HttpClientModule } from "@angular/common/http";
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.scss"],
 })
-export class LoginComponent implements OnInit, OnDestroy {
-  @ViewChild("inputUsername", { static: true })
-  inputUsername!: ElementRef<HTMLInputElement>;
+export class LoginComponent implements OnInit {
   hide: boolean = true;
   data: any;
   loading = this.loadingService.getCurrentGlobalSpinStore();
@@ -56,9 +52,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService,
     private spinner: NgxSpinnerService
   ) {}
-  ngOnDestroy(): void {
-    this.loginForm.reset();
-  }
   loginForm!: FormGroup;
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -82,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           } else {
             this.toast.error({
               detail: "Login Failed",
-              summary: "Username or Password is not correct",
+              summary: `${response.message}`,
               duration: 5000,
             });
           }

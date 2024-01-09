@@ -1,23 +1,23 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { RouterModule } from '@angular/router';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { StepProgressComponent } from '../../shared/step-progress/step-progress.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
-import { AssignModel } from 'src/app/shared/models/assign-models';
+import { Component, Inject, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { RouterModule } from "@angular/router";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { StepProgressComponent } from "../../shared/step-progress/step-progress.component";
+import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { TRAN_STATUS } from "src/app/shared/const/tran-status";
+import { AssignModel } from "src/app/shared/models/assign-models";
 
 @Component({
-  selector: 'app-received-assign-popup',
+  selector: "app-received-assign-popup",
   standalone: true,
   imports: [
     CommonModule,
@@ -34,8 +34,8 @@ import { AssignModel } from 'src/app/shared/models/assign-models';
     StepProgressComponent,
     ReactiveFormsModule,
   ],
-  templateUrl: './received-assign-popup.component.html',
-  styleUrls: ['./received-assign-popup.component.scss'],
+  templateUrl: "./received-assign-popup.component.html",
+  styleUrls: ["./received-assign-popup.component.scss"],
 })
 export class ReceivedAssignPopupComponent implements OnInit {
   updateWorkForm!: FormGroup;
@@ -56,7 +56,9 @@ export class ReceivedAssignPopupComponent implements OnInit {
 
   initializeForm() {
     this.updateWorkForm = this.formBuilder.group({
-      branchname: [{ value: this.data.branch.branchname, disabled: this.isDisable }],
+      branchname: [
+        { value: this.data.branch.branchname, disabled: this.isDisable },
+      ],
       member: [{ value: this.data.member.name, disabled: this.isDisable }],
       owner: [
         {
@@ -87,11 +89,11 @@ export class ReceivedAssignPopupComponent implements OnInit {
       createdDate: [this.data.createdDate],
       createdUser: [this.data.createdUser],
       file: [this.data.file],
-      status: [''],
+      status: [""],
     });
   }
   onClose() {
-    this.dialogResult = 0
-      this.dialogRef.close(this.dialogResult);
+    this.dialogResult = 0;
+    this.dialogRef.close(this.dialogResult);
   }
 }

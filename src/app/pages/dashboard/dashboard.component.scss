@@ -1,9 +1,41 @@
-::ng-deep
+@import "src/app/styles/mixins";
+.page-header {
+  background-color: white;
+  @include customBoxShadow();
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.title-inner-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+h1
 {
-    .mat-expansion-indicator
-    {
-        position: absolute;
-        top: 50;
-        left: 50;
-    }
+    margin-right: 24px;
+}
+
+.icon
+{
+    
+    margin-right: 10px;
+}
+
+.title-date
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 24px;
+}
+
+.title-date-text
+{
+    margin: 0;
+    color: #6E6E6E;
+    font-weight: 400;
+    font-size: 16px;
 }

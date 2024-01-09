@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -38,7 +38,7 @@ import { JobcodeModel } from 'src/app/shared/models/jobcode.models';
   templateUrl: './jobcode-detail-popup.component.html',
   styleUrls: ['./jobcode-detail-popup.component.scss']
 })
-export class JobcodeDetailPopupComponent {
+export class JobcodeDetailPopupComponent implements OnInit {
   detailJobcode!: FormGroup;
   currentStep!: number;
   isDisable: boolean = true;
@@ -48,7 +48,6 @@ export class JobcodeDetailPopupComponent {
     private formBuilder: FormBuilder
   ) {}
   ngOnInit(): void {
-
     this.initializeForm();
   }
 
@@ -59,7 +58,6 @@ export class JobcodeDetailPopupComponent {
       status: [''],
 
     });
-    console.log("hi",this.data);
   }
   onClose() {
     this.dialogRef.close();

@@ -1,36 +1,42 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AsyncPipe, CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSortModule, MatSort } from '@angular/material/sort';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { RouterModule } from '@angular/router';
-import { AppService } from 'src/app/services/app.service';
-import { MEMBER_LIST } from 'src/app/shared/const/member-value';
-import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
-import { AssignModel } from 'src/app/shared/models/assign-models';
-import { ApproveAssignPopupComponent } from 'src/app/popups/approve-assign-popup/approve-assign-popup.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { BranchModel } from 'src/app/shared/models/branch.models';
-import { map, startWith } from 'rxjs';
-import { MemberModel } from 'src/app/shared/models/member.models';
-import { MyAssignPopupComponent } from 'src/app/popups/my-assign-popup/my-assign-popup.component';
-import { Employee } from 'src/app/shared/models/employee.models';
-
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { AsyncPipe, CommonModule } from "@angular/common";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import {
+  ReactiveFormsModule,
+  FormGroup,
+  FormBuilder,
+  FormControl,
+} from "@angular/forms";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatNativeDateModule } from "@angular/material/core";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatDialogModule, MatDialog } from "@angular/material/dialog";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatPaginatorModule, MatPaginator } from "@angular/material/paginator";
+import { MatSelectModule } from "@angular/material/select";
+import { MatSortModule, MatSort } from "@angular/material/sort";
+import { MatTableModule, MatTableDataSource } from "@angular/material/table";
+import { RouterModule } from "@angular/router";
+import { AppService } from "src/app/services/app.service";
+import { MEMBER_LIST } from "src/app/shared/const/member-value";
+import { TRAN_STATUS } from "src/app/shared/const/tran-status";
+import { AssignModel } from "src/app/shared/models/assign-models";
+import { ApproveAssignPopupComponent } from "src/app/popups/approve-assign-popup/approve-assign-popup.component";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { BranchModel } from "src/app/shared/models/branch.models";
+import { map, startWith } from "rxjs";
+import { MemberModel } from "src/app/shared/models/member.models";
+import { Employee } from "src/app/shared/models/employee.models";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatListModule } from "@angular/material/list";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 @Component({
-  selector: 'app-approve-assign',
+  selector: "app-approve-assign",
   standalone: true,
   imports: [
     CommonModule,
@@ -51,10 +57,14 @@ import { Employee } from 'src/app/shared/models/employee.models';
     MatSelectModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    AsyncPipe
+    HttpClientModule,
+    AsyncPipe,
+    MatTooltipModule,
+    MatSlideToggleModule,
+    MatListModule,
   ],
-  templateUrl: './approve-assign.component.html',
-  styleUrls: ['./approve-assign.component.scss'],
+  templateUrl: "./approve-assign.component.html",
+  styleUrls: ["./approve-assign.component.scss"],
 })
 export class ApproveAssignComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -64,14 +74,14 @@ export class ApproveAssignComponent implements OnInit {
   pageNumber = 1;
   totalItems = 0;
   displayedColumns: string[] = [
-    'id',
-    'branchname',
-    'createdDate',
-    'owner',
-    'employee',
-    'member',
-    'status',
-    'action',
+    "id",
+    "branchname",
+    "createdDate",
+    "owner",
+    "employee",
+    "member",
+    "status",
+    "action",
   ];
   dataSource: any;
   isOpen = true;
@@ -82,19 +92,20 @@ export class ApproveAssignComponent implements OnInit {
   statusFilter = TRAN_STATUS;
   branches: any;
   filteredOptions!: any;
-  myControl = new FormControl<string | BranchModel>('');
+  myControl = new FormControl<string | BranchModel>("");
   branchSelected: any;
   memberSelected: any;
-  memberControl = new FormControl<string | MemberModel>('');
+  memberControl = new FormControl<string | MemberModel>("");
   memberOptions: any;
   ownerFilter: any;
   receiverFilter: any;
   ownerSelected: any;
   receiverSelected: any;
-  ownerControl = new FormControl<string | Employee>('');
-  receiverControl = new FormControl<string | Employee>('');
+  ownerControl = new FormControl<string | Employee>("");
+  receiverControl = new FormControl<string | Employee>("");
   ownerOptions: any;
   receiverOptions: any;
+  showFilter = false
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
@@ -107,11 +118,15 @@ export class ApproveAssignComponent implements OnInit {
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if(result===1)
-      {
+      if (result === 1) {
         this.refreshTableData();
       }
     });
+  }
+
+  showFilterFn()
+  {
+    this.showFilter = !this.showFilter
   }
 
   ngOnInit(): void {
@@ -126,16 +141,18 @@ export class ApproveAssignComponent implements OnInit {
       this.ownerFilter = result;
       this.receiverFilter = result;
       this.ownerOptions = this.ownerControl.valueChanges.pipe(
-        startWith(''),
+        startWith(""),
         map((value) => {
-          const name = typeof value === 'string' ? value : value?.fullname;
-          return name ? this._filterOwner(name as string) : this.ownerFilter.slice();
+          const name = typeof value === "string" ? value : value?.fullname;
+          return name
+            ? this._filterOwner(name as string)
+            : this.ownerFilter.slice();
         })
       );
       this.receiverOptions = this.receiverControl.valueChanges.pipe(
-        startWith(''),
+        startWith(""),
         map((value) => {
-          const name = typeof value === 'string' ? value : value?.fullname;
+          const name = typeof value === "string" ? value : value?.fullname;
           return name
             ? this._filterReceiver(name as string)
             : this.receiverFilter.slice();
@@ -146,18 +163,18 @@ export class ApproveAssignComponent implements OnInit {
     this.http.get(this.appConfig.getBranches()).subscribe((result: any) => {
       this.branches = result;
       this.filteredOptions = this.myControl.valueChanges.pipe(
-        startWith(''),
+        startWith(""),
         map((value) => {
-          const name = typeof value === 'string' ? value : value?.branchname;
+          const name = typeof value === "string" ? value : value?.branchname;
           return name ? this._filter(name as string) : this.branches.slice();
         })
       );
     });
 
     this.memberOptions = this.memberControl.valueChanges.pipe(
-      startWith(''),
+      startWith(""),
       map((value) => {
-        const name = typeof value === 'string' ? value : value?.name;
+        const name = typeof value === "string" ? value : value?.name;
         return name
           ? this._filterMember(name as string)
           : this.memberFilter.slice();
@@ -165,13 +182,12 @@ export class ApproveAssignComponent implements OnInit {
     );
   }
 
-
   //branch search
   onSelected(event: any) {
     this.branchSelected = event;
   }
   displayFn(branch: BranchModel): string {
-    return branch ? branch.branchname : '';
+    return branch ? branch.branchname : "";
   }
 
   private _filter(branchname: string): BranchModel[] {
@@ -188,7 +204,7 @@ export class ApproveAssignComponent implements OnInit {
   }
 
   displayFnOwner(owner: Employee): string {
-    return owner ? `${owner.code}-${owner.fullname}` : '';
+    return owner ? `${owner.code}-${owner.fullname}` : "";
   }
 
   private _filterOwner(fullname: string): Employee[] {
@@ -205,7 +221,7 @@ export class ApproveAssignComponent implements OnInit {
   }
 
   displayFnReceiver(receiver: Employee): string {
-    return receiver ? `${receiver.code}-${receiver.fullname}` : '';
+    return receiver ? `${receiver.code}-${receiver.fullname}` : "";
   }
 
   private _filterReceiver(fullname: string): Employee[] {
@@ -222,7 +238,7 @@ export class ApproveAssignComponent implements OnInit {
   }
 
   displayFnMember(member: MemberModel): string {
-    return member ? member.name : '';
+    return member ? member.name : "";
   }
 
   private _filterMember(membername: string): MemberModel[] {
@@ -264,13 +280,13 @@ export class ApproveAssignComponent implements OnInit {
 
   initSearch() {
     this.formSearch = this.formBuilder.group({
-      branchInput: [''],
-      startDateInput: [''],
-      endDateInput: [''],
-      ownerInput: [''],
-      receiverInput: [''],
-      memberInput: [''],
-      statusInput: [''],
+      branchInput: [""],
+      startDateInput: [""],
+      endDateInput: [""],
+      ownerInput: [""],
+      receiverInput: [""],
+      memberInput: [""],
+      statusInput: [""],
     });
   }
 
@@ -298,7 +314,7 @@ export class ApproveAssignComponent implements OnInit {
               item.employee.code === filterParams.receiverInput.code) &&
             (!filterParams.memberInput ||
               item.member.id === filterParams.memberInput.id) &&
-            (filterParams.statusInput === '' ||
+            (filterParams.statusInput === "" ||
               item.status.id === filterParams.statusInput)
           );
         })
@@ -310,7 +326,6 @@ export class ApproveAssignComponent implements OnInit {
       this.dataSource.data = this.data;
     });
   }
-
 
   refreshTableData() {
     const url = this.appConfig.getAssignUrl();

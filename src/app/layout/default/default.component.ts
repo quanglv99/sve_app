@@ -1,21 +1,20 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatSidenav, MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatMenuModule } from "@angular/material/menu";
 import { MenuItems } from "../../shared/const/menu-items";
-import { NgToastModule } from "ng-angular-popup";
 import { AuthService } from "src/app/services/auth.service";
-import { HTTP_INTERCEPTORS, HttpClient } from "@angular/common/http";
-import { AppService } from "src/app/services/app.service";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { LoadingService } from "src/app/services/loading.service";
 import { InterceptorService } from "src/app/services/interceptor.service";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
   selector: "app-default",
@@ -31,7 +30,8 @@ import { InterceptorService } from "src/app/services/interceptor.service";
     MatIconModule,
     MatListModule,
     MatMenuModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatTooltipModule,
   ],
   providers: [MenuItems,
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }
@@ -43,6 +43,10 @@ export class DefaultComponent implements OnInit {
   userLogin!: string;
   branchname!: string;
   loading: boolean = false;
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+  isSidenavOpen: boolean = false;
+
+  
   constructor(
     public menuItems: MenuItems,
     private authService: AuthService,
@@ -58,6 +62,11 @@ export class DefaultComponent implements OnInit {
     if (branch) {
       this.branchname = branch;
     }
+  }
+
+  toggleSidenav() {
+    this.sidenav.toggle();
+    this.isSidenavOpen = this.sidenav.opened;
   }
 
   onSigout() {

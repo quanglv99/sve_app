@@ -1,27 +1,28 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
-import { MatTableModule,MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { HttpClient } from '@angular/common/http';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { MatSortModule, MatSort } from '@angular/material/sort';
-import { Observable } from 'rxjs';
-import { EditmemberDetailPopupComponent } from 'src/app/popups/editmember-detail-popup/editmember-detail-popup.component';
-import { AppService } from 'src/app/services/app.service';
-import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
-import { MemberModel } from 'src/app/shared/models/member.models';
-import { NgToastService } from 'ng-angular-popup';
-import { MemberForceModel } from 'src/app/shared/models/member-force';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { MatCardModule } from "@angular/material/card";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatButtonModule } from "@angular/material/button";
+import { RouterModule } from "@angular/router";
+import { MatTableModule, MatTableDataSource } from "@angular/material/table";
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { MatDialogModule, MatDialog } from "@angular/material/dialog";
+import { MatSortModule, MatSort } from "@angular/material/sort";
+import { Observable } from "rxjs";
+import { EditmemberDetailPopupComponent } from "src/app/popups/editmember-detail-popup/editmember-detail-popup.component";
+import { AppService } from "src/app/services/app.service";
+import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
+import { MemberModel } from "src/app/shared/models/member.models";
+import { NgToastService } from "ng-angular-popup";
+import { MemberForceModel } from "src/app/shared/models/member-force";
+import { EditMemberForceDetailPopupComponent } from "src/app/popups/edit-member-force-detail-popup/edit-member-force-detail-popup.component";
 
 @Component({
-  selector: 'app-member-force',
+  selector: "app-member-force",
   standalone: true,
   imports: [
     CommonModule,
@@ -38,9 +39,10 @@ import { MemberForceModel } from 'src/app/shared/models/member-force';
     MatInputModule,
     MatDialogModule,
     EditmemberDetailPopupComponent,
+    HttpClientModule,
   ],
-  templateUrl: './member-force.component.html',
-  styleUrls: ['./member-force.component.scss']
+  templateUrl: "./member-force.component.html",
+  styleUrls: ["./member-force.component.scss"],
 })
 export class MemberForceComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -51,21 +53,16 @@ export class MemberForceComponent implements OnInit {
   totalItems = 0;
   reponseData: any;
 
-  displayedColumns: string[] = [
-    'id',
-    'nameMember',
-    'status',
-    'action',
-  ];
+  displayedColumns: string[] = ["id", "nameMember", "status", "action"];
   dataSource: any;
   data: any;
-  statusLabelPosition: 'before' | 'after' = 'after';
+  statusLabelPosition: "before" | "after" = "after";
   constructor(
     private appConfig: AppService,
     private http: HttpClient,
     private dialog: MatDialog,
     private toast: NgToastService
-    ) {}
+  ) {}
   ngOnInit(): void {
     this.initDataTable();
   }
@@ -79,6 +76,8 @@ export class MemberForceComponent implements OnInit {
       this.http.get(url).subscribe((result: any) => {
         this.data = result;
         this.dataSource = new MatTableDataSource<MemberModel>(this.data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       });
     }
   }
@@ -97,7 +96,6 @@ export class MemberForceComponent implements OnInit {
     }
   }
 
-
   refreshTableData() {
     const url = this.appConfig.getMemberList();
     this.http.get(url).subscribe((result: any) => {
@@ -106,11 +104,11 @@ export class MemberForceComponent implements OnInit {
     });
   }
   onClick(element: any): void {
-    const dialogRef = this.dialog.open(EditmemberDetailPopupComponent, {
+    const dialogRef = this.dialog.open(EditMemberForceDetailPopupComponent, {
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {
-        this.refreshTableData()
+      this.refreshTableData();
     });
   }
   deleteRecord(id: number): Observable<any> {
@@ -118,12 +116,12 @@ export class MemberForceComponent implements OnInit {
     return this.http.delete(url);
   }
 
-
   deleteRow(element: any): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '300px',
+      width: "300px",
       data: {
-        message: 'Are you sure to detele this record?',
+        title: 'Confirmation',
+        message: "Are you sure to detele this record?",
         showYesNo: true,
       },
     });
@@ -136,12 +134,11 @@ export class MemberForceComponent implements OnInit {
           );
         });
         this.toast.success({
-          detail: 'SUCCESS',
-          summary: 'Deleted successfully',
-          duration:5000,
-        })
+          detail: "SUCCESS",
+          summary: "Deleted successfully",
+          duration: 5000,
+        });
       }
     });
   }
-
 }

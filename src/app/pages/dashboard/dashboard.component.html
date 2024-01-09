@@ -1,9 +1,22 @@
-<mat-card>
-    <mat-accordion>
-        <mat-expansion-panel >
-          <mat-expansion-panel-header>
-          </mat-expansion-panel-header>
-        </mat-expansion-panel>
-      </mat-accordion>
-</mat-card>
+<mat-toolbar class="page-header" role="heading">
+  <mat-toolbar-row>
+    <div class="title-inner-wrapper">
+      <h1>Dashboard</h1>
+      <mat-tab-group>
+        <mat-tab label="Hôm nay"></mat-tab>
+        <mat-tab label="Đã thực hiện"></mat-tab>
+      </mat-tab-group>
+    </div>
+    <div class="spacer"></div>
+    <div class="title-inner-wrapper">
+      <div class="title-date">
+        <mat-icon class="icon">calendar_today</mat-icon>
+        <p class="title-date-text">{{formattedDate}}</p>
+      </div>
+      
+      <button mat-flat-button color="warn" class="btn">Báo cáo</button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<app-tasks></app-tasks>
 

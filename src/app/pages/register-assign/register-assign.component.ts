@@ -19,9 +19,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { AppService } from 'src/app/services/app.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MEMBER_LIST } from 'src/app/shared/const/member-value';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { NgToastModule, NgToastService } from 'ng-angular-popup';
 import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -49,6 +49,7 @@ import { BranchModel } from 'src/app/shared/models/branch.models';
     NgToastModule,
     MatAutocompleteModule,
     AsyncPipe,
+    HttpClientModule,
   ],
   templateUrl: './register-assign.component.html',
   styleUrls: ['./register-assign.component.scss'],
@@ -69,7 +70,6 @@ export class RegisterAssignComponent implements OnInit {
     private appService: AppService,
     private http: HttpClient,
     private router: Router,
-    private dialog: MatDialog,
     private toast: NgToastService
   ) {}
 

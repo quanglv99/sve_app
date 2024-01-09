@@ -39,7 +39,7 @@ import { JobcodeModel } from 'src/app/shared/models/jobcode.models';
   templateUrl: './addjobcode.component.html',
   styleUrls: ['./addjobcode.component.scss']
 })
-export class AddjobcodeComponent {
+export class AddjobcodeComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator | undefined;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageSize = this.pageSizeOptions[0];
@@ -90,6 +90,7 @@ export class AddjobcodeComponent {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
       data: {
+        title: 'Confirmation',
         message: 'Are you sure to add this record?',
         showYesNo: true,
       },
@@ -99,6 +100,7 @@ export class AddjobcodeComponent {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
       data: {
+        title: 'Confirmation',
         message: 'Are you sure to detele this record?',
         showYesNo: true,
       },

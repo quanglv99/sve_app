@@ -19,7 +19,7 @@ import {
 } from '@angular/forms';
 import { MEMBER_LIST } from 'src/app/shared/const/member-value';
 import { AppService } from 'src/app/services/app.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgToastModule, NgToastService } from 'ng-angular-popup';
 import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
@@ -43,6 +43,7 @@ import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
     ReactiveFormsModule,
     MatDialogModule,
     NgToastModule,
+    HttpClientModule,
   ],
   templateUrl: './register-delegate.component.html',
   styleUrls: ['./register-delegate.component.scss'],
