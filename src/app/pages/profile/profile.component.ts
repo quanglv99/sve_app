@@ -19,6 +19,8 @@ import { Router } from "@angular/router";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { CallSupportPopupComponent } from "src/app/popups/call-support-popup/call-support-popup.component";
+import { SpinnerService } from "src/app/services/spinner.service";
 @Component({
   selector: "app-profile",
   standalone: true,
@@ -31,7 +33,6 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
     MatDialogModule,
     NgToastModule,
     MatProgressBarModule,
-    NgxSpinnerModule,
     MatProgressSpinnerModule,
   ],
   templateUrl: "./profile.component.html",
@@ -65,7 +66,7 @@ export class ProfileComponent implements OnInit {
     private dialog: MatDialog,
     private authService: AuthService,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinnerService: SpinnerService
   ) {}
   ngOnInit(): void {
     this.register = {} as UserDetailModel;
@@ -110,13 +111,13 @@ export class ProfileComponent implements OnInit {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
           width: "300px",
           data: {
-            title: "Session has timeout",
-            message: `${result.message}. Back to log in!!`,
+            title: "Có lỗi xảy ra",
+            message: `Message: ${result.message}`,
             showYesNo: false,
           },
         });
         dialogRef.afterClosed().subscribe((response) => {
-          localStorage.removeItem('currentToken')
+          localStorage.removeItem("currentToken");
           this.router.navigate(["/login"]);
         });
       } else if (result.status == 1 || result.status == 3) {
@@ -131,22 +132,34 @@ export class ProfileComponent implements OnInit {
     });
   }
   callSupporter() {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: "300px",
-      data: {
-        title: "Confirmation",
-        message: "Đồng ý gửi yều cầu hỗ trợ?",
-        showYesNo: true,
-      },
-    });
+    const dialogRef = this.dialog.open(CallSupportPopupComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log("result: ", result);
         const token = localStorage.getItem("currentToken");
         if (token) {
-          this.authService.callSupporter(token).subscribe((res: any) => {
-            this.enrollCheck();
-          });
+          this.authService
+            .callSupporter(token, result)
+            .subscribe((res: any) => {
+              if(res.status === 1)
+              {
+                this.enrollCheck();
+              }else
+              {
+                const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+                  width: "300px",
+                  data: {
+                    title: "Có lỗi xảy ra",
+                    message: `Message: ${result.message}`,
+                    showYesNo: false,
+                  },
+                });
+                dialogRef.afterClosed().subscribe((response) => {
+                  localStorage.removeItem("currentToken");
+                  this.router.navigate(["/login"]);
+              });
+              }
+              
+            });
         }
       }
     });
@@ -222,20 +235,19 @@ export class ProfileComponent implements OnInit {
         .enroll(token, foundation_id, this.frontCard, this.backCard, this.photo)
         .subscribe(async (result) => {
           if (result.status != 0) {
-            this.spinner.show();
-            // Define a recursive function
+            this.spinnerService.showSpinner();
             const queryJobStatus = async (jobId: string) => {
               try {
                 const res = await this.authService.jobQuery(jobId).toPromise();
                 this.enroll_state = res.status;
                 this.messageLoading = this.messageList[this.messageIndex];
+                this.spinnerService.updateMessage(this.messageList[this.messageIndex]);
                 if (this.enroll_state === 0) {
-                  // Process when enroll_state is 0
-                  this.spinner.hide();
+                  this.spinnerService.hideSpinner()
                   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
                     width: "300px",
                     data: {
-                      title: "Notification",
+                      title: "Thông báo",
                       message: `${res.message}`,
                       showYesNo: false,
                     },
@@ -245,12 +257,12 @@ export class ProfileComponent implements OnInit {
                     this.enrollCheck();
                   });
                 } else if (this.enroll_state === 1) {
-                  this.spinner.hide();
+                  this.spinnerService.hideSpinner()
                   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
                     width: "300px",
                     data: {
-                      title: "Information",
-                      message: ` Upload thành công. Passcode: '${res.passcode}'. Vui lòng đến dùng passcode này đến kho để bổ sung sinh trắc học'`,
+                      title: "Thông báo",
+                      message: `Upload thành công. Passcode: '${res.passcode}'`,
                       showYesNo: false,
                     },
                   });
@@ -260,26 +272,25 @@ export class ProfileComponent implements OnInit {
                 } else if (this.enroll_state === 2) {
                   this.messageIndex =
                     (this.messageIndex + 1) % this.messageList.length;
-                  // Call the function recursively after a delay
+
                   setTimeout(() => queryJobStatus(result.job_id), 5000);
                 }
               } catch (error) {
                 console.error("Error in jobQuery: ", error);
               }
             };
-            // Start the recursive function
             queryJobStatus(result.job_id);
           } else {
             const dialogRef = this.dialog.open(ConfirmDialogComponent, {
               width: "300px",
               data: {
-                title: "Session has timeout",
-                message: `${result.message}. Back to log in!!`,
+                title: "Có lỗi xảy ra",
+                message: `Message: ${result.message}`,
                 showYesNo: false,
               },
             });
             dialogRef.afterClosed().subscribe((response) => {
-              localStorage.removeItem('currentToken')
+              localStorage.removeItem("currentToken");
               this.router.navigate(["/login"]);
             });
           }
@@ -291,15 +302,30 @@ export class ProfileComponent implements OnInit {
     const token = localStorage.getItem("currentToken");
     if (token) {
       this.authService.getPasscode(token).subscribe((result) => {
-        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-          width: "300px",
-          data: {
-            title: "Information",
-            message: ` Passcode của bạn là: ${result.passcode}`,
-            showYesNo: false,
-          },
-        });
-        dialogRef.afterClosed().subscribe((response) => {});
+        if (result.status === 1) {
+          const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            width: "300px",
+            data: {
+              title: "Thông tin",
+              message: ` Passcode của bạn là: ${result.passcode}`,
+              showYesNo: false,
+            },
+          });
+          dialogRef.afterClosed().subscribe((response) => {});
+        } else {
+          const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            width: "300px",
+            data: {
+              title: "Có lỗi xảy ra",
+              message: `Message: ${result.message}`,
+              showYesNo: false,
+            },
+          });
+          dialogRef.afterClosed().subscribe((response) => {
+            localStorage.removeItem("currentToken");
+            this.router.navigate(["/login"]);
+          });
+        }
       });
     }
   }
@@ -334,13 +360,13 @@ export class ProfileComponent implements OnInit {
               const dialogRef = this.dialog.open(ConfirmDialogComponent, {
                 width: "300px",
                 data: {
-                  title: "Session has timeout",
-                  message: `${res.message}. Back to log in!!`,
+                  title: "Có lỗi xảy ra",
+                  message: `Message: ${res.message}`,
                   showYesNo: false,
                 },
               });
               dialogRef.afterClosed().subscribe((response) => {
-                localStorage.removeItem('currentToken')
+                localStorage.removeItem("currentToken");
                 this.router.navigate(["/login"]);
               });
             }
@@ -379,13 +405,13 @@ export class ProfileComponent implements OnInit {
               const dialogRef = this.dialog.open(ConfirmDialogComponent, {
                 width: "300px",
                 data: {
-                  title: "Session has timeout",
-                  message: `${res.message}. Back to log in!!`,
+                  title: "Có lỗi xảy ra",
+                  message: `Message: ${res.message}`,
                   showYesNo: false,
                 },
               });
               dialogRef.afterClosed().subscribe((response) => {
-                localStorage.removeItem('currentToken')
+                localStorage.removeItem("currentToken");
                 this.router.navigate(["/login"]);
               });
             }
@@ -423,13 +449,13 @@ export class ProfileComponent implements OnInit {
               const dialogRef = this.dialog.open(ConfirmDialogComponent, {
                 width: "300px",
                 data: {
-                  title: "Session has timeout",
-                  message: `${res.message}. Back to log in!!`,
+                  title: "Có lỗi xảy ra",
+                  message: `Message: ${res.message}`,
                   showYesNo: false,
                 },
               });
               dialogRef.afterClosed().subscribe((response) => {
-                localStorage.removeItem('currentToken')
+                localStorage.removeItem("currentToken");
                 this.router.navigate(["/login"]);
               });
             }

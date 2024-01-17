@@ -1,6 +1,8 @@
 @import "src/app/styles/mixins";
+@import "src/app/styles/colors";
+@import "src/app/styles/font";
 .page-header {
-  background-color: white;
+  background-color: $white;
   @include customBoxShadow();
 }
 
@@ -35,7 +37,27 @@ h1
 .title-date-text
 {
     margin: 0;
-    color: #6E6E6E;
-    font-weight: 400;
-    font-size: 16px;
+    color: $dark-grey;
+    font-weight: $fw-lighter;
+    font-size: $fs-normal;
+}
+.comming
+{
+  padding-top: 16px;
+
+  .mat-content
+  {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.task-completed
+{
+  @include customBoxShadow();
+  
+  h1
+  {
+    color: rgba(43, 43, 43, 0.87);
+  }
 }

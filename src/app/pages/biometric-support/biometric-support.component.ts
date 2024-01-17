@@ -118,8 +118,8 @@ export class BiometricSupportComponent implements OnInit {
             const dialogRef = this.dialog.open(ConfirmDialogComponent, {
               width: "300px",
               data: {
-                title: "Session has timeout",
-                message: `${res.message}. Back to log in!!`,
+                title: "Có lỗi xảy ra",
+                message: `Message: ${res.message}`,
                 showYesNo: false,
               },
             });
@@ -148,8 +148,8 @@ export class BiometricSupportComponent implements OnInit {
             const dialogRef = this.dialog.open(ConfirmDialogComponent, {
               width: "300px",
               data: {
-                title: "Session has timeout",
-                message: `${res.message}. Back to log in!!`,
+                title: "Có lỗi xảy ra",
+                message: `Message: ${res.message}`,
                 showYesNo: false,
               },
             });

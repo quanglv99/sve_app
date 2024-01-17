@@ -2,9 +2,9 @@
   <mat-toolbar-row>
     <div class="title-inner-wrapper">
       <h1>Dashboard</h1>
-      <mat-tab-group>
-        <mat-tab label="Hôm nay"></mat-tab>
-        <mat-tab label="Đã thực hiện"></mat-tab>
+      <mat-tab-group (selectedTabChange)="changeTab($event)">
+        <mat-tab label="Đang chờ thực hiện"></mat-tab>
+        <mat-tab label="Đã hoàn thành"></mat-tab>
       </mat-tab-group>
     </div>
     <div class="spacer"></div>
@@ -13,10 +13,21 @@
         <mat-icon class="icon">calendar_today</mat-icon>
         <p class="title-date-text">{{formattedDate}}</p>
       </div>
-      
-      <button mat-flat-button color="warn" class="btn">Báo cáo</button>
+      <!-- <button mat-flat-button color="warn" class="btn">Báo cáo</button> -->
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
-<app-tasks></app-tasks>
+<div *ngIf="tabSelected.index==0 || !tabSelected ">
+  <app-tasks></app-tasks>
+</div>
+<div *ngIf="tabSelected.index==1">
+  <div class="comming">
+    <mat-card class="task-completed">
+      <mat-card-content class="mat-content">
+        <h1>Comming soon</h1>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
 

@@ -41,7 +41,7 @@ export class AuthService {
           }
         },
         (error) => {
-          alert("Could not reach Servers");
+          alert("Could not connect to server IPS-Management");
         }
       )
     );
@@ -62,12 +62,10 @@ export class AuthService {
       // Handle the response
       tap(
         (response: any) => {
-          if (response.status === 1) {
-            this.setAuthenticated(false);
-          }
+          localStorage.removeItem("currentToken")
         },
         (error) => {
-          alert("Could not reach Servers");
+          localStorage.removeItem("currentToken")
         }
       )
     );
@@ -101,7 +99,7 @@ export class AuthService {
           this.setAuthenticated(true);
         },
         (error) => {
-          alert("Could not reach Servers");
+          alert("Could not connect to server IPS-Management");
         }
       )
     );
@@ -120,7 +118,7 @@ export class AuthService {
       tap(
         (response: any) => {},
         (error) => {
-          alert("Could not reach Servers");
+          alert("Could not connect to server IPS-Management");
         }
       )
     );
@@ -158,6 +156,24 @@ export class AuthService {
     );
   }
 
+  loginQuery(job_id: string): Observable<any> {
+    const url = this.appConfig.getLoginQueryUrl();
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    const body = {
+      job_id: job_id,
+    };
+    return this.http.post(url, JSON.stringify(body), { headers: headers }).pipe(
+      tap(
+        (response: any) => {},
+        (error) => {
+          alert("Could not connect to server IPS-Management");
+        }
+      )
+    );
+  }
+
   jobQuery(job_id: string): Observable<any> {
     const url = this.appConfig.getJobQueryUrl();
     const headers = new HttpHeaders({
@@ -170,7 +186,7 @@ export class AuthService {
       tap(
         (response: any) => {},
         (error) => {
-          alert("Could not reach Servers");
+          alert("Could not connect to server IPS-Management");
         }
       )
     );
@@ -204,7 +220,7 @@ export class AuthService {
       tap(
         (response: any) => {},
         (error) => {
-          alert("Could not reach Servers");
+          alert("Could not connect to server IPS-Management");
         }
       )
     );
@@ -226,25 +242,26 @@ export class AuthService {
       tap(
         (response: any) => {},
         (error) => {
-          alert("Could not reach Servers");
+          alert("Could not connect to server IPS-Management");
         }
       )
     );
   }
 
-  callSupporter(token: string): Observable<any> {
+  callSupporter(token: string, reason:string): Observable<any> {
     const url = this.appConfig.getCallSupporterUrl();
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
     const body = {
       token: token,
+      reason: reason
     };
     return this.http.post(url, JSON.stringify(body), { headers: headers }).pipe(
       tap(
         (response: any) => {},
         (error) => {
-          alert("Could not reach Servers");
+          alert("Could not connect to server IPS-Management");
         }
       )
     );
@@ -265,7 +282,7 @@ export class AuthService {
       tap(
         (response: any) => {},
         (error) => {
-          alert("Could not reach Servers");
+          alert("Could not connect to server IPS-Management");
         }
       )
     );
@@ -291,7 +308,7 @@ export class AuthService {
         (response) =>
         {},
         (error) => {
-          alert("Could not reach Servers");
+          alert("Could not connect to server IPS-Management");
         }
       )
     )

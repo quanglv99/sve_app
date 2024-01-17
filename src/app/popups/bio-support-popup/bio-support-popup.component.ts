@@ -16,7 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { StepProgressComponent } from 'src/app/shared/step-progress/step-progress.component';
 import { ImagePopupComponent } from 'src/app/shared/image-popup/image-popup.component';
 import { AuthService } from 'src/app/services/auth.service';
@@ -49,13 +49,18 @@ export class BioSupportPopupComponent {
   bioForm!: FormGroup;
   currentStep!: number;
   isDisable: boolean = true;
+  image!: string;
+  readFrontId!: string;
+  readBackId!: string;
+  readPhoto!: string;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<BioSupportPopupComponent>,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private toast: NgToastService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
 
   ) {}
 
@@ -90,7 +95,7 @@ export class BioSupportPopupComponent {
           {
             this.toast.success(
               {
-                detail: "Success",
+                detail: "Thông báo",
                 summary: "Bạn vừa phê duyệt thành công",
                 duration: 5000,
               }
@@ -101,7 +106,7 @@ export class BioSupportPopupComponent {
           {
             this.toast.error(
               {
-                detail: "Error",
+                detail: "Lỗi",
                 summary: `Message: ${res.message}`,
                 duration: 5000,
               }
@@ -110,6 +115,113 @@ export class BioSupportPopupComponent {
           
         }
       )
+    }
+  }
+
+  onClickFront(): void {
+    if (!this.readFrontId) {
+      const token = localStorage.getItem("currentToken");
+      const user_id = "";
+      const member = JSON.parse(this.data.task_json.approve_json)
+      const member_id = member.sve_member_id;
+      const username = "";
+      const photo = ["id_card_front_scan"];
+      const zip = false;
+      if (token) {
+        this.authService
+          .enrollImage(token, user_id, member_id, username, photo, zip)
+          .subscribe((res) => {
+            if(res.status === 1)
+            {
+              this.image = res.sve_member.id_card_front_scan;
+              this.readFrontId = this.image;
+              const dialogRef = this.dialog.open(ImagePopupComponent, {
+                data: this.image,
+              });
+              dialogRef.afterClosed().subscribe((result) => {});
+            }else
+            {
+              alert(res.message)
+            }
+          });
+      }
+    } else {
+      const dialogRef = this.dialog.open(ImagePopupComponent, {
+        data: this.readFrontId,
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {});
+    }
+  }
+
+  onClickBack(): void {
+    if (!this.readBackId) {
+      const token = localStorage.getItem("currentToken");
+      const user_id = "";
+      const member = JSON.parse(this.data.task_json.approve_json)
+      const member_id = member.sve_member_id;
+      const username = "";
+      const photo = ["id_card_back_scan"];
+      const zip = false;
+      if (token) {
+        this.authService
+          .enrollImage(token, user_id, member_id, username, photo, zip)
+          .subscribe((res) => {
+            if(res.status === 1)
+            {
+              this.image = res.sve_member.id_card_back_scan;
+              this.readBackId = this.image;
+              const dialogRef = this.dialog.open(ImagePopupComponent, {
+                data: this.image,
+              });
+              dialogRef.afterClosed().subscribe((result) => {});
+            }else
+            {
+              alert(res.message)
+            }
+          });
+      }
+    } else {
+      const dialogRef = this.dialog.open(ImagePopupComponent, {
+        data: this.readBackId,
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {});
+    }
+  }
+  onClickPhoto(): void {
+    if (!this.readPhoto) {
+      const token = localStorage.getItem("currentToken");
+      const user_id = "";
+      const member = JSON.parse(this.data.task_json.approve_json)
+      const member_id = member.sve_member_id;
+      const username = "";
+      const photo = ["photo"];
+      const zip = false;
+      if (token) {
+        this.authService
+          .enrollImage(token, user_id, member_id, username, photo, zip)
+          .subscribe((res) => {
+            if(res.status === 1)
+            {
+              this.image = res.sve_member.photo;
+              this.readPhoto = this.image;
+              const dialogRef = this.dialog.open(ImagePopupComponent, {
+                data: this.image,
+              });
+              dialogRef.afterClosed().subscribe((result) => {});
+            }else
+            {
+              alert(res.message)
+            }
+          });
+      }
+    } else {
+      const dialogRef = this.dialog.open(ImagePopupComponent, {
+        data: this.readPhoto,
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {});
     }
   }
 
@@ -128,7 +240,7 @@ export class BioSupportPopupComponent {
           {
             this.toast.info(
               {
-                detail: "Information",
+                detail: "Thông báo",
                 summary: "Bạn đã từ chối yêu cầu thành công",
                 duration: 5000,
               }
@@ -139,7 +251,7 @@ export class BioSupportPopupComponent {
           {
             this.toast.error(
               {
-                detail: "Error",
+                detail: "Lỗi",
                 summary:  `Message: ${res.message}`,
                 duration: 5000,
               }

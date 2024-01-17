@@ -91,7 +91,7 @@ export class MyAssignComponent implements OnInit {
   formSearch!: FormGroup;
   statusFilter = TRAN_STATUS;
   memberFilter = MEMBER_LIST;
-  branches: any;
+  branches:  any;
   filteredOptions!: any;
   myControl = new FormControl<string | BranchModel>("");
   branchSelected: any;

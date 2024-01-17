@@ -25,14 +25,6 @@
                 </p>
             </div>
             <div class="inline-item">
-                <p>
-                    <span>Vai trò</span>
-                    <mat-form-field appearance="outline" class="w-500">
-                        <input matInput type="text" formControlName="role" readonly>
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="inline-item">
                 <p><span>Ngày tạo</span>
                     <mat-form-field appearance="outline" class="w-500">
                         <input matInput type="text" formControlName="timestamp" readonly>
@@ -49,17 +41,17 @@
             <mat-divider></mat-divider>
             <div class="inline-item">
                 <p><span>Ảnh mặt trước CCCD</span>
-                    <button mat-stroked-button (click)="onClick(data.frontCard)">Preview</button>
+                    <button mat-stroked-button (click)="onClickFront()">Preview</button>
                 </p>
             </div>
             <div class="inline-item">
                 <p><span>Ảnh mặt sau CCCD</span>
-                    <button mat-stroked-button (click)="onClick(data.backCard)">Preview</button>
+                    <button mat-stroked-button (click)="onClickBack()">Preview</button>
                 </p>
             </div>
             <div class="inline-item">
                 <p><span>Ảnh chân dung</span>
-                    <button mat-stroked-button (click)="onClick(data.portrait)">Preview</button>
+                    <button mat-stroked-button (click)="onClickPhoto()">Preview</button>
                 </p>
             </div>
             <mat-divider></mat-divider>

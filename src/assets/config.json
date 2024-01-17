@@ -10,6 +10,7 @@
     "IPS_LASTEST_MESSAGE": "https://10.125.10.52:8443/ips/management/desktop/live_message/get_lastest",
     "PANEL_STATE": "https://10.125.10.52:8443/ips/management/desktop/get_hw_panel_state",
     "LOGIN": "https://10.125.10.52:8443/ips/management/apps/sve/security/login",
+    "LOGIN_JOB_QUERY": "https://10.125.10.52:8443/ips/management/apps/sve/security/job/query",
     "LOGON": "https://10.125.10.52:8443/ips/management/security/logon/",
     "LOGOFF": "https://10.125.10.52:8443/ips/management/security/logoff/",
     "LOGOUT": "https://10.125.10.52:8443/ips/management/logout",
@@ -30,4 +31,5 @@
     "CALL_SUPPORTER": "https://10.125.10.52:8443/ips/management/apps/sve/members/member/enroll/supporter/request",
     "TASK_LIST": "https://10.125.10.52:8443/ips/management/apps/sve/members/member/tasks/list",
     "APPROVE": "https://10.125.10.52:8443/ips/management/apps/sve/transactions/transaction/approve"
+   
 }

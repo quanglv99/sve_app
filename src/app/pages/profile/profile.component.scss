@@ -1,4 +1,6 @@
 @import 'src/app/styles/mixins';
+@import "src/app/styles/colors";
+@import "src/app/styles/font";
 .row {
   @include customRow()
 }
@@ -38,8 +40,8 @@
       }
 
       input::file-selector-button {
-        font-weight: bold;
-        color: #353535;
+        font-weight: $fw-bold;
+        color: $dark-grey;
         padding: 0.5em;
         border: none;
         border-radius: 3px;
@@ -60,14 +62,9 @@
 .bio-row {
   width: 100%;
   float: left;
-  margin-bottom: 10px;
-  padding: 0 15px;
+  padding: 0 15px 10px 15px;
   span {
-    color: #1b1b1b;
-    font-weight: 600;
-  }
-  p {
-    color: #575757;
+    font-weight: $fw-bold;
   }
   i {
     cursor: pointer;
@@ -77,15 +74,9 @@
 .status-row
 { margin-left: 30px;
   width: 100%;
-  float: left;
-  margin-bottom: 10px;
-  padding: 0 15px;
+  padding: 0 15px 10px 15px;
   span {
-    color: #1b1b1b;
-    font-weight: 600;
-  }
-  p {
-    color: #575757;
+    font-weight: $fw-bold;
   }
 }
 
@@ -106,6 +97,7 @@
 .btn 
 {
  float: right;
+ width: 200px !important;
  margin-right: 20px ;
 }
 
@@ -114,20 +106,7 @@
  margin: 0 15px 20px;
 }
 
-.wrap-spinner
+.header-container
 {
-  display: inline-block;
-  justify-content: center;
-  .spinner
-  {
-    align-items: center;
-    margin-left: 50px;
-  }
-  p
-  {
-    font-size: 20px;
-    color: white;
-    padding-top: 10px ;
-    text-align: center;
-  }
+  display: flex;
 }

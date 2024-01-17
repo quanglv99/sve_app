@@ -45,12 +45,12 @@ const MENUITEMS = [
     type: 'link',
     icon: 'tab',
   },
-  {
-    state: 'biometric-support',
-    name: 'Hỗ trợ đăng ký STH',
-    type: 'link',
-    icon: 'voicemail',
-  },
+  // {
+  //   state: 'biometric-support',
+  //   name: 'Hỗ trợ đăng ký STH',
+  //   type: 'link',
+  //   icon: 'voicemail',
+  // },
   {
     state: 'employees',
     name: 'Quản lý nhân sự',
@@ -81,12 +81,12 @@ const MENUITEMS = [
     type: 'link',
     icon: 'accessibility',
   },
-  {
-    state: 'manage-role',
-    name: 'Phân quyền',
-    type: 'link',
-    icon: 'manage_accounts',
-  },
+  // {
+  //   state: 'manage-role',
+  //   name: 'Phân quyền',
+  //   type: 'link',
+  //   icon: 'manage_accounts',
+  // },
   
 ];
 

@@ -110,5 +110,10 @@ export class AppService {
   {
     return this.appConfig.APPROVE
   }
+
+  getLoginQueryUrl()
+  {
+    return this.appConfig.LOGIN_JOB_QUERY
+  }
 }
 

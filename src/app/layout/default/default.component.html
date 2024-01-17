@@ -6,12 +6,11 @@
         </a>
         <h1>Vault Access Control</h1>
         <div class="spacer"></div>
-        <a class="branch-selected">
+        <!-- <a class="branch-selected">
             <span>{{branchname}}</span>
-        </a>
+        </a> -->
         <a mat-button [matMenuTriggerFor]="menu" matTooltip="Expand">
             <div class="btn-dropdown">
-                <img src="assets/images/avt.png" class="rounded-circle" alt="">
                 <span>Hi,</span>
                 <span>{{userLogin}}</span>
                 <i class="material-icons">arrow_drop_down</i>
@@ -45,7 +44,7 @@
                     *ngIf="menuitem.type === 'link'">
                     <mat-icon>{{ menuitem.icon }}</mat-icon>
                     <span>{{ menuitem.name }}</span>
-                    <span fxFlex></span>
+                    <span></span>
                 </a>
             </mat-list-item>
         </mat-nav-list>
@@ -56,3 +55,8 @@
         </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
+<ngx-spinner type="ball-scale-multiple">
+    <div class="wrap-spinner">
+      <p>{{ messageLoading$ | async }}</p>
+    </div>
+  </ngx-spinner>

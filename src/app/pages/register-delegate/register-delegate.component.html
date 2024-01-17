@@ -9,11 +9,14 @@
                     <div class="inline-item">
                         <p><span>Chi nhánh</span>
                             <mat-form-field appearance="outline" class="w-300">
-                                <mat-label>Chọn chi nhánh</mat-label>
-                                <mat-select formControlName="branchname">
-                                    <mat-option *ngFor="let branch of branches" [value]="branch">{{branch}}</mat-option>
-                                  </mat-select>
-                            </mat-form-field>
+                                <mat-label>Chi nhánh</mat-label>
+                                <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="onSelected(option)">
+                                    {{option.branchname}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
                             </p>
                     </div>
                     <div class="flex-item">

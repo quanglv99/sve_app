@@ -51,14 +51,18 @@ export class TasksComponent implements OnInit {
   ) {}
 
   onClick(element: any): void {
-    const dialogRef = this.dialog.open(BioSupportPopupComponent, {
-      data: element,
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.refreshTableData();
-      }
-    });
+    if(element.task_sub_group === "enroll")
+    {
+      const dialogRef = this.dialog.open(BioSupportPopupComponent, {
+        data: element,
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.refreshTableData();
+        }
+      });
+    }
+    
   }
 
   ngOnInit(): void {
@@ -82,8 +86,8 @@ export class TasksComponent implements OnInit {
             const dialogRef = this.dialog.open(ConfirmDialogComponent, {
               width: "300px",
               data: {
-                title: "Session has timeout",
-                message: `${res.message}. Back to log in!!`,
+                title: "Có lỗi xảy ra",
+                message: `Message: ${res.message}`,
                 showYesNo: false,
               },
             });
@@ -112,8 +116,8 @@ export class TasksComponent implements OnInit {
           const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             width: "300px",
             data: {
-              title: "Session has timeout",
-              message: `${res.message}. Back to log in!!`,
+              title: "Có lỗi xảy ra",
+              message: `Message: ${res.message}`,
               showYesNo: false,
             },
           });

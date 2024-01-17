@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -15,6 +21,8 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { LoadingService } from "src/app/services/loading.service";
 import { InterceptorService } from "src/app/services/interceptor.service";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
+import { SpinnerService } from "src/app/services/spinner.service";
 
 @Component({
   selector: "app-default",
@@ -32,9 +40,11 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatMenuModule,
     MatProgressBarModule,
     MatTooltipModule,
+    NgxSpinnerModule,
   ],
-  providers: [MenuItems,
-    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true }
+  providers: [
+    MenuItems,
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
   ],
   templateUrl: "./default.component.html",
   styleUrls: ["./default.component.scss"],
@@ -43,17 +53,18 @@ export class DefaultComponent implements OnInit {
   userLogin!: string;
   branchname!: string;
   loading: boolean = false;
-  @ViewChild('sidenav') sidenav!: MatSidenav;
+  @ViewChild("sidenav") sidenav!: MatSidenav;
   isSidenavOpen: boolean = false;
-
-  
+  messageLoading$ = this.spinnerService.messageState$;
   constructor(
     public menuItems: MenuItems,
     private authService: AuthService,
     private router: Router,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private spinnerService: SpinnerService
   ) {}
   ngOnInit(): void {
+    this.spinnerService.hideSpinner();
     const userFulname = localStorage.getItem("currentUserFullname");
     const branch = localStorage.getItem("branchname");
     if (userFulname) {
@@ -71,8 +82,15 @@ export class DefaultComponent implements OnInit {
 
   onSigout() {
     const token = localStorage.getItem("currentToken");
-    this.authService.logout(token).subscribe((response) => {
-      this.router.navigate(["login"]);
-    });
+    this.authService.logout(token).subscribe(
+      (response) => {
+        localStorage.removeItem("currentToken");
+        this.router.navigate(["login"]);
+      },
+      (error) => {
+        localStorage.removeItem("currentToken");
+        this.router.navigate(["login"]);
+      }
+    );
   }
 }
