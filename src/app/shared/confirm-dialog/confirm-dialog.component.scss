@@ -1,0 +1,18 @@
+@import "src/app/styles/colors";
+
+.action
+{
+    padding: 0 24px 0 24px;
+    color: $dark-pink;
+    font-weight: bold;
+    a
+    {
+        cursor: pointer;
+    }
+}
+
+.message
+{
+    max-width: 60%;
+    word-wrap: break-word;
+}

@@ -9,16 +9,17 @@ import { LoadingService } from './loading.service';
 })
 export class InterceptorService implements HttpInterceptor {
 
-  constructor(public loadingService: LoadingService) { }
+  constructor(
+    public loadingService: LoadingService,
+  ) {}
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.loadingService.isLoading.next(true);
-    console.log('Interceptor Triggered');
+
     return next.handle(req).pipe(
-      finalize(
-        () => {
-          this.loadingService.isLoading.next(false);
-        }
-      )
+      finalize(() => {
+        this.loadingService.isLoading.next(false);
+      })
     );
   }
 }

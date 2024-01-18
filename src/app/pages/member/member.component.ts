@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -37,6 +36,7 @@ import { NgToastModule, NgToastService } from 'ng-angular-popup';
     MatInputModule,
     MatDialogModule,
     EditmemberDetailPopupComponent,
+    NgToastModule,
   ],
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.scss']

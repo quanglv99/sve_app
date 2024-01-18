@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Yêu cầu hỗ trợ</h2>
+<div class="content">
+    <mat-form-field class="w-300">
+        <input #reason matInput placeholder="Nhập lời nhắn">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <div class="btn-container">
+        <button mat-raised-button color="warn" (click)="onYesClick()">Yes</button>
+        <button mat-stroked-button  (click)="onNoClick()">No</button>
+    </div>
+</div>

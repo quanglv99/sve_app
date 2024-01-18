@@ -1,40 +1,21 @@
-<mat-card>
-    <mat-progress-bar mode="indeterminate" *ngIf="loading" class="progress-bar"></mat-progress-bar>
-    <mat-card-header>
-        <mat-card-title>LOG IN</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <form [formGroup]="loginForm" class="form-group">
-            <div class="wrap-input">
-                <div class="inline-item">
-                    <p>
-                        <mat-form-field appearance="outline" class="input-text w-300">
-                            <mat-label>Username</mat-label>
-                            <mat-icon matPrefix>account_circle</mat-icon>
-                            <input #inputUsername formControlName="username" type="text" autocomplete="new-username" matInput />
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="inline-item">
-                    <p>
-                        <mat-form-field appearance="outline" class="input-text w-300">
-                            <mat-icon matPrefix>lock_outline</mat-icon>
-                            <mat-label>Password</mat-label>
-                            <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" autocomplete="new-password" (keydown.enter)="onSubmit()">
-                            <a mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="hide">
-                                <mat-icon>{{ hide ? "visibility" : "visibility_off" }}</mat-icon>
-                            </a>
-                        </mat-form-field>
-                    </p>
-                </div>
-            </div>
-        </form>
-    </mat-card-content>
-    <mat-card-footer>
-        <div class="button">
-            <button type="submit" (click)="onSubmit()">
-                Login
-            </button>
-        </div>
-    </mat-card-footer>
-</mat-card>
+
+<div class="background">
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+<form [formGroup]="loginForm">
+    <h3>Vault Access Control</h3>
+
+    <label for="username">Username</label>
+    <input type="text" placeholder="Username" id="username" formControlName="username">
+
+    <label for="password">Password</label>
+    <input type="password" placeholder="Password" id="password" formControlName="password">
+
+    <button (click)="onSubmit()" class="btn" >Log in</button>
+    <div class="social">
+        <p>Powered by A.R.T JSC</p>
+    </div>
+</form>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-triangle-path" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+

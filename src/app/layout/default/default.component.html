@@ -1,40 +1,40 @@
 <mat-toolbar>
     <mat-toolbar-row>
-        <a mat-icon-button (click)="sidenav.toggle()">
-            <mat-icon>menu</mat-icon>
+        <a mat-icon-button (click)="toggleSidenav()" matTooltip="{{!isSidenavOpen ? 'Mở Menu' : 'Đóng Menu'}}">
+            <i class="material-icons" *ngIf="!isSidenavOpen">menu</i>
+            <i class="material-icons" *ngIf="isSidenavOpen">arrow_back</i>
         </a>
         <h1>Vault Access Control</h1>
         <div class="spacer"></div>
-        <a class="branch-selected">
+        <!-- <a class="branch-selected">
             <span>{{branchname}}</span>
-        </a>
-        <a mat-button [matMenuTriggerFor]="menu">
+        </a> -->
+        <a mat-button [matMenuTriggerFor]="menu" matTooltip="Expand" class="drop-container">
             <div class="btn-dropdown">
-                <img src="assets/images/avt.png" class="rounded-circle" alt="">
-                <span>Hi,</span>
                 <span>{{userLogin}}</span>
                 <i class="material-icons">arrow_drop_down</i>
             </div>
         </a>
         <mat-menu #menu="matMenu" class="profile-dropdown">
-            <div class="p-16 mb-4">
-                <button mat-menu-item class="fs-16" routerLink="profile">Hồ sơ của tôi</button>
-                <button mat-menu-item class="fs-16">Tài Khoản</button>
-                <button mat-menu-item class="fs-16">Đổi mật khẩu</button>
-                <button mat-menu-item class="fs-16" routerLink="setting">Cài đặt</button>
+            <div class="mb-4">
+                <button mat-menu-item class="fs-16" routerLink="profile"><mat-icon>person</mat-icon>Hồ sơ</button>
+                <button mat-menu-item class="fs-16" routerLink="setting"><mat-icon>settings</mat-icon>Cài đặt</button>
             </div>
             <hr>
-            <div class="p-16">
-                <button mat-flat-button color="accent" class="btn-logout" (click)="onSigout()">Đăng xuất</button>
+            <div class="btn-wrapper">
+                <button mat-flat-button class="btn-logout" (click)="onSigout()">Đăng xuất</button>
             </div>
         </mat-menu>
+
     </mat-toolbar-row>
 </mat-toolbar>
-<div *ngIf="loadingService.isLoading | async" class="loader-container">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+<div class="progress-bar">
+    <div *ngIf="loadingService.isLoading | async" class="loader-container">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
 </div>
 <mat-sidenav-container>
-    <mat-sidenav #sidenav class="side-nav" (click)="sidenav.close()" mode="side">
+    <mat-sidenav #sidenav class="side-nav" mode="side">
         <mat-nav-list appAccordion>
             <mat-list-item appAccordionLink *ngFor="let menuitem of menuItems.getMenuitem()"
                 routerLinkActive="selected">
@@ -42,7 +42,7 @@
                     *ngIf="menuitem.type === 'link'">
                     <mat-icon>{{ menuitem.icon }}</mat-icon>
                     <span>{{ menuitem.name }}</span>
-                    <span fxFlex></span>
+                    <span></span>
                 </a>
             </mat-list-item>
         </mat-nav-list>
@@ -53,3 +53,8 @@
         </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
+<ngx-spinner type="ball-scale-multiple">
+    <div class="wrap-spinner">
+      <p>{{ messageLoading$ | async }}</p>
+    </div>
+  </ngx-spinner>

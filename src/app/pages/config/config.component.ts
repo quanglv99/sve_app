@@ -1,29 +1,27 @@
-
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterModule } from '@angular/router';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { VaultConfigModel } from 'src/app/shared/models/vault-config.models';
-import { AppService } from 'src/app/services/app.service';
-import { HttpClient } from '@angular/common/http';
-import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
-import { Observable } from 'rxjs/internal/Observable';
-import { MatDialog } from '@angular/material/dialog';
-import { NgToastService } from 'ng-angular-popup';
-import {  MatDialogModule } from '@angular/material/dialog';
-import { EditConfigDetailPopupComponent } from 'src/app/popups/edit-config-detail-popup/edit-config-detail-popup.component';
-
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { MatCardModule } from "@angular/material/card";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatButtonModule } from "@angular/material/button";
+import { RouterModule } from "@angular/router";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
+import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { VaultConfigModel } from "src/app/shared/models/vault-config.models";
+import { AppService } from "src/app/services/app.service";
+import { HttpClient } from "@angular/common/http";
+import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
+import { Observable } from "rxjs/internal/Observable";
+import { MatDialog } from "@angular/material/dialog";
+import { NgToastService } from "ng-angular-popup";
+import { MatDialogModule } from "@angular/material/dialog";
+import { EditConfigDetailPopupComponent } from "src/app/popups/edit-config-detail-popup/edit-config-detail-popup.component";
 
 @Component({
-  selector: 'app-config',
+  selector: "app-config",
   standalone: true,
   imports: [
     CommonModule,
@@ -37,12 +35,12 @@ import { EditConfigDetailPopupComponent } from 'src/app/popups/edit-config-detai
     MatSortModule,
     MatIconModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
   ],
-  templateUrl: './config.component.html',
-  styleUrls: ['./config.component.scss'],
+  templateUrl: "./config.component.html",
+  styleUrls: ["./config.component.scss"],
 })
-export class ConfigComponent  implements OnInit {
+export class ConfigComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -51,28 +49,22 @@ export class ConfigComponent  implements OnInit {
   totalItems = 0;
   reponseData: any;
 
-  displayedColumns: string[] = [
-    'id',
-    'nameConfig',
-    'members',
-    'action',
-  ];
+  displayedColumns: string[] = ["id", "nameConfig", "members", "action"];
   dataSource: any;
   data: any;
   constructor(
     private appConfig: AppService,
     private http: HttpClient,
     private toast: NgToastService,
-    private router: Router,
-    private dialog: MatDialog,
-    ) {}
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.initDataTable();
   }
   onFilterChange(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.dataSource.filter = filterValue;
+    const filvalue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filvalue;
   }
   initDataTable() {
     if (!this.dataSource) {
@@ -81,6 +73,7 @@ export class ConfigComponent  implements OnInit {
         this.data = result;
         this.dataSource = new MatTableDataSource<VaultConfigModel>(this.data);
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       });
     }
   }
@@ -114,9 +107,10 @@ export class ConfigComponent  implements OnInit {
   }
   deleteRow(element: any): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '300px',
+      width: "300px",
       data: {
-        message: 'Are you sure to detele this record?',
+        title: "Confirmation",
+        message: "Are you sure to detele this record?",
         showYesNo: true,
       },
     });
@@ -128,10 +122,10 @@ export class ConfigComponent  implements OnInit {
           );
         });
         this.toast.success({
-          detail: 'SUCCESS',
-          summary: 'Deleted successfully',
-          duration:5000,
-        })
+          detail: "SUCCESS",
+          summary: "Deleted successfully",
+          duration: 5000,
+        });
       }
     });
   }

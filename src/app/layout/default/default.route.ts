@@ -9,10 +9,8 @@ export default [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
-        loadComponent: () =>
-          import('../../pages/dashboard/dashboard.component').then(
-            (c) => c.DashboardComponent
-          ),
+        loadChildren: () =>
+          import('../../pages/dashboard/dashboard.route')
       },
       {
         path: 'my-assign',
@@ -76,6 +74,26 @@ export default [
           import('../../pages/approve-assign/approve-assign.component').then(
             (c) => c.ApproveAssignComponent
           ),
+      },
+      {
+        path: 'manage-role',
+        loadChildren: () => import('../../pages/manage-role/manage-role.route'),
+      },
+      {
+        path: 'vault-configuration',
+        loadChildren: () => import('../../pages/config/config.route'),
+      },
+      {
+        path: 'vault-member',
+        loadChildren: () => import('../../pages/member/member.route'),
+      },
+      {
+        path: 'jobcodes',
+        loadChildren: () => import('../../pages/jobcode/jobcode.route'),
+      },
+      {
+        path: 'forced-vault-member',
+        loadChildren: () => import('../../pages/member-force/member-force.route'),
       },
       { path: '**', redirectTo: 'dashboard' },
     ],

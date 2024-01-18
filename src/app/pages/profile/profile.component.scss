@@ -1,4 +1,6 @@
-@import '../../shared/mixins';
+@import 'src/app/styles/mixins';
+@import "src/app/styles/colors";
+@import "src/app/styles/font";
 .row {
   @include customRow()
 }
@@ -10,6 +12,7 @@
 }
 ::ng-deep {
   .card-profile {
+    margin-top: 16px 0 0 0;
     @include customBoxShadow();
     mat-card-title {
       @include customMatTitle();
@@ -19,6 +22,7 @@
     }
   }
   .card-biometric {
+    margin: 16px 0 0 0;
     @include customBoxShadow();
     mat-card-title {
       @include customMatTitle()
@@ -36,8 +40,8 @@
       }
 
       input::file-selector-button {
-        font-weight: bold;
-        color: #353535;
+        font-weight: $fw-bold;
+        color: $dark-grey;
         padding: 0.5em;
         border: none;
         border-radius: 3px;
@@ -45,6 +49,7 @@
     }
   }
   .card-other {
+    margin: 16px 0 0 0;
     @include customBoxShadow();
     mat-card-title {
       @include customMatTitle()
@@ -57,20 +62,28 @@
 .bio-row {
   width: 100%;
   float: left;
-  margin-bottom: 10px;
-  padding: 0 15px;
+  padding: 0 15px 10px 15px;
   span {
-    color: #1b1b1b;
-    font-weight: 600;
-  }
-  p {
-    color: #575757;
+    font-weight: $fw-bold;
   }
   i {
     cursor: pointer;
   }
 }
 
+.status-row
+{ margin-left: 30px;
+  width: 100%;
+  padding: 0 15px 10px 15px;
+  span {
+    font-weight: $fw-bold;
+  }
+}
+
+.status-row p span {
+  width: 200px;
+  display: inline-block;
+} 
 .bio-row p span {
   width: 200px;
   display: inline-block;
@@ -81,7 +94,19 @@
   margin-left: 10px;
 }
 
+.btn 
+{
+ float: right;
+ width: 200px !important;
+ margin-right: 20px ;
+}
+
 .title
 {
  margin: 0 15px 20px;
+}
+
+.header-container
+{
+  display: flex;
 }

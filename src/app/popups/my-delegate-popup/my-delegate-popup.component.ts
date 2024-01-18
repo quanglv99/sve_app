@@ -16,13 +16,9 @@ import { RouterModule } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
   MatNativeDateModule,
-  NativeDateAdapter,
 } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MY_DATE_FORMATS } from '../../shared/const/custom-date';
 import {
   FormBuilder,
   FormGroup,
@@ -31,9 +27,8 @@ import {
 } from '@angular/forms';
 import { StepProgressComponent } from '../../shared/step-progress/step-progress.component';
 import { TRAN_STATUS } from 'src/app/shared/const/tran-status';
-import { MEMBER_LIST } from 'src/app/shared/const/member-value';
 import { AppService } from 'src/app/services/app.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgToastModule, NgToastService } from 'ng-angular-popup';
 import { DelegateModel } from 'src/app/shared/models/delegate-models';
 
@@ -58,6 +53,7 @@ import { DelegateModel } from 'src/app/shared/models/delegate-models';
     StepProgressComponent,
     MatDialogModule,
     NgToastModule,
+    HttpClientModule,
   ],
   providers: [DatePipe],
   templateUrl: './my-delegate-popup.component.html',
@@ -68,11 +64,11 @@ export class MyDelegatePopupComponent implements OnInit {
   currentStep!: number;
   status = TRAN_STATUS;
   isDisable: boolean = false;
+  dialogResult: number | null = null;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DelegateModel,
     private dialogRef: MatDialogRef<MyDelegatePopupComponent>,
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
     private http: HttpClient,
     private appService: AppService,
     private toast: NgToastService,
@@ -126,7 +122,8 @@ export class MyDelegatePopupComponent implements OnInit {
     });
   }
   onClose() {
-    this.dialogRef.close();
+    this.dialogResult = 0 
+    this.dialogRef.close(this.dialogResult);
   }
 
   onCancelDelegate() {
@@ -138,7 +135,8 @@ export class MyDelegatePopupComponent implements OnInit {
         summary: `Bạn đã hủy bản ghi ID: ${this.data.id}`,
         sticky: true,
       });
-      this.dialogRef.close();
+      this.dialogResult = 1
+      this.dialogRef.close(this.dialogResult);
     });
   }
   onRemoveDelegate()
@@ -151,7 +149,8 @@ export class MyDelegatePopupComponent implements OnInit {
         summary: `Bạn đã chấm dứt bản ghi ID: ${this.data.id}`,
         sticky: true,
       });
-      this.dialogRef.close();
+      this.dialogResult = 1
+      this.dialogRef.close(this.dialogResult);
     });
   }
 }

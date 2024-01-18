@@ -81,5 +81,39 @@ export class AppService {
     return this.appConfig.INFO_CARD
   }
 
+  getJobQueryUrl()
+  {
+    return this.appConfig.JOB_QUERY
+  }
+
+  getPasscodeUrl()
+  {
+    return this.appConfig.PASSCODE
+  }
+
+  getCallSupporterUrl()
+  {
+    return this.appConfig.CALL_SUPPORTER
+  }
+
+  getCertUrl()
+  {
+    return this.appConfig.WELCOME
+  }
+
+  getTaskListUrl()
+  {
+    return this.appConfig.TASK_LIST
+  }
+
+  getApproveUrl()
+  {
+    return this.appConfig.APPROVE
+  }
+
+  getLoginQueryUrl()
+  {
+    return this.appConfig.LOGIN_JOB_QUERY
+  }
 }
 

@@ -19,16 +19,14 @@
                     <div class="bio-row">
                         <p><span>Email</span>{{data?.origin_json.email}}</p>
                     </div>
+                    
                     <div class="bio-row">
-                        <p><span>Trạng thái truy cập</span>{{data?.work_status}}</p>
+                        <p><span>Số CCCD</span>{{data?.origin_json.idNo}}</p>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="bio-row">
-                        <p><span>Danh xưng</span>{{data?.origin_json.gender}}</p>
-                    </div>
-                    <div class="bio-row">
-                        <p><span>Số CCCD</span>{{data?.id_card_no}}</p>
+                        <p><span>Nơi làm việc</span>{{data?.origin_json.address}}</p>
                     </div>
                     <div class="bio-row">
                         <p><span>Loại hợp đồng</span>{{data?.origin_json.contractType}}</p>
@@ -37,7 +35,7 @@
                         <p><span>Ngày hết hạn hợp đồng</span>{{data?.origin_json.contractEndDate}}</p>
                     </div>
                     <div class="bio-row">
-                        <p><span>Trạng thái làm việc</span>{{data?.work_status}}</p>
+                        <p><span>Trạng thái làm việc</span>{{data?.origin_json.statusDesc}}</p>
                     </div>
                 </div>
             </mat-card-content>
@@ -45,15 +43,21 @@
         <mat-card class="card-biometric">
             <mat-card-title>Upload giấy tờ</mat-card-title>
             <mat-divider></mat-divider>
-            <div class="bio-row">
-                <p><span>Trạng thái:</span> {{enroll_message}}</p>
+            <div class="header-container">
+                <div class="status-row">
+                    <p><span>Trạng thái:</span> {{enroll_message}}</p>
+                </div>
+                <button mat-stroked-button color="primary" class="btn" (click)="getPasscode()"
+                    *ngIf="!showFormInput && (enroll_status == 2 || enroll_status == 5 || enroll_status == 6 || enroll_status == 7)">Xem passcode</button>
+                <button mat-stroked-button color="primary" class="btn" (click)="callSupporter()"
+                    *ngIf="enroll_status == 4">Cần hỗ trợ</button>
             </div>
+
             <mat-card-content>
-                <div class="form-input" *ngIf="showFormInput && (enroll_status == 1 ||  enroll_status == 4)">
+                <div class="form-input" *ngIf="showFormInput && (enroll_status == 1 || enroll_status == 3 )">
                     <button mat-stroked-button class="right-btn" (click)="toggleForms()" *ngIf="isEdit">Thoát</button>
-                    <button mat-stroked-button class="right-btn">Lưu & Cần hỗ trợ</button>
                     <button mat-raised-button color="primary" class="right-btn" [disabled]="biometricForm.invalid"
-                        (click)="enrollSudmit()" *ngIf="enroll_status == 1">Lưu</button>
+                        (click)="enrollSubmit()">Lưu</button>
                     <form [formGroup]="biometricForm">
                         <div class="col-6">
                             <div class="bio-row">
@@ -74,8 +78,10 @@
                         </div>
                     </form>
                 </div>
-                <div class="form-detail" *ngIf="!showFormInput && (enroll_status == 2 || enroll_status == 5 || enroll_status == 6 || enroll_status == 7)">
-                    <button mat-raised-button color="primary" class="right-btn" (click)="toggleForms()" *ngIf="enroll_status == 2">Đăng ký lại</button>
+                <div class="form-detail"
+                    *ngIf="!showFormInput && (enroll_status == 2 || enroll_status == 6 || enroll_status == 7)">
+                    <button mat-raised-button color="primary" class="right-btn" (click)="toggleForms()"
+                        *ngIf="enroll_status == 2">Đăng ký lại</button>
                     <div class="col-6">
                         <div class="bio-row">
                             <p><span>Ảnh mặt trước CCCD</span>
@@ -98,14 +104,15 @@
         </mat-card>
         <mat-card class="card-other">
             <mat-card-title>Thông tin sinh trắc học</mat-card-title>
+            <mat-divider></mat-divider>
             <mat-card-content>
                 <div class="col-6">
                     <div class="bio-row">
-                        <p><span>Vân tay</span> Chưa đăng ký</p>
+                        <p><span>Vân tay</span> {{enroll_status == 2 ? 'Đã có mẫu sinh trắc học' :'Chưa có mẫu sinh trắc học'}}</p>
                     </div>
                     <div class="bio-row">
                         <p><span>Khuôn mặt</span>
-                            Chưa đăng ký
+                            {{enroll_status == 2 ? 'Đã có mẫu sinh trắc học' :'Chưa có mẫu sinh trắc học'}}
                         </p>
                     </div>
                 </div>

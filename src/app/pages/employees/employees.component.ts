@@ -22,6 +22,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
+import { MatListModule } from '@angular/material/list';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-employees',
@@ -44,6 +46,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatNativeDateModule,
     MatSelectModule,
     ReactiveFormsModule,
+    MatListModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.scss'],
@@ -69,6 +73,7 @@ export class EmployeesComponent {
   data: any;
   isOpen = true
   formSearch!: FormGroup
+  showFilter = false
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
@@ -77,6 +82,10 @@ export class EmployeesComponent {
     private formBuilder: FormBuilder
   ) {}
 
+  showFilterFn()
+  {
+    this.showFilter = !this.showFilter
+  }
   onClick(element: any): void {
     this.emService.setMemberData(element);
   }
@@ -107,6 +116,7 @@ export class EmployeesComponent {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
       data: {
+        title: 'Confirmation',
         message: 'Are you sure to detele this record?',
         showYesNo: true,
       },
@@ -140,6 +150,7 @@ export class EmployeesComponent {
       endDateInput: [''],
       employeeCode: [''],
       employeeInput: [''],
+      jobcode: ['']
     });
   }
   onSearch() {

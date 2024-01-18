@@ -1,4 +1,4 @@
-@import '../../shared/mixins';
+@import 'src/app/styles/mixins';
 .table-responsive {
     overflow-x: auto;
 }
@@ -31,6 +31,7 @@ th.mat-header-cell {
         @include customBoxShadow();
     }
     .card-table {
+        margin-top: 16px;
         @include customBoxShadow();
     }
 }

@@ -1,11 +1,11 @@
-<h2 mat-dialog-title *ngIf="data.showYesNo">Confirmation</h2>
-<h2 mat-dialog-title *ngIf="!data.showYesNo">Confirmation</h2>
-<div mat-dialog-content>
-  {{ data.message }}
+<h2 mat-dialog-title>{{data.title}}</h2>
+<div mat-dialog-content class="content">
+  <span class="message">
+    {{ data.message }}
+  </span>
 </div>
-<div mat-dialog-actions>
-    <button mat-button *ngIf="data.showYesNo" color="warn" (click)="onYesClick()">Yes</button>
-    <button mat-button *ngIf="data.showYesNo" (click)="onNoClick()">No</button>
-
-    <button mat-button *ngIf="!data.showYesNo" (click)="onOkClick()">OK</button>
+<div mat-dialog-actions class="action">
+    <a *ngIf="data.showYesNo" color="warn" (click)="onYesClick()">Yes</a>
+    <a  *ngIf="data.showYesNo" (click)="onNoClick()">No</a>
+    <a  *ngIf="!data.showYesNo" (click)="onOkClick()">OK</a>
 </div>

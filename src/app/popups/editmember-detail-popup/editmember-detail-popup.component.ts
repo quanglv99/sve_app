@@ -22,9 +22,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { JobcodeModel } from 'src/app/shared/models/jobcode.models';
 import { MemberModel } from 'src/app/shared/models/member.models';
 @Component({
-  selector: 'app-editmember-detail-popup',
+  selector: "app-editmember-detail-popup",
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     CommonModule,
     MatCardModule,
     MatButtonModule,
@@ -38,11 +39,11 @@ import { MemberModel } from 'src/app/shared/models/member.models';
     MatNativeDateModule,
     StepProgressComponent,
     ReactiveFormsModule,
-    MatCheckboxModule
-
+    MatCheckboxModule,
+    NgToastModule,
   ],
-  templateUrl: './editmember-detail-popup.component.html',
-  styleUrls: ['./editmember-detail-popup.component.scss']
+  templateUrl: "./editmember-detail-popup.component.html",
+  styleUrls: ["./editmember-detail-popup.component.scss"],
 })
 export class EditmemberDetailPopupComponent implements OnInit {
   jobcodes!: JobcodeModel[];
@@ -56,13 +57,12 @@ export class EditmemberDetailPopupComponent implements OnInit {
     private appService: AppService,
     private http: HttpClient,
     private router: Router,
-    private toast: NgToastService
+    private toast: NgToastService,
   ) {}
 
   ngOnInit(): void {
-    this.initData()
+    this.initData();
     this.initializeForm();
-
   }
 
   initData() {
@@ -76,9 +76,9 @@ export class EditmemberDetailPopupComponent implements OnInit {
       name: [this.data.name],
       jobcodes: [
         this.data.jobcodes.map((jobcode: { id: number }) => jobcode.id),
-        { value: this.data.jobcodes},
+        { value: this.data.jobcodes },
       ],
-      status:[this.data.status],
+      status: [this.data.status],
       note: [this.data.note],
     });
 
@@ -124,6 +124,4 @@ export class EditmemberDetailPopupComponent implements OnInit {
   onClose() {
     this.dialogRef.close();
   }
-
-
 }

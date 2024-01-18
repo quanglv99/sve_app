@@ -45,18 +45,48 @@ const MENUITEMS = [
     type: 'link',
     icon: 'tab',
   },
-  {
-    state: 'biometric-support',
-    name: 'Hỗ trợ đăng ký STH',
-    type: 'link',
-    icon: 'voicemail',
-  },
+  // {
+  //   state: 'biometric-support',
+  //   name: 'Hỗ trợ đăng ký STH',
+  //   type: 'link',
+  //   icon: 'voicemail',
+  // },
   {
     state: 'employees',
     name: 'Quản lý nhân sự',
     type: 'link',
     icon: 'account_circle',
   },
+  {
+    state: 'vault-configuration',
+    name: 'Cấu hình kho',
+    type: 'link',
+    icon: 'handyman',
+  },
+  {
+    state: 'vault-member',
+    name: 'Thành viên BQL',
+    type: 'link',
+    icon: 'groups',
+  },
+  {
+    state: 'jobcodes',
+    name: 'Quản lý Jobcode',
+    type: 'link',
+    icon: '123',
+  },
+  {
+    state: 'forced-vault-member',
+    name: 'Chỉ định thành viên',
+    type: 'link',
+    icon: 'accessibility',
+  },
+  // {
+  //   state: 'manage-role',
+  //   name: 'Phân quyền',
+  //   type: 'link',
+  //   icon: 'manage_accounts',
+  // },
   
 ];
 
