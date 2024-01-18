@@ -1,24 +1,26 @@
-import { Component, Inject, OnInit } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { MatCardModule } from "@angular/material/card";
-import { MatButtonModule } from "@angular/material/button";
-import { MatDividerModule } from "@angular/material/divider";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { Router, RouterModule } from "@angular/router";
-import { MatSelectModule } from "@angular/material/select";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatNativeDateModule } from "@angular/material/core";
-import { StepProgressComponent } from "../../shared/step-progress/step-progress.component";
-import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { AppService } from "src/app/services/app.service";
-import { HttpClient } from "@angular/common/http";
-import { NgToastModule, NgToastService } from "ng-angular-popup";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { JobcodeModel } from "src/app/shared/models/jobcode.models";
-import { MemberModel } from "src/app/shared/models/member.models";
+import {  Component, Inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { Router, RouterModule } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  MatNativeDateModule,
+} from '@angular/material/core';
+import { StepProgressComponent } from '../../shared/step-progress/step-progress.component';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AppService } from 'src/app/services/app.service';
+import { HttpClient } from '@angular/common/http';
+import { NgToastModule, NgToastService } from 'ng-angular-popup';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { JobcodeModel } from 'src/app/shared/models/jobcode.models';
+import { MemberModel } from 'src/app/shared/models/member.models';
 @Component({
   selector: "app-editmember-detail-popup",
   standalone: true,
@@ -55,7 +57,7 @@ export class EditmemberDetailPopupComponent implements OnInit {
     private appService: AppService,
     private http: HttpClient,
     private router: Router,
-    private toast: NgToastService
+    private toast: NgToastService,
   ) {}
 
   ngOnInit(): void {
@@ -100,20 +102,21 @@ export class EditmemberDetailPopupComponent implements OnInit {
       this.http.put(url, updateMembers).subscribe(
         (response) => {
           this.toast.success({
-            detail: "SUCCESS",
-            summary: "Update successful",
+            detail:'SUCCESS',
+            summary:'Update successful',
             duration: 5000,
           });
           this.dialogRef.close(); // Đóng dialog sau khi cập nhật thành công
-          this.router.navigate(["/default/setting/config"]);
+          this.router.navigate(['/default/setting/config']);
         },
         (error) => {
           this.toast.error({
-            detail: "ERROR",
-            summary: "Please try again",
+            detail: 'ERROR',
+            summary: 'Please try again',
             sticky: true,
-          });
+          })
         }
+     
       );
     }
   }

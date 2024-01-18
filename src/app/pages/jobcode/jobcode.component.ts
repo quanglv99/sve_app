@@ -57,32 +57,31 @@ export class JobcodeComponent implements OnInit {
   ];
   dataSource: any;
   data: any;
-
+  initialData: any;
   constructor(private http: HttpClient,
     private dialog: MatDialog,
     private appConfig: AppService,
 
   ) { }
-
-
   ngOnInit(): void {
     this.initDataTable();
   }
-
-
   initDataTable() {
     if (!this.dataSource) {
       const url = this.appConfig.getJobcodeList();
       this.http.get(url).subscribe((result: any) => {
+        this.initialData = result;
         this.data = result;
         this.dataSource = new MatTableDataSource<JobcodeModel>(this.data);
         this.dataSource.paginator = this.paginator;
+        console.log('Initial data loaded:', this.initialData);
       });
     }
   }
-  Filterchange(event: Event) {
-    const filvalue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filvalue;
+  
+  onFilterChange(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
   refreshTableData() {
     const url = this.appConfig.getJobcodeList();
@@ -99,18 +98,14 @@ export class JobcodeComponent implements OnInit {
       this.refreshTableData()
     });
   }
-
-
   deleteRow(element: any): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
       data: {
-        title: 'Confirmation',
         message: 'Are you sure to detele this record?',
         showYesNo: true,
       },
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.deleteRecord(element.id).subscribe(() => {
@@ -121,10 +116,8 @@ export class JobcodeComponent implements OnInit {
       }
     });
   }
-
   deleteRecord(id: number): Observable<any> {
     const url = `${this.appConfig.getJobcodeList()}/${id}`;
     return this.http.delete(url);
   }
-
 }

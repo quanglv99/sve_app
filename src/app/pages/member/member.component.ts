@@ -1,25 +1,25 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { MatCardModule } from "@angular/material/card";
-import { MatDividerModule } from "@angular/material/divider";
-import { MatButtonModule } from "@angular/material/button";
-import { RouterModule } from "@angular/router";
-import { MatTableModule, MatTableDataSource } from "@angular/material/table";
-import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { HttpClient } from "@angular/common/http";
-import { MatDialogModule, MatDialog } from "@angular/material/dialog";
-import { MatSortModule, MatSort } from "@angular/material/sort";
-import { Observable } from "rxjs";
-import { EditmemberDetailPopupComponent } from "src/app/popups/editmember-detail-popup/editmember-detail-popup.component";
-import { AppService } from "src/app/services/app.service";
-import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
-import { MemberModel } from "src/app/shared/models/member.models";
-import { NgToastModule, NgToastService } from "ng-angular-popup";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { HttpClient } from '@angular/common/http';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatSortModule, MatSort } from '@angular/material/sort';
+import { Observable } from 'rxjs';
+import { EditmemberDetailPopupComponent } from 'src/app/popups/editmember-detail-popup/editmember-detail-popup.component';
+import { AppService } from 'src/app/services/app.service';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { MemberModel } from 'src/app/shared/models/member.models';
+import { NgToastModule, NgToastService } from 'ng-angular-popup';
 @Component({
-  selector: "app-membercontrol",
+  selector: 'app-membercontrol',
   standalone: true,
   imports: [
     CommonModule,
@@ -38,8 +38,8 @@ import { NgToastModule, NgToastService } from "ng-angular-popup";
     EditmemberDetailPopupComponent,
     NgToastModule,
   ],
-  templateUrl: "./member.component.html",
-  styleUrls: ["./member.component.scss"],
+  templateUrl: './member.component.html',
+  styleUrls: ['./member.component.scss']
 })
 export class MembercontrolComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -50,22 +50,27 @@ export class MembercontrolComponent implements OnInit {
   totalItems = 0;
   reponseData: any;
 
-  displayedColumns: string[] = ["id", "nameMember", "status", "action"];
+  displayedColumns: string[] = [
+    'id',
+    'nameMember',
+    'status',
+    'action',
+  ];
   dataSource: any;
   data: any;
-  statusLabelPosition: "before" | "after" = "after";
+  statusLabelPosition: 'before' | 'after' = 'after';
   constructor(
     private appConfig: AppService,
     private http: HttpClient,
     private dialog: MatDialog,
     private toast: NgToastService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.initDataTable();
   }
-  Filterchange(event: Event) {
-    const filvalue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filvalue;
+  onFilterChange(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
   initDataTable() {
     if (!this.dataSource) {
@@ -74,7 +79,6 @@ export class MembercontrolComponent implements OnInit {
         this.data = result;
         this.dataSource = new MatTableDataSource<MemberModel>(this.data);
         this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
       });
     }
   }
@@ -92,7 +96,6 @@ export class MembercontrolComponent implements OnInit {
       this.dataSource.sort = this.sort;
     }
   }
-
   refreshTableData() {
     const url = this.appConfig.getMemberList();
     this.http.get(url).subscribe((result: any) => {
@@ -105,24 +108,21 @@ export class MembercontrolComponent implements OnInit {
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.refreshTableData();
+      this.refreshTableData()
     });
   }
   deleteRecord(id: number): Observable<any> {
     const url = `${this.appConfig.getMemberList()}/${id}`;
     return this.http.delete(url);
   }
-
   deleteRow(element: any): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: "300px",
+      width: '300px',
       data: {
-        title: 'Confirmation',
-        message: "Are you sure to detele this record?",
+        message: 'Are you sure to detele this record?',
         showYesNo: true,
       },
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.deleteRecord(element.id).subscribe(() => {
@@ -131,10 +131,10 @@ export class MembercontrolComponent implements OnInit {
           );
         });
         this.toast.success({
-          detail: "SUCCESS",
-          summary: "Deleted successfully",
+          detail: 'SUCCESS',
+          summary: 'Deleted successfully',
           duration: 5000,
-        });
+        })
       }
     });
   }

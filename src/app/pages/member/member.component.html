@@ -5,7 +5,7 @@
             <button mat-raised-button color="primary" class="right-btn" routerLink="add-member">Thêm mới</button>
             <div class="group">
                 <i class="material-icons">search</i>
-                <input placeholder="Search" type="search" class="input" (keyup)="Filterchange($event)">
+                <input placeholder="Search" type="search" class="input" (input)="onFilterChange($event)">
             </div>
         </div>
     </mat-card-content>

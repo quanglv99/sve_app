@@ -4,7 +4,11 @@
         <div class="header-container">
             <div class="group">
                 <i class="material-icons">search</i>
-                <input placeholder="Search" type="search" class="input">
+                <form [formGroup]="inputForm">
+                    <input placeholder="Tìm kiếm" type="search" class="input" formControlName="jobcode">
+                </form>
+                <button mat-raised-button color="primary" (click)="searchJobcode()" [disabled]="inputForm.invalid">Tìm
+                    kiếm</button>
             </div>
         </div>
     </mat-card-content>
@@ -32,7 +36,12 @@
                 <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef> Hành động </th>
                     <td mat-cell *matCellDef="let element">
-                        <a (click)="onClick(element)" class="btn-icon"><i class="material-icons">add</i></a>
+                        <button class="btn" (click)="addJobcode(element)">
+                            <p class="paragraph"> add </p>
+                            <span class="icon-wrapper">
+                                <i class="material-icons">add</i>
+                            </span>
+                        </button>
                     </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -41,7 +50,8 @@
         </div>
     </mat-card-content>
     <mat-card-footer>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+            aria-label="Select page of periodic elements">
         </mat-paginator>
     </mat-card-footer>
 </mat-card>

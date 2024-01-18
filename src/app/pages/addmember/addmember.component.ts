@@ -1,24 +1,19 @@
-import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-  FormGroup,
-  FormBuilder,
-} from "@angular/forms";
-import { MatSelectModule } from "@angular/material/select";
-import { MatCardModule } from "@angular/material/card";
-import { MatDividerModule } from "@angular/material/divider";
-import { MatButtonModule } from "@angular/material/button";
-import { Router } from "@angular/router";
-import { AppService } from "src/app/services/app.service";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
-import { MatDialogModule } from "@angular/material/dialog";
-import { NgToastModule, NgToastService } from "ng-angular-popup";
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule,Validators,FormGroup,FormBuilder } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
+import { AppService } from 'src/app/services/app.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { NgToastModule } from 'ng-angular-popup';
 
 @Component({
   selector: "app-addmember",
@@ -42,31 +37,31 @@ import { NgToastModule, NgToastService } from "ng-angular-popup";
   templateUrl: "./addmember.component.html",
   styleUrls: ["./addmember.component.scss"],
 })
-export class AddmemberComponent {
+export class AddmemberComponent{
   jobcodes: any;
-  addMemberForm!: FormGroup;
+  addMemberForm! : FormGroup
   constructor(
     private formBuilder: FormBuilder,
     private appService: AppService,
     private http: HttpClient,
     private router: Router,
-    private toast: NgToastService
-  ) {}
+    private dialog: MatDialog
+    ){
+
+  }
 
   ngOnInit(): void {
     this.initializeForm();
     this.initData();
   }
-
   initializeForm() {
     this.addMemberForm = this.formBuilder.group({
-      name: ["", Validators.required],
-      jobcodes: [[], Validators.required], // Initialize as an empty array
-      noteConfig: [""],
-      status: [""],
+      name: ['', Validators.required],
+      jobcodes: [[], Validators.required],  // Initialize as an empty array
+      note: [''],
+      status: [''],
     });
   }
-
   initData() {
     const e_url = this.appService.getJobcodeList();
     this.http.get(e_url).subscribe((result: any) => {
@@ -78,21 +73,24 @@ export class AddmemberComponent {
       const formData = this.addMemberForm.value;
       const apiUrl = this.appService.getMemberList();
 
+
+
       this.http.post(apiUrl, formData).subscribe(
         (response) => {
-          this.toast.success({
-            detail: "SUCCESS",
-            summary: "Thêm mới thành công",
-            duration: 5000,
-          });
-          this.router.navigate(["/default/setting/member"]);
+          const dialogRef = this.dialog.open(ConfirmDialogComponent,{
+            width: '300px',
+            data: {message: 'Thêm mới thành phần thành công, trở về trang chính?',showYesNo:true}
+          })
+
+          dialogRef.afterClosed().subscribe( (response) =>
+          {
+            if(response)
+            this.router.navigate(['/default/setting/member']);
+          })
+
         },
         (error) => {
-          this.toast.error({
-            detail: "ERROR",
-            summary: "Vui lòng thử lại",
-            sticky: true,
-          });
+          console.error('Error adding data:', error);
         }
       );
     }

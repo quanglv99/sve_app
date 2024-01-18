@@ -8,29 +8,17 @@
                     <div class="inline-item">
                         <p><span>Tên thành phần</span>
                             <mat-form-field class="config-input" appearance="outline" class="w-500">
-                                <input matInput name="name" placeholder="Nhập thành phần" formControlName="nameMemberForce">
+                                <input matInput name="name" placeholder="Nhập thành phần" formControlName="name">
                             </mat-form-field>
                         </p>
                     </div>
                     <div class="inline-item">
                         <p><span>Employee</span>
                             <mat-form-field appearance="outline" class="w-500">
-                                <mat-select name="employees" formControlName="employee" multiple>
+                                <mat-select name="employees" formControlName="employee">
                                     <mat-option *ngFor="let emp of employee" [value]="emp.id">{{ emp.code }}-{{emp.fullname}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </p>
-                    </div>
-                    <div class="inline-item">
-                        <p><span>Ghi chú</span>
-                            <mat-form-field appearance="outline" class="w-500">
-                                <textarea matInput name="note" type="text" rows="4" formControlName="noteMemberForce"></textarea>
-                            </mat-form-field>
-                        </p>
-                    </div>
-                    <div class="inline-item">
-                        <p><span></span>
-                            <mat-checkbox formControlName="status">Active</mat-checkbox>
                         </p>
                     </div>
                     <div class="button-btn">

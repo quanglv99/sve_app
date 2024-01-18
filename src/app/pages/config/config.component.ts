@@ -62,7 +62,7 @@ export class ConfigComponent implements OnInit {
   ngOnInit(): void {
     this.initDataTable();
   }
-  Filterchange(event: Event) {
+  onFilterChange(event: Event) {
     const filvalue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filvalue;
   }
@@ -134,34 +134,32 @@ export class ConfigComponent implements OnInit {
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.refreshTableData();
+        this.refreshTableData()
     });
   }
-
-  // exportReport(): void {
-  //   const apiToken = 'glsa_jBj8cwBAyoimaJ3Mm3o627UoQIA2DQDx_db4da1dd'; // Thay bằng API key của bạn
-  //   const apiUrl = 'http://10.125.10.52:3000/d/e2809983-9377-43ff-ab4f-f1be0c9d3ed9/atm-alert?orgId=1&refresh=5s'; // Thay bằng đường dẫn API xuất báo cáo của Grafana
-
-  //   const newWindow = window.open();
-  //   if (newWindow) {
-  //     this.http
-  //       .get(apiUrl, {
-  //         headers: {
-  //           Authorization: `Bearer ${apiToken}`,
-  //         },
-  //       })
-  //       .subscribe(
-  //         (reportData: any) => {
-  //           console.log('Report Data:', reportData);
-  //           // Ví dụ: Mở một cửa sổ mới hiển thị dữ liệu báo cáo
-  //           newWindow.document.write(JSON.stringify(reportData));
-  //         },
-  //         (error) => {
-  //           console.error('Error exporting report:', error);
-  //         }
-  //       );
-  //   } else {
-  //     console.error('Error opening new window');
-  //   }
+ 
+  // exportToExcel() {
+  //   const workbook = new ExcelJS.Workbook();
+  //   const worksheet = workbook.addWorksheet('Config Report');
+  
+  //   // Add headers to the worksheet
+  //   worksheet.addRow(['Id', 'Tên cấu hình', 'Thành phần', 'Hành động']);
+  
+  //   // Add data to the worksheet
+  //   this.dataSource.data.forEach((element: any) => {
+  //     worksheet.addRow([element.id, element.nameConfig, element.members.map((member: any) => member.name).join(', '), '']);
+  //   });
+  
+  //   // Create a blob containing the Excel file
+  //   workbook.xlsx.writeBuffer().then((buffer) => {
+  //     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  
+  //     // Save the blob as a file
+  //     const fileName = 'config_report.xlsx';
+  //     const link = document.createElement('a');
+  //     link.href = window.URL.createObjectURL(blob);
+  //     link.download = fileName;
+  //     link.click();
+  //   });
   // }
 }

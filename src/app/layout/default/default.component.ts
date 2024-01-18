@@ -21,7 +21,7 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { LoadingService } from "src/app/services/loading.service";
 import { InterceptorService } from "src/app/services/interceptor.service";
 import { MatTooltipModule } from "@angular/material/tooltip";
-import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
+import { NgxSpinnerModule } from "ngx-spinner";
 import { SpinnerService } from "src/app/services/spinner.service";
 
 @Component({

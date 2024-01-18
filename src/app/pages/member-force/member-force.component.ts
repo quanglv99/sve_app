@@ -1,28 +1,28 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { MatCardModule } from "@angular/material/card";
-import { MatDividerModule } from "@angular/material/divider";
-import { MatButtonModule } from "@angular/material/button";
-import { RouterModule } from "@angular/router";
-import { MatTableModule, MatTableDataSource } from "@angular/material/table";
-import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { HttpClient, HttpClientModule } from "@angular/common/http";
-import { MatDialogModule, MatDialog } from "@angular/material/dialog";
-import { MatSortModule, MatSort } from "@angular/material/sort";
-import { Observable } from "rxjs";
-import { EditmemberDetailPopupComponent } from "src/app/popups/editmember-detail-popup/editmember-detail-popup.component";
-import { AppService } from "src/app/services/app.service";
-import { ConfirmDialogComponent } from "src/app/shared/confirm-dialog/confirm-dialog.component";
-import { MemberModel } from "src/app/shared/models/member.models";
-import { NgToastService } from "ng-angular-popup";
-import { MemberForceModel } from "src/app/shared/models/member-force";
-import { EditMemberForceDetailPopupComponent } from "src/app/popups/edit-member-force-detail-popup/edit-member-force-detail-popup.component";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { HttpClient } from '@angular/common/http';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatSortModule, MatSort } from '@angular/material/sort';
+import { Observable } from 'rxjs';
+import { EditmemberDetailPopupComponent } from 'src/app/popups/editmember-detail-popup/editmember-detail-popup.component';
+import { AppService } from 'src/app/services/app.service';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { MemberModel } from 'src/app/shared/models/member.models';
+import { NgToastService } from 'ng-angular-popup';
+import { MemberForceModel } from 'src/app/shared/models/member-force';
+import { EditMemberForceDetailPopupComponent } from 'src/app/popups/edit-member-force-detail-popup/edit-member-force-detail-popup.component';
 
 @Component({
-  selector: "app-member-force",
+  selector: 'app-member-force',
   standalone: true,
   imports: [
     CommonModule,
@@ -39,10 +39,9 @@ import { EditMemberForceDetailPopupComponent } from "src/app/popups/edit-member-
     MatInputModule,
     MatDialogModule,
     EditmemberDetailPopupComponent,
-    HttpClientModule,
   ],
-  templateUrl: "./member-force.component.html",
-  styleUrls: ["./member-force.component.scss"],
+  templateUrl: './member-force.component.html',
+  styleUrls: ['./member-force.component.scss']
 })
 export class MemberForceComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -53,22 +52,28 @@ export class MemberForceComponent implements OnInit {
   totalItems = 0;
   reponseData: any;
 
-  displayedColumns: string[] = ["id", "nameMember", "status", "action"];
+  displayedColumns: string[] = [
+    'id',
+    'nameMember',
+    'employee',
+    // 'status',
+    'action',
+  ];
   dataSource: any;
   data: any;
-  statusLabelPosition: "before" | "after" = "after";
+  statusLabelPosition: 'before' | 'after' = 'after';
   constructor(
     private appConfig: AppService,
     private http: HttpClient,
     private dialog: MatDialog,
     private toast: NgToastService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.initDataTable();
   }
-  Filterchange(event: Event) {
-    const filvalue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filvalue;
+  onFilterChange(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
   initDataTable() {
     if (!this.dataSource) {
@@ -77,7 +82,6 @@ export class MemberForceComponent implements OnInit {
         this.data = result;
         this.dataSource = new MatTableDataSource<MemberModel>(this.data);
         this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
       });
     }
   }
@@ -95,7 +99,6 @@ export class MemberForceComponent implements OnInit {
       this.dataSource.sort = this.sort;
     }
   }
-
   refreshTableData() {
     const url = this.appConfig.getMemberList();
     this.http.get(url).subscribe((result: any) => {
@@ -108,37 +111,61 @@ export class MemberForceComponent implements OnInit {
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.refreshTableData();
+      this.refreshTableData()
     });
   }
   deleteRecord(id: number): Observable<any> {
     const url = `${this.appConfig.getMemberList()}/${id}`;
     return this.http.delete(url);
   }
-
   deleteRow(element: any): void {
+    if (element.employee === null) {
+      this.toast.error({
+        detail: 'ERROR',
+        summary: 'Không thể xóa bản ghi, do chưa được chỉ định',
+        duration: 3000,
+      });
+      return;
+    }
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: "300px",
+      width: '300px',
       data: {
-        title: 'Confirmation',
-        message: "Are you sure to detele this record?",
+        message: 'Are you sure to delete this record?',
         showYesNo: true,
       },
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.deleteRecord(element.id).subscribe(() => {
-          this.dataSource.data = this.dataSource.data.filter(
-            (item: MemberForceModel) => item.id !== element.id
-          );
-        });
+        this.updateMember({ ...element, employee: null });
+        this.dataSource.data = this.dataSource.data.map((item: MemberModel) =>
+          item.id === element.id ? { ...item, employee: null } : item
+        );
+
         this.toast.success({
-          detail: "SUCCESS",
-          summary: "Deleted successfully",
+          detail: 'SUCCESS',
+          summary: 'Deleted successfully',
           duration: 5000,
         });
       }
     });
+  }
+  updateMember(updatedElement: any): void {
+    const url = `${this.appConfig.getMemberList()}/${updatedElement.id}`;
+    this.http.put(url, updatedElement).subscribe(
+      (response) => {
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Update successful',
+          duration: 3000,
+        });
+      },
+      (error) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: 'Please try again',
+          sticky: true,
+        });
+      }
+    );
   }
 }
