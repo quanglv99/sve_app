@@ -27,16 +27,13 @@
             <div class="p-16">
                 <button mat-flat-button color="accent" class="btn-logout" (click)="onSigout()">Đăng xuất</button>
             </div>
-
         </mat-menu>
-        
     </mat-toolbar-row>
 </mat-toolbar>
 <div *ngIf="loadingService.isLoading | async" class="loader-container">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <mat-sidenav-container>
-
     <mat-sidenav #sidenav class="side-nav" (click)="sidenav.close()" mode="side">
         <mat-nav-list appAccordion>
             <mat-list-item appAccordionLink *ngFor="let menuitem of menuItems.getMenuitem()"

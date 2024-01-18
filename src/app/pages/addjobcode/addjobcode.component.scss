@@ -37,10 +37,9 @@ th.mat-header-cell {
 
 .group {
     display: flex;
-    line-height: 28px;
     align-items: center;
+    max-width: auto;
     position: relative;
-    max-width: 250px;
     .material-icons {
         position: absolute;
         top: 0.5rem;
@@ -49,10 +48,14 @@ th.mat-header-cell {
         width: 1rem;
         height: 1rem;
     }
+    button
+    {
+        margin-left: 20px;
+    }
 }
 
 .input {
-    width: 100%;
+    width: 300px;
     height: 40px;
     line-height: 28px;
     padding: 0 1rem;
@@ -80,3 +83,100 @@ input:hover {
 .title {
     margin: 0 15px 20px;
 }
+.right-btn {
+    float: right;
+    margin: 0;
+    width: 200px;
+    margin-left: 20px;
+}
+.btn-icon{
+    display: flex;
+    // border: solid 2px;
+    cursor: pointer;
+    align-items: center;
+    // color: green;
+    // height: 30px;
+    // border: 2px solid #3ac53a;
+    // border-radius: 5px;\
+    background-color: #3ebe91;
+    color: #fff;
+}
+.btn {
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border: none;
+    position: relative;
+    border-radius: 10px;
+    -webkit-box-shadow: 1px 1px 5px .2px #00000035;
+    box-shadow: 1px 1px 5px .2px #00000035;
+    -webkit-transition: .2s linear;
+    transition: .2s linear;
+    transition-delay: .2s;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: space-between;
+  }
+  
+  .btn:hover {
+    width: 100px;
+    transition-delay: .2s;
+  }
+  
+  .btn:hover > .paragraph {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition-delay: .4s;
+    transition-delay: .4s;
+  }
+  
+  .btn:hover > .icon-wrapper .icon {
+    transform: scale(1.1);
+  }
+  
+  .btn:hover > .icon-wrapper .icon path {
+    stroke: black;
+  }
+  
+  .paragraph {
+    color: black;
+    visibility: hidden;
+    opacity: 0;
+    font-size: 12px;
+    margin-right: 5px;
+    margin-top: 10px;
+    padding-left: 5px;
+    -webkit-transition: .2s linear;
+    transition: .2s linear;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .icon-wrapper {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .icon {
+    transform: scale(.9);
+    transition: .2s linear;
+  }
+  
+  .icon path {
+    stroke: #000;
+    stroke-width: 2px;
+    -webkit-transition: .2s linear;
+    transition: .2s linear;
+  }

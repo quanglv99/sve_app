@@ -37,13 +37,11 @@ import { NgToastModule, NgToastService } from 'ng-angular-popup';
     MatInputModule,
     MatDialogModule,
     EditmemberDetailPopupComponent,
-
-
   ],
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.scss']
 })
-export class MembercontrolComponent {
+export class MembercontrolComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -70,9 +68,9 @@ export class MembercontrolComponent {
   ngOnInit(): void {
     this.initDataTable();
   }
-  Filterchange(event: Event) {
-    const filvalue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filvalue;
+  onFilterChange(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
   initDataTable() {
     if (!this.dataSource) {
@@ -80,8 +78,7 @@ export class MembercontrolComponent {
       this.http.get(url).subscribe((result: any) => {
         this.data = result;
         this.dataSource = new MatTableDataSource<MemberModel>(this.data);
-
-        console.log('hihi', this.data);
+        this.dataSource.paginator = this.paginator;
       });
     }
   }
@@ -99,8 +96,6 @@ export class MembercontrolComponent {
       this.dataSource.sort = this.sort;
     }
   }
-
-
   refreshTableData() {
     const url = this.appConfig.getMemberList();
     this.http.get(url).subscribe((result: any) => {
@@ -120,8 +115,6 @@ export class MembercontrolComponent {
     const url = `${this.appConfig.getMemberList()}/${id}`;
     return this.http.delete(url);
   }
-
-
   deleteRow(element: any): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
@@ -130,7 +123,6 @@ export class MembercontrolComponent {
         showYesNo: true,
       },
     });
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.deleteRecord(element.id).subscribe(() => {
@@ -146,6 +138,4 @@ export class MembercontrolComponent {
       }
     });
   }
-
-
 }

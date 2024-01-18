@@ -4,10 +4,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import { MatTableModule,MatTableDataSource } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClient } from '@angular/common/http';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
@@ -67,13 +67,13 @@ export class MemberForceComponent implements OnInit {
     private http: HttpClient,
     private dialog: MatDialog,
     private toast: NgToastService
-    ) {}
+  ) { }
   ngOnInit(): void {
     this.initDataTable();
   }
-  Filterchange(event: Event) {
-    const filvalue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filvalue;
+  onFilterChange(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
   initDataTable() {
     if (!this.dataSource) {
@@ -81,7 +81,7 @@ export class MemberForceComponent implements OnInit {
       this.http.get(url).subscribe((result: any) => {
         this.data = result;
         this.dataSource = new MatTableDataSource<MemberModel>(this.data);
-        console.log('hihi',this.data);
+        this.dataSource.paginator = this.paginator;
       });
     }
   }
@@ -99,8 +99,6 @@ export class MemberForceComponent implements OnInit {
       this.dataSource.sort = this.sort;
     }
   }
-
-
   refreshTableData() {
     const url = this.appConfig.getMemberList();
     this.http.get(url).subscribe((result: any) => {
@@ -113,7 +111,7 @@ export class MemberForceComponent implements OnInit {
       data: element,
     });
     dialogRef.afterClosed().subscribe((result) => {
-        this.refreshTableData()
+      this.refreshTableData()
     });
   }
   deleteRecord(id: number): Observable<any> {
@@ -129,7 +127,6 @@ export class MemberForceComponent implements OnInit {
       });
       return;
     }
-  
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
       data: {
@@ -137,17 +134,13 @@ export class MemberForceComponent implements OnInit {
         showYesNo: true,
       },
     });
-  
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // Gọi hàm cập nhật với giá trị employee là null
         this.updateMember({ ...element, employee: null });
-        
-        // Cập nhật dataSource sau khi xóa
         this.dataSource.data = this.dataSource.data.map((item: MemberModel) =>
           item.id === element.id ? { ...item, employee: null } : item
         );
-  
+
         this.toast.success({
           detail: 'SUCCESS',
           summary: 'Deleted successfully',
@@ -156,8 +149,6 @@ export class MemberForceComponent implements OnInit {
       }
     });
   }
-  
-  
   updateMember(updatedElement: any): void {
     const url = `${this.appConfig.getMemberList()}/${updatedElement.id}`;
     this.http.put(url, updatedElement).subscribe(

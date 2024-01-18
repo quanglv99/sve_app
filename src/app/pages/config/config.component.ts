@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -20,6 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NgToastService } from 'ng-angular-popup';
 import {  MatDialogModule } from '@angular/material/dialog';
 import { EditConfigDetailPopupComponent } from 'src/app/popups/edit-config-detail-popup/edit-config-detail-popup.component';
+
 
 @Component({
   selector: 'app-config',
@@ -62,15 +63,16 @@ export class ConfigComponent  implements OnInit {
     private appConfig: AppService,
     private http: HttpClient,
     private toast: NgToastService,
+    private router: Router,
     private dialog: MatDialog,
     ) {}
 
   ngOnInit(): void {
     this.initDataTable();
   }
-  Filterchange(event: Event) {
-    const filvalue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filvalue;
+  onFilterChange(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
   initDataTable() {
     if (!this.dataSource) {
@@ -78,8 +80,7 @@ export class ConfigComponent  implements OnInit {
       this.http.get(url).subscribe((result: any) => {
         this.data = result;
         this.dataSource = new MatTableDataSource<VaultConfigModel>(this.data);
-
-    console.log('hih',this.data)
+        this.dataSource.paginator = this.paginator;
       });
     }
   }
@@ -142,32 +143,29 @@ export class ConfigComponent  implements OnInit {
         this.refreshTableData()
     });
   }
-
-  // exportReport(): void {
-  //   const apiToken = 'glsa_jBj8cwBAyoimaJ3Mm3o627UoQIA2DQDx_db4da1dd'; // Thay bằng API key của bạn
-  //   const apiUrl = 'http://10.125.10.52:3000/d/e2809983-9377-43ff-ab4f-f1be0c9d3ed9/atm-alert?orgId=1&refresh=5s'; // Thay bằng đường dẫn API xuất báo cáo của Grafana
+ 
+  // exportToExcel() {
+  //   const workbook = new ExcelJS.Workbook();
+  //   const worksheet = workbook.addWorksheet('Config Report');
   
-  //   const newWindow = window.open();
-  //   if (newWindow) {
-  //     this.http
-  //       .get(apiUrl, {
-  //         headers: {
-  //           Authorization: `Bearer ${apiToken}`,
-  //         },
-  //       })
-  //       .subscribe(
-  //         (reportData: any) => {
-  //           console.log('Report Data:', reportData);
-  //           // Ví dụ: Mở một cửa sổ mới hiển thị dữ liệu báo cáo
-  //           newWindow.document.write(JSON.stringify(reportData));
-  //         },
-  //         (error) => {
-  //           console.error('Error exporting report:', error);
-  //         }
-  //       );
-  //   } else {
-  //     console.error('Error opening new window');
-  //   }
+  //   // Add headers to the worksheet
+  //   worksheet.addRow(['Id', 'Tên cấu hình', 'Thành phần', 'Hành động']);
+  
+  //   // Add data to the worksheet
+  //   this.dataSource.data.forEach((element: any) => {
+  //     worksheet.addRow([element.id, element.nameConfig, element.members.map((member: any) => member.name).join(', '), '']);
+  //   });
+  
+  //   // Create a blob containing the Excel file
+  //   workbook.xlsx.writeBuffer().then((buffer) => {
+  //     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  
+  //     // Save the blob as a file
+  //     const fileName = 'config_report.xlsx';
+  //     const link = document.createElement('a');
+  //     link.href = window.URL.createObjectURL(blob);
+  //     link.download = fileName;
+  //     link.click();
+  //   });
   // }
-
 }

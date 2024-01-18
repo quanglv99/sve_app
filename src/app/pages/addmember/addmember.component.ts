@@ -1,5 +1,5 @@
 import { Employee } from 'src/app/shared/models/employee.models';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -37,7 +37,7 @@ import { NgToastModule, NgToastService } from 'ng-angular-popup';
   templateUrl: './addmember.component.html',
   styleUrls: ['./addmember.component.scss']
 })
-export class AddmemberComponent {
+export class AddmemberComponent implements OnInit {
   jobcodes: any;
   addMemberForm!: FormGroup
   constructor(
@@ -48,14 +48,11 @@ export class AddmemberComponent {
     private dialog: MatDialog,
     private toast: NgToastService
   ) {
-
   }
-
   ngOnInit(): void {
     this.initializeForm();
     this.initData();
   }
-
   initializeForm() {
     this.addMemberForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -64,7 +61,6 @@ export class AddmemberComponent {
       status: [''],
     });
   }
-
   initData() {
     const e_url = this.appService.getJobcodeList();
     this.http.get(e_url).subscribe((result: any) => {
@@ -76,7 +72,6 @@ export class AddmemberComponent {
       const formData = this.addMemberForm.value;
       const apiUrl = this.appService.getMemberList();
       formData.employee = null;
-
       this.http.post(apiUrl, formData).subscribe(
         (response) => {
           this.toast.success({

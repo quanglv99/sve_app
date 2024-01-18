@@ -10,15 +10,16 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AppService } from 'src/app/services/app.service';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { JobcodeModel } from 'src/app/shared/models/jobcode.models';
-
-
+import { JobcodeVibModel } from 'src/app/shared/models/jobcode-vib.models';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgToastModule, NgToastService } from 'ng-angular-popup';
 @Component({
   selector: 'app-addjobcode',
   standalone: true,
@@ -35,12 +36,15 @@ import { JobcodeModel } from 'src/app/shared/models/jobcode.models';
     MatInputModule,
     HttpClientModule,
     MatDialogModule,
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   templateUrl: './addjobcode.component.html',
   styleUrls: ['./addjobcode.component.scss']
 })
-export class AddjobcodeComponent {
+export class AddjobcodeComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator | undefined;
+  inputForm!: FormGroup
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageSize = this.pageSizeOptions[0];
   pageNumber = 1;
@@ -53,70 +57,112 @@ export class AddjobcodeComponent {
   ];
   dataSource: any;
   data: any;
-
+  searchClicked = false;
+  searchValue: string = '';
   constructor(private http: HttpClient,
     private dialog: MatDialog,
-    private appConfig: AppService,
-
+    private appService: AppService,
+    private formBuilder: FormBuilder,
+    private toast: NgToastService
   ) { }
-
-
   ngOnInit(): void {
-    this.initDataTable();
+    this.inputForm = this.formBuilder.group(
+      {
+        jobcode: ['', Validators.required]
+      }
+    )
   }
-
-
-  initDataTable() {
-    if (!this.dataSource) {
-      const url = this.appConfig.getJobcodeList();
-      this.http.get(url).subscribe((result: any) => {
-        this.data = result;
-        this.dataSource = new MatTableDataSource<JobcodeModel>(this.data);
-      });
-    }
-  }
-  Filterchange(event: Event) {
-    const filvalue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filvalue;
-  }
-  refreshTableData() {
-    const url = this.appConfig.getJobcodeList();
+  searchJobcode() {
+    const search = this.inputForm.value
+    const url = this.appService.getVibJobcodeList()
     this.http.get(url).subscribe((result: any) => {
-      this.data = result;
-      this.dataSource.data = this.data;
+      this.data = result.filter((item: any) => {
+        return (search.jobcode === '' || item.jobcode == search.jobcode)
+      })
+      this.dataSource = new MatTableDataSource<JobcodeVibModel>(this.data);
+      this.dataSource.paginator = this.paginator;
     });
   }
-  onClick(element: any): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '300px',
-      data: {
-        message: 'Are you sure to add this record?',
-        showYesNo: true,
-      },
-    });
-  }
-  deleteRow(element: any): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '300px',
-      data: {
-        message: 'Are you sure to detele this record?',
-        showYesNo: true,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.deleteRecord(element.id).subscribe(() => {
-          this.dataSource.data = this.dataSource.data.filter(
-            (item: JobcodeModel) => item.id !== element.id
-          );
+  addJobcode(element: any): void {  
+    const addUrl = this.appService.getJobcodeList();
+    this.http.get<JobcodeModel[]>(addUrl).subscribe((existingData: JobcodeModel[]) => {
+      const existingRecord = existingData.find((record) => record.id === element.id);
+      if (existingRecord) {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+          width: '300px',
+          data: {
+            message: 'ID này đã được thêm mới trước đó! Bạn có muốn cập nhật lại thông tin không!',
+            showYesNo: true,
+          },
         });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result === true) {
+            this.updateJobcode(element);
+          }
+        });
+      } else {
+        const dataToAdd: JobcodeModel = {
+          id: element.id,
+          jobcode: element.jobcode,
+          descriptionJobcode: element.descriptionJobcode,
+          status: element.status,
+        };
+        this.http.post(addUrl, dataToAdd).subscribe(
+          (response: any) => {
+            this.toast.success({
+              detail: 'SUCCESS',
+              summary: 'Thêm mới jobcode thành công',
+              duration: 5000,
+            });
+          },
+          (error) => {
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Vui lòng thử lại',
+              sticky: true,
+            })
+          }
+        );
       }
     });
   }
-
-  deleteRecord(id: number): Observable<any> {
-    const url = `${this.appConfig.getJobcodeList()}/${id}`;
-    return this.http.delete(url);
+  updateJobcode(element: any): void {
+    const updateUrl = this.appService.getJobcodeList();
+    const dataToUpdate: JobcodeModel = {
+      id: element.id,
+      jobcode: element.jobcode,
+      descriptionJobcode: element.descriptionJobcode,
+      status: element.status,
+    };
+    this.http.put(`${updateUrl}/${element.id}`, dataToUpdate).subscribe(
+      (response: any) => {
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Cập nhật jobcode thành công',
+          duration: 5000,
+        });
+      },
+      (error) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: 'Vui lòng thử lại',
+          sticky: true,
+        })
+      }
+    );
+  }
+  onClick(element: JobcodeVibModel): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        message: 'Bạn có muốn thêm bản ghi này không?',
+        showYesNo: true,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.addJobcode(element);
+      }
+    });
   }
 }
