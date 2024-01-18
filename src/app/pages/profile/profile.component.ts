@@ -229,7 +229,8 @@ export class ProfileComponent implements OnInit {
   messageIndex = 0;
   async enrollSubmit() {
     const token = localStorage.getItem("currentToken");
-    const foundation_id = "3695AC1F-BC9D-4D7F-8841-540262202C16";
+    const foundation_id = this.data.foundations[0].foundation_id
+    console.log("foundation_id: ", foundation_id)
     if (token) {
       this.authService
         .enroll(token, foundation_id, this.frontCard, this.backCard, this.photo)

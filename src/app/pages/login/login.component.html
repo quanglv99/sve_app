@@ -5,13 +5,13 @@
 <form [formGroup]="loginForm">
     <h3>Vault Access Control</h3>
 
-    <label for="username">Tài khoản</label>
-    <input type="text" placeholder="Tài khoản LDAP" id="username" formControlName="username">
+    <label for="username">Username</label>
+    <input type="text" placeholder="Username" id="username" formControlName="username">
 
-    <label for="password">Mật khẩu</label>
-    <input type="password" placeholder="Mật khẩu" id="password" formControlName="password">
+    <label for="password">Password</label>
+    <input type="password" placeholder="Password" id="password" formControlName="password">
 
-    <button (click)="onSubmit()" class="btn" >Đăng nhập</button>
+    <button (click)="onSubmit()" class="btn" >Log in</button>
     <div class="social">
         <p>Powered by A.R.T JSC</p>
     </div>

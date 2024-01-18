@@ -81,18 +81,18 @@ export class LoginComponent implements OnInit {
               if (res.status == 0) {
                 this.spinner.hide();
                 this.toast.error({
-                  detail: "Không tìm thấy thông tin của bạn",
+                  detail: "Notification",
                   summary: `${res.message}`,
                   duration: 5000,
                 });
               } else if (res.status == 1) {
                 setTimeout(()=>{
                   this.toast.success({
-                    detail: "Khởi tạo lần đầu thành công",
-                    summary: "Vui lòng ấn đăng nhập lại để tiếp tục.",
+                    detail: "Notification",
+                    summary: "This is your first log in",
                     duration: 5000,
                   });
-                  this.spinner.hide();
+                  this.onSubmit();
                 },5000);
                 
               } else {
@@ -106,7 +106,7 @@ export class LoginComponent implements OnInit {
         } else {
           this.spinner.hide();
           this.toast.error({
-            detail: "Đăng nhập thất bại",
+            detail: "Log in failed",
             summary: `${response.message}`,
             duration: 5000,
           });
